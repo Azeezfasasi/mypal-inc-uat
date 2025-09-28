@@ -19,8 +19,9 @@ import Accommodation from "./category/Accommodation"
 import BeautyHealth from "./category/BeautyHealth"
 import NightLife from "./category/NightLife"
 import Business from "./ForBusiness"
-// import Testpage from "./testpage"
-// import Testpage from "./Testpage"
+import ApiReview from "./ApiReview"
+import CategoryApiCheck from "./ForCheckReview/CategoryApiCheck"
+import ShortLets from "./accommodation/Shortlets"
 
 function App() {
   return (
@@ -33,19 +34,21 @@ function App() {
         <Route path="/category/mobility" element={<Mobility />} />
         <Route path="/restaurant/finedining" element={<FineDining />} />
         <Route path="/restaurant/buffetservices" element={<BuffetServices />} />
-        <Route path="/restaurant/localdelicacies" element={<LocalDelicacies />} />
+        <Route path="/restaurant/iconicdelicacies" element={<LocalDelicacies />} />
         <Route path="/mobility/incityrides" element={<InCityRides />} />
         <Route path="/mobility/luxuryrides" element={<LuxuryRides/>} />
         <Route path="/mobility/householdlogistics" element={<HouseholdLogistics />} />
         <Route path="/category/outdooractivities" element={<OutdoorActivities />} />
-        <Route path="/outdooractivities/beachesresorts" element={<BeachesResorts />} />
-        <Route path="/outdooractivities/parksrecreation" element={<ParksRecreation />} />
+        <Route path="/outdooractivities/beaches&resorts" element={<BeachesResorts />} />
+        <Route path="/outdooractivities/boatandyachtscruises" element={<BoatsYatch />} />
         <Route path="/outdooractivities/boatsyatch" element={<BoatsYatch />} />
         <Route path="/category/accommodation" element={<Accommodation />} />
+        <Route path="accommodation/short-lethomes" element={<ShortLets />} />
         <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
         <Route path="/forbusiness" element={<Business />} />
-        {/* <Route path="/testpage" element={<Testpage />} /> */}
+        <Route path="/apireview" element={<ApiReview />} />
+        <Route path="/categoryapireview" element={<CategoryApiCheck />} />
       </Routes>
     </>
   )

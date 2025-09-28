@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Testpage() {
+export default function CategoryApiCheck() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,15 +35,30 @@ export default function Testpage() {
 
   return (
     <div>
-      <h1>Categories</h1>
+      <h1 className="text-red-600 text-[24px] font-bold border border-solid border-red-600 py-2 pl-2">All Categories API DATA</h1>
       <ul>
-        {categories.map((cat) => (
-          <li key={cat.id ?? cat.slug}>
-            {cat.name} {cat.slug && `(${cat.slug})`}
+        {categories.map((mainCat) => (
+          <li key={mainCat.id}>
+            <strong>{mainCat.name}</strong> – {mainCat.description}
+            {mainCat.categories && mainCat.categories.length > 0 && (
+              <ul>
+                {mainCat.categories.map((subCat) => (
+                  <li key={subCat.id}>
+                    {subCat.name} (ID: {subCat.id})
+                    {subCat.image_url && (
+                      <img
+                        src={subCat.image_url}
+                        alt={subCat.name}
+                        style={{ width: "60px", marginLeft: "10px" }}
+                      />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
