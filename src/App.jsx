@@ -22,6 +22,7 @@ import Business from "./ForBusiness"
 import ApiReview from "./ApiReview"
 import CategoryApiCheck from "./ForCheckReview/CategoryApiCheck"
 import ShortLets from "./accommodation/Shortlets"
+import SalonAndSpa from "./beauty-and-health/SalonAndSpa"
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="accommodation/short-lethomes" element={<ShortLets />} />
         <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
+        <Route path="/beautyhealth/salonsandspa" element={<SalonAndSpa />} />
         <Route path="/forbusiness" element={<Business />} />
         <Route path="/apireview" element={<ApiReview />} />
         <Route path="/categoryapireview" element={<CategoryApiCheck />} />
