@@ -74,8 +74,8 @@ export default function CategoryApiCheckWithBusinesses() {
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (
-    <div>
-      <h1 className="text-red-600 text-[24px] font-bold border border-solid border-red-600 py-2 pl-2">All Categories API DATA</h1>
+    <div className="pl-3 md:pl-6 pt-3">
+      <h1 className="text-red-600 text-[24px] font-bold border border-solid border-red-600 py-2 pl-2">All Categories API Data Structure</h1>
       <details className="mb-4">
         <summary className="cursor-pointer font-semibold">Show Raw API Response</summary>
         <pre className="bg-gray-100 p-2 rounded text-xs max-h-96 overflow-x-auto">{JSON.stringify(categories, null, 2)}</pre>
