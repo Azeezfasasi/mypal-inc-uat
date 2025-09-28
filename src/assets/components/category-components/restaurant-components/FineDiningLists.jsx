@@ -149,10 +149,10 @@ import star from '../../../images/star.svg';
 import { Link } from 'react-router-dom';
 
 // Reusable card component
-const ExperienceCard = ({ imageSrc, title, description, rating, reviews, location }) => (
+const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, location }) => (
   <div className="group bg-white rounded-[16.2px] border border-solid border-gray-300 overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
     <div className="relative overflow-hidden aspect-w-4 aspect-h-3">
-      <Link to="/services/servicedetails">
+      <Link to={`/services/servicedetails/${id}`}>
         <img
           src={imageSrc || star}
           alt={title || 'Business Image'}
@@ -162,7 +162,7 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
     </div>
 
     <div className="p-4 sm:p-6">
-      <Link to="/services/servicedetails" className="text-lg font-bold text-gray-800 mb-1">
+      <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1">
         {title || 'Untitled Business'}
       </Link>
       <p className="text-[15px] text-gray-500 mb-2">{description || 'No description available'}</p>
@@ -179,7 +179,7 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
         </div>
       </div>
 
-      <Link to="/services/servicedetails" className="flex justify-center">
+      <Link to={`/services/servicedetails/${id}`} className="flex justify-center">
         <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-[#000000] font-['AvenirNextRoundedStd-Regular',_sans-serif] text-[14.5px] font-normal cursor-pointer">
           View Details
         </button>
@@ -213,9 +213,10 @@ export default function FineDiningLists() {
           : [];
 
         if (!dataArray.length) console.warn('No array found in API response, defaulting to empty array.');
-
+          
+        // Map the data to match ExperienceCard props
         const mappedData = dataArray.map(biz => ({
-          id: biz.id,
+          id: biz.id || biz.business_id || biz._id, // try other possible keys
           title: biz.business_name ?? 'Untitled Business',
           description: biz.description ?? 'No description available',
           rating: biz.average_rating ?? 0,
@@ -223,6 +224,7 @@ export default function FineDiningLists() {
           location: biz.city ?? 'Unknown',
           imageSrc: biz.image_url ?? star,
         }));
+
 
         setBusinesses(mappedData);
       } catch (err) {
@@ -246,7 +248,7 @@ export default function FineDiningLists() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 cursor-pointer">
           {businesses.map(biz => (
-            <ExperienceCard key={biz.id} {...biz} />
+            <ExperienceCard key={biz.id} id={biz.id} {...biz} />
           ))}
         </div>
       </div>

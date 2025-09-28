@@ -23,6 +23,11 @@ import ApiReview from "./ApiReview"
 import CategoryApiCheck from "./ForCheckReview/CategoryApiCheck"
 import ShortLets from "./accommodation/Shortlets"
 import SalonAndSpa from "./beauty-and-health/SalonAndSpa"
+import Club from "./nightlife/Club"
+import BusinessListByCategory from "./category/BusinessListByCategory"
+import BusinessListByCategoryWrapper from "./category/BusinessListByCategoryWrapper"
+import BusinessDetails from "./ForCheckReview/BusinessDetails"
+import CategoryApiCheckWithBusinesses from "./ForCheckReview/CategoryApiCheckWithBusinesses"
 
 function App() {
   return (
@@ -30,7 +35,8 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/services/servicedetails" element={<ServiceDetails />} />
+        {/* <Route path="/services/servicedetails" element={<ServiceDetails />} /> */}
+        <Route path="/services/servicedetails/:businessId" element={<ServiceDetails />} />
         <Route path="/category/restaurant" element={<Restaurant />} />
         <Route path="/category/mobility" element={<Mobility />} />
         <Route path="/restaurant/finedining" element={<FineDining />} />
@@ -48,9 +54,15 @@ function App() {
         <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
         <Route path="/beautyhealth/salonsandspa" element={<SalonAndSpa />} />
+        <Route path="/nightlife/club" element={<Club />} />
         <Route path="/forbusiness" element={<Business />} />
+
+        {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />
         <Route path="/categoryapireview" element={<CategoryApiCheck />} />
+        <Route path="/category/businesslistbycategory/:categoryId" element={<BusinessListByCategoryWrapper />} />
+        <Route path="/business/:businessId" element={<BusinessDetails />} />
+        <Route path="/business/categorycheckwithbusinesses" element={<CategoryApiCheckWithBusinesses />} />
       </Routes>
     </>
   )
