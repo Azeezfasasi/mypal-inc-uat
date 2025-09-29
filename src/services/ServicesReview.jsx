@@ -6,10 +6,11 @@ import reviewrating from '../assets/images/reviewrating.svg';
 import star1 from '../assets/images/star1.svg'
 import useful1 from '../assets/images/useful1.svg'
 import useful2 from '../assets/images/useful2.svg'
-import useful3 from '../assets/images/useful3.svg'
+// import useful3 from '../assets/images/useful3.svg'
 import comment from '../assets/images/comment.svg'
 
-const reviewsData = [
+// Accept reviews from API via props
+const defaultReviewsData = [
     {
         author: 'Abel Shola',
         title: 'Business Owner',
@@ -21,18 +22,6 @@ const reviewsData = [
         useful3: 9,
         message: 6,
         avatar: 'https://placehold.co/40x40/E5E7EB/9CA3AF?text=A'
-    },
-    {
-        author: 'Abel Shola',
-        title: 'Business Owner',
-        date: 'Dec 1, 2025',
-        rating: 3,
-        reviewText: 'Our passion for driver construction stems from a genuine desire to foster safer communities. We understand that new drivers are challenging,',
-        useful: 6,
-        notUseful: 3,
-        useful3: 9,
-        message: 6,
-        avatar: 'https://placehold.co/40x40/9CA3AF/E5E7EB?text=A'
     }
 ];
 
@@ -53,68 +42,81 @@ const RatingBar = ({ stars, percentage }) => {
 
 // Helper component for the individual review card
 const ReviewCard = ({ review }) => {
+    // API review fields: comment, rating, createdAt, user
+    const author = review.user?.firstname && review.user?.lastname
+        ? `${review.user.firstname} ${review.user.lastname}`
+        : review.user?.firstname || review.author || 'Anonymous';
+    const title = review.user?.role ? review.user.role : review.title || '';
+    const date = review.createdAt ? new Date(review.createdAt).toLocaleDateString() : review.date || '';
+    const rating = review.rating || 0;
+    const reviewText = review.comment || review.reviewText || '';
+    const avatar = review.user?.image_url || review.avatar || 'https://placehold.co/40x40/E5E7EB/9CA3AF?text=A';
+    // Useful counts not in API, fallback to 0
+    const useful = review.useful || 0;
+    const notUseful = review.notUseful || 0;
+    const useful3 = review.useful3 || 0;
+    const message = review.message || 0;
+
     return (
         <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md border border-gray-100 mb-6">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                    <img src={review.avatar} alt={review.author} className="w-10 h-10 rounded-full" />
+                    <img src={avatar} alt={author} className="w-10 h-10 rounded-full" />
                     <div>
-                        <h4 className="text-[#000000] text-lg font-medium">{review.author}</h4>
-                        <p className="text-sm font-normal text-gray-500">{review.title}</p>
+                        <h4 className="text-[#000000] text-lg font-medium">{author}</h4>
+                        <p className="text-sm font-normal text-gray-500">{title}</p>
                     </div>
                 </div>
                 <button>
                     <MoreHorizontal className="w-5 h-5 text-gray-400" />
                 </button>
             </div>
-            
             <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
                 <div className="flex space-x-0.5">
-                    {Array.from({ length: review.rating }).map((_, i) => (
-                        // <Star key={i} className="w-4 h-4 text-[#DB3A06] fill-current" />
+                    {Array.from({ length: rating }).map((_, i) => (
                         <img key={i} src={star1} alt='star' />
                     ))}
-                    {Array.from({ length: 5 - review.rating }).map((_, i) => (
+                    {Array.from({ length: 5 - rating }).map((_, i) => (
                         <Star key={i} className="w-6 h-6 text-gray-300" />
                     ))}
                 </div>
-                <span>{review.date}</span>
+                <span>{date}</span>
             </div>
-
-            <p className="text-base font-normal text-[#00000] mb-4">{review.reviewText}</p>
-
+            <p className="text-base font-normal text-[#00000] mb-4">{reviewText}</p>
             <div className="flex items-center space-x-4 text-gray-500 text-xs flex-wrap md:flex-nowrap gap-3 md:gap-0">
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    {/* <ThumbsUp className="w-3 h-3 text-blue-500" /> */}
                     <img src={useful1} alt="icon" />
-                    <span>Usefull {review.useful}</span>
+                    <span>Usefull {useful}</span>
                 </div>
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    {/* <ThumbsUp className="w-3 h-3 text-blue-500" /> */}
                     <img src={useful2} alt="icon" />
-                    <span>Not Usefull {review.notUseful}</span>
+                    <span>Not Usefull {notUseful}</span>
                 </div>
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    {/* <Lightbulb className="w-3 h-3 text-blue-500" /> */}
                     <img src={useful3} alt="icon" />
-                    <span>Usefull {review.useful3}</span>
+                    <span>Usefull {useful3}</span>
                 </div>
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
                     <img src={comment} alt="icon" />
-                    <span>{review.message}</span>
+                    <span>{message}</span>
                 </div>
             </div>
         </div>
     );
 };
 
-export default function ServicesReview() {
+export default function ServicesReview({ reviews, totalReviews, averageRating }) {
+    // Use API reviews if provided, else fallback
+    const reviewsData = Array.isArray(reviews) && reviews.length > 0 ? reviews : defaultReviewsData;
+    const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
+    const avgRating = typeof averageRating === 'number' ? averageRating : 4.0;
+
     return (
         <div className="bg-gray-50 rounded-[10px] border border-solid border-gray-300 font-sans antialiased mb-6">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <h2 className="text-[17px] md:text-2xl font-semibold text-[#000000] mb-2">
-                    Recommended Reviews <span className='font-normal'>(120)</span>
+                    Recommended Reviews <span className='font-normal'>({total})</span>
                 </h2>
 
                 {/* Overall Rating Section */}
@@ -152,9 +154,9 @@ export default function ServicesReview() {
                                                     src={reviewrating}
                                                     alt="review rating"
                                                 />
-                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">4.0</span>
+                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">{avgRating.toFixed(1)}</span>
                                                 <span className="_4-0-128-span2" />
-                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">(128)</span>
+                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">({total})</span>
                                             </div>
                                         </div>
                                     </div>

@@ -134,9 +134,7 @@
 
 
 import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import { X, MapPin } from 'lucide-react';
-// import axios from 'axios';
 import servicestar from '../assets/images/servicestar.svg';
 
 // fallback in case no images

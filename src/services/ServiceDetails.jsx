@@ -44,11 +44,10 @@ function ServiceDetails() {
     return;
   }
 
-
   return (
     <>
       <ServicesHeader />
-      <ServiceDetailTitle />
+      <ServiceDetailTitle business={business} />
       <ServicesDetailHero business={business} />
       <ServiceDetailDescription business={business} />
       <FooterSection />
