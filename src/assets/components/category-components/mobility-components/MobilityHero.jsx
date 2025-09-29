@@ -23,14 +23,14 @@ export default function MobilityHero() {
                 <div className="w-full md:w-[95%] flex flex-col gap-4 items-center justify-start relative mt-[-120px] md:mt-[-160px] mb-16">
                     <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 w-[260px] md:w-[260px] h-[55px] md:h-[33px] relative flex justify-center items-center overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
                         <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-center px-2 md:px-0">
-                        Seamless city rides at your fingertips.
+                        Smart Mobility Services
                         </div>
                     </div>
                     <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
                         MOBILITY
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Get around town effortlessly with our reliable in-city ride services — perfect for daily commutes, quick errands, or spontaneous trips. Choose from a range of vehicles that suit your needs, from budget-friendly to executive options.
+                        All your movement needs in one place. Ride, rent, or relocate
                     </div>
                 </div>
 

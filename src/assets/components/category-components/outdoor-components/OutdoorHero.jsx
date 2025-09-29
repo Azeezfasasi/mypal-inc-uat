@@ -30,7 +30,7 @@ export default function OutdoorHero() {
                         OUTDOOR ACTIVITIES
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Reimagine leisure with curated outdoor experiences that let you soak in the sun, reconnect with nature, and enjoy unforgettable moments from sandy shores to serene cruises and vibrant parks.
+                        Reimagine leisure with curated outdoor experiences that let you soak in the sun, reconnect with nature, and enjoy unforgettable moments from sandy shores to serene cruises and vibrant parks..
                     </div>
                 </div>
 
