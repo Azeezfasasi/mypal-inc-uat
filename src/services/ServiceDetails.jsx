@@ -38,7 +38,7 @@ function ServiceDetails() {
   // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
+      <div className="flex justify-center items-center h-screen py-20">
         <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
       </div>
     );
