@@ -3,11 +3,11 @@ import servicephone from '../assets/images/servicephone.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
 
 const businessHours = [
-    { day: 'NA', time: 'NA' },
-    // { day: 'Tuesday', time: '10:00am - 12:00pm' },
-    // { day: 'Wednesday', time: '10:00am - 12:00pm' },
-    // { day: 'Thursday', time: '10:00am - 12:00pm' },
-    // { day: 'Friday', time: '10:00am - 12:00pm' },
+    { day: 'Monday', time: 'N/A' },
+    { day: 'Tuesday', time: 'N/A' },
+    { day: 'Wednesday', time: 'N/A' },
+    { day: 'Thursday', time: 'N/A' },
+    { day: 'Friday', time: 'N/A' },
 ];
 
 function ServicesRightSide({ business }) {
