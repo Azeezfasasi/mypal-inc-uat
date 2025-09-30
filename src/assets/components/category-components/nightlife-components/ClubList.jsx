@@ -3,6 +3,7 @@ import { Star, MapPin } from 'lucide-react';
 import star from '../../../images/star.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Commet } from "react-loading-indicators";
 
 // Reusable card component
 const ExperienceCard = ({ imageSrc, title, description, rating, reviews, location }) => {
@@ -13,7 +14,7 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-full object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
@@ -29,7 +30,9 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-            <span className='text-[14.5px]'>{location}</span>
+            <span className='text-[14.5px]'>
+              {location?.length > 10 ? location.slice(0, 10) + "…" : location || 'Unknown'}
+            </span>
           </div>
         </div>
         <Link to="/services/servicedetails" className="flex justify-center">
@@ -82,7 +85,14 @@ export default function ClubList() {
     fetchBusinesses();
   }, [API_BASE, API_KEY, CATEGORY_ID]);
 
-  if (loading) return <div>Loading businesses…</div>;
+  // if (loading) return <div>Loading restaurant categories…</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+      </div>
+    );
+  }
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (

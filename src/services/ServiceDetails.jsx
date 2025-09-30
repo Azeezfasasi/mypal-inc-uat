@@ -6,6 +6,7 @@ import ServiceDetailTitle from '../assets/components/home-components/ServiceDeta
 import ServicesDetailHero from './ServicesDetailHero';
 import ServiceDetailDescription from './ServiceDetailDescription';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
+import { Commet } from "react-loading-indicators";
 
 function ServiceDetails() {
   const { businessId } = useParams();
@@ -34,7 +35,14 @@ function ServiceDetails() {
     else setError('Configuration Error: API_BASE, API_KEY, or businessId missing.');
   }, [API_BASE, API_KEY, businessId]);
 
-  if (loading) return <div>Loading business details…</div>;
+  // if (loading) return <div>Loading restaurant categories…</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+      </div>
+    );
+  }
   if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
   // if (!business) return <div>No business found.</div>;
 
