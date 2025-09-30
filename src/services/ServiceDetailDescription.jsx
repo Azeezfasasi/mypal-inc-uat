@@ -80,7 +80,7 @@ export default function ServiceDetailDescription({ business }) {
                             </div>
                         </div>
                         <div className='block md:hidden mb-6'>
-                            <ServicesRightSide />
+                            <ServicesRightSide business={business} />
                         </div>
                         <ServicesReview 
                             reviews={business?.reviews}

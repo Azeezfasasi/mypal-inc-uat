@@ -1,16 +1,32 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import servicephone from '../assets/images/servicephone.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
 
 const businessHours = [
-    { day: 'Monday', time: '10:00am - 12:00pm' },
-    { day: 'Tuesday', time: '10:00am - 12:00pm' },
-    { day: 'Wednesday', time: '10:00am - 12:00pm' },
-    { day: 'Thursday', time: '10:00am - 12:00pm' },
-    { day: 'Friday', time: '10:00am - 12:00pm' },
+    { day: 'NA', time: 'NA' },
+    // { day: 'Tuesday', time: '10:00am - 12:00pm' },
+    // { day: 'Wednesday', time: '10:00am - 12:00pm' },
+    // { day: 'Thursday', time: '10:00am - 12:00pm' },
+    // { day: 'Friday', time: '10:00am - 12:00pm' },
 ];
 
-function ServicesRightSide() {
+function ServicesRightSide({ business }) {
+    useEffect(() => {
+        console.log("business.operatingDays:", business?.operatingDays);
+    }, [business]);
+
+    // Dynamic address and phone
+    const address = business?.address || 'No address provided.';
+    const phone = business?.business_number || 'No phone number.';
+    // Dynamic business hours from API
+    const operatingDays = Array.isArray(business?.operatingDays) && business.operatingDays.length > 0
+        ? business.operatingDays.map(dayObj => ({
+            day: dayObj.day,
+            time: `${dayObj.opening_time} - ${dayObj.closing_time}`
+        }))
+        : businessHours;
+
+
   return (
       <>
         {/* Right Column (Contact & Hours) */}
@@ -20,7 +36,7 @@ function ServicesRightSide() {
                 <div className="flex items-start space-x-3">
                     <img src={servicelocation} alt="location" className='mt-1' />
                     <p className="text-sm md:text-base">
-                        Downtown Hills, Opp. Sangotedo Area, Oketedi region391 Sutter St Ste 709 San Francisco, CA 94108
+                        {address}
                     </p>
                 </div>
 
@@ -29,7 +45,7 @@ function ServicesRightSide() {
                 {/* Phone Number */}
                 <div className="flex items-center space-x-3">
                     <img src={servicephone} alt="phone" />
-                    <span className="text-sm md:text-base">+226 9749 9383</span>
+                    <span className="text-sm md:text-base">{phone}</span>
                 </div>
 
                 <hr className="border-t border-gray-200 my-4" />
@@ -37,7 +53,8 @@ function ServicesRightSide() {
                 {/* Location and Hours */}
                 <h4 className="text-[15px] font-normal text-gray-800 mb-4">Location and Hours</h4>
                 <div className="space-y-3">
-                    {businessHours.map((item, index) => (
+                    
+                    {operatingDays.map((item, index) => (
                         <div key={index} className="flex justify-between text-[#000000] text-[14px] md:text-[15px]">
                             <span className="font-normal">{item.day}</span>
                             <span>{item.time}</span>
