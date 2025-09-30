@@ -3,17 +3,18 @@ import axios from "axios";
 import { Star, MapPin } from "lucide-react";
 import star from '../../../images/star.svg';
 import { Link } from "react-router-dom";
+import { Commet } from "react-loading-indicators";
 
 // Reusable card component
 const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, location }) => {
   return (
-    <div className="group bg-white rounded-[16.2px] border border-solid border-gray-300 overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+    <div className="group bg-white rounded-3xl border border-solid border-gray-300 overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
       <div className="relative overflow-hidden aspect-w-4 aspect-h-3">
         <Link to={`/services/servicedetails/${id}`}>
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-full object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
@@ -21,7 +22,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
       <div className="p-4 sm:p-6">
         <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1">{title}</Link>
         <p className="text-[15px] text-gray-500 mb-2">{description}</p>
-        <div className="w-full flex justify-between items-center text-sm text-gray-500 mb-4">
+        <div className="w-full flex justify-between items-center gap-1 text-sm text-gray-500 mb-4">
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
             <span className="font-semibold text-[14.5px] text-gray-700 mr-0">{rating}</span>
@@ -29,7 +30,9 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-            <span className='text-[14.5px]'>{location}</span>
+            <span className='text-[14.5px]'>
+              {location?.length > 10 ? location.slice(0, 12) + "…" : location || 'Unknown'}
+            </span>
           </div>
         </div>
 
@@ -73,11 +76,18 @@ export default function BuffetLists() {
     fetchBuffets();
   }, [API_BASE, API_KEY, CATEGORY_ID]);
 
-  if (loading) return <div>Loading buffet services…</div>;
+  // if (loading) return <div>Loading restaurant categories…</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+      </div>
+    );
+  }
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (
-    <div className="bg-gray-50 py-0 md:py-0 font-sans antialiased">
+    <div className="bg-gray-50 py-6 md:py-12 font-sans antialiased">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 cursor-pointer">
           {buffets.map((buffet) => (

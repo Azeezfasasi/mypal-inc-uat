@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MapPin } from 'lucide-react';
 import star from '../../../images/star.svg';
 import { Link } from 'react-router-dom';
+import { Commet } from "react-loading-indicators";
 
 // Reusable card component
 const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, location }) => (
@@ -12,7 +13,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
         <img
           src={imageSrc || star}
           alt={title || 'Business Image'}
-          className="w-full h-full object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
         />
       </Link>
     </div>
@@ -31,7 +32,9 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
         </div>
         <div className="flex flex-row justify-start items-center">
           <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-          <span className="text-[14.5px]">{location || 'Unknown'}</span>
+          <span className="text-[14.5px]">
+            {location?.length > 10 ? location.slice(0, 12) + "…" : location || 'Unknown'}
+          </span>
         </div>
       </div>
 
@@ -95,12 +98,19 @@ export default function FineDiningLists() {
     else setError('Configuration Error: API_BASE, API_KEY, or Category ID missing.');
   }, [API_BASE, API_KEY, FINE_DINING_CATEGORY_ID]);
 
-  if (loading) return <p className="text-center py-10">Loading Fine Dining Experiences... 🍽️</p>;
+  // if (loading) return <div>Loading restaurant categories…</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+      </div>
+    );
+  }
   if (error) return <p className="text-center py-10 text-red-600">Error: {error}</p>;
   if (!businesses.length) return <p className="text-center py-10 text-gray-600">No Fine Dining businesses found.</p>;
 
   return (
-    <div className="bg-gray-50 py-0 md:py-0 font-sans antialiased mb-12">
+    <div className="bg-gray-50 py-6 md:py-12 font-sans antialiased">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 cursor-pointer">
           {businesses.map(biz => (
