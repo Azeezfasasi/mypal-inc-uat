@@ -2,11 +2,9 @@ import React from 'react';
 import { Star, MoreHorizontal, ThumbsUp, Lightbulb, MessageSquare } from 'lucide-react';
 import tripadvisor from '../assets/images/tripadvisor.svg';
 import googlemaps from '../assets/images/googlemaps.svg';
-import reviewrating from '../assets/images/reviewrating.svg';
+// import reviewrating from '../assets/images/reviewrating.svg';
 import star1 from '../assets/images/star1.svg'
-import useful1 from '../assets/images/useful1.svg'
 import useful2 from '../assets/images/useful2.svg'
-// import useful3 from '../assets/images/useful3.svg'
 import comment from '../assets/images/comment.svg'
 
 // Accept reviews from API via props
@@ -54,7 +52,7 @@ const ReviewCard = ({ review }) => {
     // Useful counts not in API, fallback to 0
     const useful = review.useful || 0;
     const notUseful = review.notUseful || 0;
-    const useful3 = review.useful3 || 0;
+    // const useful3 = review.useful3 || 0;
     const message = review.message || 0;
 
     return (
@@ -85,16 +83,12 @@ const ReviewCard = ({ review }) => {
             <p className="text-base font-normal text-[#00000] mb-4">{reviewText}</p>
             <div className="flex items-center space-x-4 text-gray-500 text-xs flex-wrap md:flex-nowrap gap-3 md:gap-0">
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    <img src={useful1} alt="icon" />
+                    <img src={useful2} alt="icon" />
                     <span>Usefull {useful}</span>
                 </div>
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    <img src={useful2} alt="icon" />
+                    <img src={useful2} alt="icon" className='rotate-180' />
                     <span>Not Usefull {notUseful}</span>
-                </div>
-                <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
-                    <img src={useful3} alt="icon" />
-                    <span>Usefull {useful3}</span>
                 </div>
                 <div className="bg-[#e9f0fd] p-2 rounded-[89.26px] pt-0.5 pr-2 pb-0.5 pl-2 gap-[5px] flex items-center space-x-1">
                     <img src={comment} alt="icon" />
@@ -111,6 +105,19 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
     const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
     const avgRating = typeof averageRating === 'number' ? averageRating : 4.0;
 
+    // Calculate star rating breakdown from reviewsData
+    const starCounts = [0, 0, 0, 0, 0]; // index 0: 1 star, ..., index 4: 5 stars
+    let recommendedCount = 0;
+    reviewsData.forEach((review) => {
+        const rating = review.rating || 0;
+        if (rating >= 1 && rating <= 5) {
+            starCounts[rating - 1] += 1;
+            if (rating >= 4) recommendedCount += 1;
+        }
+    });
+    const percentages = starCounts.map(count => total > 0 ? Math.round((count / total) * 100) : 0);
+    const percentRecommended = total > 0 ? Math.round((recommendedCount / total) * 100) : 0;
+
     return (
         <div className="bg-gray-50 rounded-[10px] border border-solid border-gray-300 font-sans antialiased mb-6">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,15 +130,14 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                 <div className="bg-white rounded-[10px] p-4 border border-solid border-gray-300 mb-3">
                     <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0 md:space-x-8">
                         {/* Rating Score */}
-                        <div className="w-full flex flex-col md:flex-row items-start mditems-center space-x-4">
-
+                        <div className="w-full flex flex-col md:flex-row items-start md:items-center space-x-4">
                             {/* Tripadvisor and Google Maps logo */}
-                            <div className="w-[128.81px] md:w-[32%] text-left space-y-3 mb-4 md:mb-0">
+                            <div className="flex md:flex-col justify-center gap-3 md:gap-0 w-full md:w-[32%] text-left space-y-0 md:space-y-3 mb-4 md:mb-0">
                                 {/* Tripadvisor placeholder logo */}
                                 <div className="mt-1 bg-[#E0F7FF] p-2 flex flex-col items-start justify-start">
                                     <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal">8.4/10</p>
                                     <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium">(Very Good, 8,950 Reviews)</p>
-                                    <img src={tripadvisor} alt="tripadvisor" className='mt-1'/>
+                                    <img src={tripadvisor} alt="tripadvisor" className='mt-1' />
                                 </div>
                                 {/* Google Maps placeholder logo */}
                                 <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
@@ -149,11 +155,14 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                                         <div className="flex flex-row gap-[11px] items-center justify-start shrink-0 w-[157px] relative">
                                             <div className="flex flex-row items-center relative"
                                             >
+                                                {Array.from({ length: 5 }).map((_, i) => (
                                                 <img
-                                                    className="w-[120px] h-[30px] md:w-[157px] md:h-[30px]"
-                                                    src={reviewrating}
-                                                    alt="review rating"
+                                                    key={i}
+                                                    src={star1}
+                                                    alt="star"
+                                                    className={`w-6 h-6 md:w-8 md:h-8 ${i < Math.round(avgRating) ? '' : 'opacity-15'}`}
                                                 />
+                                                ))}
                                                 <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">{avgRating.toFixed(1)}</span>
                                                 <span className="_4-0-128-span2" />
                                                 <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">({total})</span>
@@ -162,20 +171,20 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                                     </div>
 
                                     <div className='flex flex-col items-start justify-start'>
-                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-semibold">88%</p>
+                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-semibold">{percentRecommended}%</p>
                                         <p className="text-sm md:text-xl font-semibold text-[#DB3A06]">Recommended</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Star Rating Breakdown */}
+                        {/* Star Rating Breakdown (integrated with backend) */}
                         <div className="w-full md:w-[32%] flex-shrink-0">
-                            <RatingBar stars={5} percentage={80} />
-                            <RatingBar stars={4} percentage={60} />
-                            <RatingBar stars={3} percentage={40} />
-                            <RatingBar stars={2} percentage={0} />
-                            <RatingBar stars={1} percentage={50} />
+                            <RatingBar stars={5} percentage={percentages[4]} />
+                            <RatingBar stars={4} percentage={percentages[3]} />
+                            <RatingBar stars={3} percentage={percentages[2]} />
+                            <RatingBar stars={2} percentage={percentages[1]} />
+                            <RatingBar stars={1} percentage={percentages[0]} />
                         </div>
                     </div>
                 </div>
