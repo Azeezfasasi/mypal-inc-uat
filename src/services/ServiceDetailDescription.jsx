@@ -5,6 +5,7 @@ import servicelocation from '../assets/images/servicelocation.svg';
 import servicephone from '../assets/images/servicephone.svg';
 import ServicesReview from './ServicesReview';
 import ServicesRightSide from './ServicesRightSide';
+import ShareButton from '../assets/components/services-components/ShareButton';
 
 const serviceFeatures = [
     'Michelin Star',
@@ -56,9 +57,7 @@ export default function ServiceDetailDescription({ business }) {
                                 <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
                                 <Heart className="w-5 h-5" />
                                 </button>
-                                <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-                                    <Share2 className="w-5 h-5" />
-                                </button>
+                                <ShareButton />
                             </div>
                         </div>
 

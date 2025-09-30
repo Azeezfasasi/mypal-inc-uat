@@ -35,7 +35,6 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/services/servicedetails" element={<ServiceDetails />} /> */}
         <Route path="/services/servicedetails/:businessId" element={<ServiceDetails />} />
         <Route path="/category/restaurant" element={<Restaurant />} />
         <Route path="/category/mobility" element={<Mobility />} />
