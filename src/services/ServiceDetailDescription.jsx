@@ -25,6 +25,74 @@ const businessHours = [
     { day: 'Friday', time: 'N/A' },
 ];
 
+// Helper function to determine button text based on category
+// const getDownloadButtonText = (category) => {
+//   if (!category) return "Download the app to make reservation";
+
+//   let categoryText = "";
+
+//   if (typeof category === "object" && category !== null) {
+//     // Update this line to use business_type instead of name
+//     categoryText = category.business_type || category.title || "";
+//   }
+
+//   if (!categoryText) return "Download the app to make reservation";
+
+//   const normalized = categoryText.toLowerCase();
+
+//   if (normalized.includes("fine dining"))
+//     return "Download the app to make reservation";
+//   if (normalized.includes("buffet") || normalized.includes("iconic delicacies"))
+//     return "Download the app to place orders";
+//   if (
+//     normalized.includes("Beaches & Resorts")
+//   )
+//     return "Download the app to buy tickets";
+//   if (
+//     normalized.includes("Boat and Yachts cruises") ||
+//     normalized.includes("cruise") ||
+//     normalized.includes("Salons and spa") ||
+//     normalized.includes("Short-let homes") ||
+//     normalized.includes("Club") 
+//   )
+//     return "Download the app to make reservations";
+
+//   return "Download the app to make reservation";
+// };
+const getDownloadButtonText = (category) => {
+  if (!category) return "Download the app to make reservation";
+
+  let categoryText = "";
+
+  if (typeof category === "object" && category !== null) {
+    // Use the actual category name
+    categoryText = category.name || category.business_type || category.title || "";
+  }
+
+  if (!categoryText) return "Download the app to make reservation";
+
+  const normalized = categoryText.toLowerCase();
+
+  if (normalized.includes("fine dining"))
+    return "Download the app to make reservation";
+  if (normalized.includes("buffet") || normalized.includes("iconic delicacies"))
+    return "Download the app to place orders";
+  if (normalized.includes("beaches & resorts"))
+    return "Download the app to buy tickets";
+  if (
+    normalized.includes("boat and yachts cruises") ||
+    normalized.includes("cruise") ||
+    normalized.includes("salons and spa") ||
+    normalized.includes("short-let homes") ||
+    normalized.includes("club") 
+  )
+    return "Download the app to make reservations";
+
+  return "Download the app to make reservation";
+};
+
+
+
 export default function ServiceDetailDescription({ business }) {
     // Dynamic address and phone
     const address = business?.address || 'No address provided.';
@@ -51,7 +119,7 @@ export default function ServiceDetailDescription({ business }) {
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
                             <button className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-5 rounded-[10px] bg-[#DB3A06] text-white font-semibold shadow-md hover:bg-orange-700 transition-colors duration-200 gap-2.5 cursor-pointer text-[14px] md:text-[16px]">
-                                Download App to Book Service
+                                {getDownloadButtonText(business?.category)}
                             </button>
                             <div className='flex flex-row items-center space-x-3'>
                                 <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
@@ -123,7 +191,7 @@ export default function ServiceDetailDescription({ business }) {
                             {/* Download Button */}
                             <div className="mt-8">
                                 <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px]">
-                                    Download App to Book Service
+                                    {getDownloadButtonText(business?.category)}
                                 </button>
                             </div>
                         </div>

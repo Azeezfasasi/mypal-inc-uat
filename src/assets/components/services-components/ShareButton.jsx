@@ -5,7 +5,7 @@ export default function ShareButton({ business }) {
     const handleShare = () => {
         const shareData = {
             title: business?.name || 'Check this business',
-            text: `Check out ${business?.name}!`,
+            text: `Check out ${business?.name || 'this business'}!`,
             url: window.location.href,
         };
 

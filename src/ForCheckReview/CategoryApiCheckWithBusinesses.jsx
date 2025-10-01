@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Commet } from "react-loading-indicators";
 
 export default function CategoryApiCheckWithBusinesses() {
   const [categories, setCategories] = useState([]);
@@ -70,7 +71,14 @@ export default function CategoryApiCheckWithBusinesses() {
     }
   };
 
-  if (loading) return <div>Loading categories…</div>;
+  // if (loading) return <div>Loading restaurant categories…</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen py-20">
+        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+      </div>
+    );
+  }
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (

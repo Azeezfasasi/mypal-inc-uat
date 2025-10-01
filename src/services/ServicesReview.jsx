@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Star, MoreHorizontal, ThumbsUp, Lightbulb, MessageSquare } from 'lucide-react';
 import tripadvisor from '../assets/images/tripadvisor.svg';
 import googlemaps from '../assets/images/googlemaps.svg';
@@ -105,8 +105,8 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
     const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
     const avgRating = typeof averageRating === 'number' ? averageRating : 4.0;
 
-    // Calculate star rating breakdown from reviewsData
-    const starCounts = [0, 0, 0, 0, 0]; // index 0: 1 star, ..., index 4: 5 stars
+    // Star rating breakdown
+    const starCounts = [0, 0, 0, 0, 0];
     let recommendedCount = 0;
     reviewsData.forEach((review) => {
         const rating = review.rating || 0;
@@ -115,8 +115,20 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
             if (rating >= 4) recommendedCount += 1;
         }
     });
-    const percentages = starCounts.map(count => total > 0 ? Math.round((count / total) * 100) : 0);
+    const percentages = starCounts.map((count) => (total > 0 ? Math.round((count / total) * 100) : 0));
     const percentRecommended = total > 0 ? Math.round((recommendedCount / total) * 100) : 0;
+
+    // Show more / show less state
+    const [visibleCount, setVisibleCount] = useState(3);
+    const isShowingAll = visibleCount >= reviewsData.length;
+
+    const handleToggleReviews = () => {
+        if (isShowingAll) {
+            setVisibleCount(3); // collapse
+        } else {
+            setVisibleCount(reviewsData.length); // show all
+        }
+    };
 
     return (
         <div className="bg-gray-50 rounded-[10px] border border-solid border-gray-300 font-sans antialiased mb-6">
@@ -191,9 +203,20 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
 
                 {/* Individual Reviews Section */}
                 <div className="space-y-6">
-                    {reviewsData.map((review, index) => (
+                    {reviewsData.slice(0, visibleCount).map((review, index) => (
                         <ReviewCard key={index} review={review} />
                     ))}
+
+                    {reviewsData.length > 5 && (
+                        <div className="flex justify-center mt-4 mb-4">
+                            <button
+                                onClick={handleToggleReviews}
+                                className="px-6 py-3 rounded-lg bg-[#DB3A06] text-white font-semibold hover:bg-orange-700 transition-colors"
+                            >
+                                {isShowingAll ? 'Show Less Reviews' : 'Show More Reviews'}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
