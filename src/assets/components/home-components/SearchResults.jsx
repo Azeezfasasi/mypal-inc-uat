@@ -10,7 +10,7 @@ export default function SearchResults({ results }) {
   // If results is an array, assume it's a list of categories or businesses
   if (Array.isArray(results)) {
     return (
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="h-[500px] mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border border-solid border-red-600">
         {results.map((item) => (
           <div key={item.id} className="bg-white rounded-xl shadow-md p-6">
             <h2 className="text-xl font-bold text-[#DB3A06] mb-2">{item.name}</h2>

@@ -21,7 +21,7 @@ export default function SalonAndSpaHero() {
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 md:px-8">
                 {/* Text Content */}
                 <div className="w-full md:w-[95%] flex flex-col gap-4 items-center justify-start relative mt-[-120px] md:mt-[-160px] mb-16">
-                    <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 flex justify-center items-center px-4 h-[33px] relative overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
+                    <div className="bg-orange-500 rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 flex justify-center items-center px-4 h-[33px] relative overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
                         <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-center px-2 md:px-0">
                         Spa Escapes - Relaxation, the way it should be.
                         </div>

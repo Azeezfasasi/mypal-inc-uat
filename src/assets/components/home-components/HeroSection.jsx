@@ -12,8 +12,9 @@ export default function HeroSection() {
     const [results, setResults] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
 
-    const handleSearchResults = (data) => {
-        setResults(data);
+    const handleSearchResults = (apiResponse) => {
+        // If response has a 'data' property, use it; otherwise, use the response directly
+        setResults(apiResponse.data ? apiResponse.data : apiResponse);
         setModalOpen(true);
     };
 

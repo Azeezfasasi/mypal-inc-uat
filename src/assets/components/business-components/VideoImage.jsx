@@ -13,7 +13,7 @@ const VideoImage = () => {
 
   return (
     <div className="lg:h-[559px] w-[100%] bg-white p-4 sm:p-8 flex items-center justify-center font-sans antialiased mt-6 lg:mt-16 mb-16">
-      <div className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl">
+      <div className="relative w-full h-[350px] md:h-screen max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl">
         
         {/* The video element, only rendered when isPlaying is true */}
         {isPlaying && (

@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, Share2, MapPin, Phone, Star } from 'lucide-react';
 import margicstar from '../assets/images/margicstar.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
-import servicephone from '../assets/images/servicephone.svg';
+// import servicephone from '../assets/images/servicephone.svg';
 import ServicesReview from './ServicesReview';
 import ServicesRightSide from './ServicesRightSide';
 import ShareButton from '../assets/components/services-components/ShareButton';
@@ -96,7 +96,7 @@ const getDownloadButtonText = (category) => {
 export default function ServiceDetailDescription({ business }) {
     // Dynamic address and phone
     const address = business?.address || 'No address provided.';
-    const phone = business?.business_number || 'No phone number.';
+    // const phone = business?.business_number || 'No phone number.';
     // Dynamic business hours from API
     const operatingDays = Array.isArray(business?.operatingDays) && business.operatingDays.length > 0
         ? business.operatingDays.map(dayObj => ({
@@ -170,15 +170,15 @@ export default function ServiceDetailDescription({ business }) {
                             <hr className="border-t border-gray-200 my-4" />
 
                             {/* Phone Number */}
-                            <div className="flex items-center space-x-3">
+                            {/* <div className="flex items-center space-x-3">
                                 <img src={servicephone} alt="phone" />
                                 <span className="text-sm md:text-base">{phone}</span>
-                            </div>
+                            </div> */}
 
-                            <hr className="border-t border-gray-200 my-4" />
+                            {/* <hr className="border-t border-gray-200 my-4" /> */}
 
                             {/* Location and Hours */}
-                            <h4 className="text-[15px] font-normal text-gray-800 mb-4">Location and Hours</h4>
+                            <h4 className="text-[15px] font-semibold text-gray-800 mb-4">Business Hours</h4>
                             <div className="space-y-3">
                                 {operatingDays.map((item, index) => (
                                     <div key={index} className="flex justify-between text-[#000000] text-[14px] md:text-[15px]">
