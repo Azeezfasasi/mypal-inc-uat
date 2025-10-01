@@ -28,6 +28,7 @@ import BusinessListByCategory from "./category/BusinessListByCategory"
 import BusinessListByCategoryWrapper from "./category/BusinessListByCategoryWrapper"
 import BusinessDetails from "./ForCheckReview/BusinessDetails"
 import CategoryApiCheckWithBusinesses from "./ForCheckReview/CategoryApiCheckWithBusinesses"
+import SearchResults from "./assets/components/home-components/SearchResults"
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/business/search-results" element={<SearchResults />} />
         <Route path="/services/servicedetails/:businessId" element={<ServiceDetails />} />
         <Route path="/category/restaurant" element={<Restaurant />} />
         <Route path="/category/mobility" element={<Mobility />} />

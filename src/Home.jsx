@@ -7,6 +7,8 @@ import FooterSection from './assets/components/home-components/FooterSection'
 // import { Helmet } from 'react-helmet'
 
 function Home() {
+  // const [results, setResults] = useState([]);
+
   return (
     <>
       {/* <Helmet>
