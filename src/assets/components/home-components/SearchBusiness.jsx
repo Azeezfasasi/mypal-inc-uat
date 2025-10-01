@@ -31,12 +31,45 @@ export default function SearchBusiness({ onSearchResults }) {
       }
 
       const data = await response.json();
-      
-      // Send data to parent component
-      if (onSearchResults) {
-        onSearchResults(data);
+
+      // If data.data is an array, filter as before
+      if (Array.isArray(data.data)) {
+        const filtered = data.data.filter(business => {
+          const nameMatch = query
+            ? (business.business_name || business.name || '').toLowerCase().includes(query.toLowerCase())
+            : true;
+          const locationMatch = location
+            ? (business.address || '').toLowerCase().includes(location.toLowerCase())
+            : true;
+          return nameMatch && locationMatch;
+        });
+        if (onSearchResults) {
+          onSearchResults(filtered);
+        } else {
+          console.warn('onSearchResults prop is missing!');
+        }
+      } else if (data.data && typeof data.data === 'object') {
+        // If data.data is a single business object, check if it matches the query/location
+        const business = data.data;
+        const nameMatch = query
+          ? (business.business_name || business.name || '').toLowerCase().includes(query.toLowerCase())
+          : true;
+        const locationMatch = location
+          ? (business.address || '').toLowerCase().includes(location.toLowerCase())
+          : true;
+        if (nameMatch && locationMatch) {
+          if (onSearchResults) {
+            onSearchResults(business);
+          }
+        } else {
+          if (onSearchResults) {
+            onSearchResults([]); // No match
+          }
+        }
       } else {
-        console.warn('onSearchResults prop is missing!');
+        if (onSearchResults) {
+          onSearchResults([]);
+        }
       }
     } catch (error) {
       console.error('Error fetching search results:', error);

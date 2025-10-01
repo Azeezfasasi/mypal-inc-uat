@@ -1,5 +1,6 @@
 import React from "react"
 import { Route, Routes } from "react-router-dom"
+import 'rsuite/dist/rsuite-no-reset.min.css';
 import Home from "./Home"
 import ServiceDetails from "./services/ServiceDetails"
 import Restaurant from "./category/Restaurant"
@@ -29,6 +30,7 @@ import BusinessListByCategoryWrapper from "./category/BusinessListByCategoryWrap
 import BusinessDetails from "./ForCheckReview/BusinessDetails"
 import CategoryApiCheckWithBusinesses from "./ForCheckReview/CategoryApiCheckWithBusinesses"
 import SearchResults from "./assets/components/home-components/SearchResults"
+import MainStream from "./restaurant/MainStream";
 
 function App() {
   return (
@@ -43,15 +45,17 @@ function App() {
         <Route path="/restaurant/finedining" element={<FineDining />} />
         <Route path="/restaurant/buffetservices" element={<BuffetServices />} />
         <Route path="/restaurant/iconicdelicacies" element={<LocalDelicacies />} />
+        <Route path="/restaurant/mainstream" element={<MainStream />} />
         <Route path="/mobility/incityrides" element={<InCityRides />} />
         <Route path="/mobility/luxuryrides" element={<LuxuryRides/>} />
         <Route path="/mobility/householdlogistics" element={<HouseholdLogistics />} />
         <Route path="/category/outdooractivities" element={<OutdoorActivities />} />
         <Route path="/outdooractivities/beaches&resorts" element={<BeachesResorts />} />
-        <Route path="/outdooractivities/boatandyachtscruises" element={<BoatsYatch />} />
+        <Route path="/outdooractivities/boat&yachtcruises" element={<BoatsYatch />} />
         <Route path="/outdooractivities/boatsyatch" element={<BoatsYatch />} />
+        <Route path="/outdooractivities/parks&recreation" element={<ParksRecreation />} />
         <Route path="/category/accommodation" element={<Accommodation />} />
-        <Route path="accommodation/short-lethomes" element={<ShortLets />} />
+        <Route path="accommodation/shortsletshomes" element={<ShortLets />} />
         <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
         <Route path="/beautyhealth/salonsandspa" element={<SalonAndSpa />} />

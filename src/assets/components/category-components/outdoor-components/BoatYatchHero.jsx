@@ -1,12 +1,28 @@
-import React from 'react';
-import search from '../../../images/search.svg'
-import location from '../../../images/location.svg'
+import React, { useState } from 'react';
+// import search from '../../../images/search.svg'
+// import location from '../../../images/location.svg'
 import boatheroimg from '../../../images/boatheroimg.svg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
+import SearchBusiness from '../../home-components/SearchBusiness';
+import SearchResultsModal from '../../home-components/SearchResultsModal';
 
 const heroImage = boatheroimg;
 
 export default function BoatYatchHero() {
+    const [results, setResults] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleSearchResults = (apiResponse) => {
+        // If response has a 'data' property, use it; otherwise, use the response directly
+        setResults(apiResponse.data ? apiResponse.data : apiResponse);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setResults(null);
+    };
+
     return (
         <div className="relative w-full h-[900px] md:h-[676px]">
             <RestaurantHeader />
@@ -36,34 +52,9 @@ export default function BoatYatchHero() {
 
 
                 {/* Search Bar Section */}
-                <div className="relative w-full md:w-[95%] md:h-[151px] p-4 md:p-6 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/30 flex flex-row justify-center items-center">
-                    <div className="w-full flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                        {/* Search Input */}
-                        <div className="w-full md:w-[40%] flex-1 flex items-center space-x-2 p-3 md:p-4 rounded-[10px] bg-[rgba(255,255,255,0.34)] border-solid border-[rgba(255,255,255,0.41)] border h-[72px] text-white shadow-inner" style={{backdropFilter: 'blur(8.7px)'}}>
-                            <img src={search} alt="search" />
-                            <input
-                                type="search"
-                                placeholder="What are you looking for"
-                                className="w-full text-[#ffffff] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] sm:text-[16px] md:text-[16px] lg:text-[24px] font-medium placeholder-white focus:outline-none"
-                            />
-                        </div>
-
-                        {/* Location Input */}
-                        <div className="w-full md:w-[40%] flex-1 flex items-center space-x-2 p-3 md:p-4 rounded-[10px] bg-[rgba(255,255,255,0.34)] border-solid border-[rgba(255,255,255,0.41)] border h-[72px] text-white shadow-inner" style={{backdropFilter: 'blur(8.7px)'}}>
-                            <img src={location} alt="location" />
-                            <input
-                                type="search"
-                                placeholder="Location"
-                                className="w-full text-[#ffffff] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] sm:text-[16px] md:text-[16px] lg:text-[24px] font-medium placeholder-white focus:outline-none"
-                            />
-                        </div>
-
-                        {/* Explore Button */}
-                        <button className="w-full md:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer">
-                            Explore
-                        </button>
-                    </div>
-                </div>
+                <SearchBusiness onSearchResults={handleSearchResults} />
+                {/* Modal for search results */}
+                <SearchResultsModal open={modalOpen} onClose={handleCloseModal} results={results} />
             </div>
         </div>
     );
