@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import servicephone from '../assets/images/servicephone.svg';
+// import servicephone from '../assets/images/servicephone.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
 
 const businessHours = [
@@ -17,7 +17,7 @@ function ServicesRightSide({ business }) {
 
     // Dynamic address and phone
     const address = business?.address || 'No address provided.';
-    const phone = business?.business_number || 'No phone number.';
+    // const phone = business?.business_number || 'No phone number.';
     // Dynamic business hours from API
     const operatingDays = Array.isArray(business?.operatingDays) && business.operatingDays.length > 0
         ? business.operatingDays.map(dayObj => ({
@@ -43,10 +43,10 @@ function ServicesRightSide({ business }) {
                 <hr className="border-t border-gray-200 my-4" />
 
                 {/* Phone Number */}
-                <div className="flex items-center space-x-3">
+                {/* <div className="flex items-center space-x-3">
                     <img src={servicephone} alt="phone" />
                     <span className="text-sm md:text-base">{phone}</span>
-                </div>
+                </div> */}
 
                 <hr className="border-t border-gray-200 my-4" />
 

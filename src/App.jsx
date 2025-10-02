@@ -57,7 +57,7 @@ function App() {
         <Route path="/mobility/householdlogistics" element={<HouseholdLogistics />} />
         <Route path="/category/outdooractivities" element={<OutdoorActivities />} />
         <Route path="/outdooractivities/beaches&resorts" element={<BeachesResorts />} />
-        <Route path="/outdooractivities/boat&yachtcruises" element={<BoatsYatch />} />
+        <Route path="/outdooractivities/boatandyachtcruises" element={<BoatsYatch />} />
         <Route path="/outdooractivities/boatsyatch" element={<BoatsYatch />} />
         <Route path="/outdooractivities/parks&recreation" element={<ParksRecreation />} />
         <Route path="/category/accommodation" element={<Accommodation />} />

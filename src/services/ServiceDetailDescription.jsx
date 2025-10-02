@@ -122,9 +122,9 @@ export default function ServiceDetailDescription({ business }) {
                                 {getDownloadButtonText(business?.category)}
                             </button>
                             <div className='flex flex-row items-center space-x-3'>
-                                <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
+                                {/* <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
                                 <Heart className="w-5 h-5" />
-                                </button>
+                                </button> */}
                                 <ShareButton />
                             </div>
                         </div>

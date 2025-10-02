@@ -65,9 +65,9 @@ const ReviewCard = ({ review }) => {
                         <p className="text-sm font-normal text-gray-500">{title}</p>
                     </div>
                 </div>
-                <button>
+                {/* <button>
                     <MoreHorizontal className="w-5 h-5 text-gray-400" />
-                </button>
+                </button> */}
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
                 <div className="flex space-x-0.5">
@@ -207,7 +207,7 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                         <ReviewCard key={index} review={review} />
                     ))}
 
-                    {reviewsData.length > 5 && (
+                    {reviewsData.length > 3 && (
                         <div className="flex justify-center mt-4 mb-4">
                             <button
                                 onClick={handleToggleReviews}
