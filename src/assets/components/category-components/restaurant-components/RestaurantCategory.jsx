@@ -56,14 +56,15 @@ export default function RestaurantCategory() {
   return (
     <div className="bg-white flex items-center justify-center p-4 sm:p-8">
       <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6">
+        {/* <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6"> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-6 items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6">
           {subCategories.map((category) => (
             <Link
               key={category.id}
               to={`/restaurant/${category.name
                 .toLowerCase()
                 .replace(/\s+/g, "")}`}
-              className="relative w-full h-[300px] md:h-[563px] max-w-sm overflow-hidden rounded-[10px] shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105"
+              className="relative w-full h-[300px] md:h-[563px] max-w-md overflow-hidden rounded-[10px] shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105"
             >
               {/* Image */}
               <img

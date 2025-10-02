@@ -45,14 +45,14 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
   );
 };
 
-export default function ClubList() {
+export default function LuxuryNightList() {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "266faf6c-74cd-4dbc-98af-d68bd50a2f6a"; // Club category ID
+  const CATEGORY_ID = "e6978f6f-200e-42ef-bab5-f681236ebef2"; // Luxury Night category ID
 
   useEffect(() => {
     async function fetchBusinesses() {

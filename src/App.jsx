@@ -31,6 +31,12 @@ import BusinessDetails from "./ForCheckReview/BusinessDetails"
 import CategoryApiCheckWithBusinesses from "./ForCheckReview/CategoryApiCheckWithBusinesses"
 import SearchResults from "./assets/components/home-components/SearchResults"
 import MainStream from "./restaurant/MainStream";
+import SkinCare from "./beauty-and-health/SkinCare";
+import FitnessAndGym from "./beauty-and-health/FitnessAndGym";
+import LuxuryNight from "./nightlife/LuxuryNught";
+import FoodAndDrink from "./nightlife/FoodAndDrink";
+import BarsAndLaunge from "./nightlife/BarsAndLaunge";
+import HappeningThisMonth from "./nightlife/HappeningThisMonth";
 
 function App() {
   return (
@@ -46,7 +52,7 @@ function App() {
         <Route path="/restaurant/buffetservices" element={<BuffetServices />} />
         <Route path="/restaurant/iconicdelicacies" element={<LocalDelicacies />} />
         <Route path="/restaurant/mainstream" element={<MainStream />} />
-        <Route path="/mobility/incityrides" element={<InCityRides />} />
+        <Route path="/mobility/in-cityrides" element={<InCityRides />} />
         <Route path="/mobility/luxuryrides" element={<LuxuryRides/>} />
         <Route path="/mobility/householdlogistics" element={<HouseholdLogistics />} />
         <Route path="/category/outdooractivities" element={<OutdoorActivities />} />
@@ -59,7 +65,13 @@ function App() {
         <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
         <Route path="/beautyhealth/salonsandspa" element={<SalonAndSpa />} />
+        <Route path="/beautyhealth/skincare" element={<SkinCare />} />
+        <Route path="/beautyhealth/fitness&gym" element={<FitnessAndGym />} />
         <Route path="/nightlife/club" element={<Club />} />
+        <Route path="/nightlife/luxurynight" element={<LuxuryNight />} />
+        <Route path="/nightlife/food&drinks" element={<FoodAndDrink />} />
+        <Route path="/nightlife/bars&lounges" element={<BarsAndLaunge />} />
+        <Route path="/nightlife/happeningthismonth" element={<HappeningThisMonth />} />
         <Route path="/forbusiness" element={<Business />} />
 
         {/* For testing purposes */}

@@ -6,7 +6,7 @@ import SearchResultsModal from '../../home-components/SearchResultsModal';
 
 const heroImage = shortletheroimg;
 
-export default function SalonAndSpaHero() {
+export default function SkincareHero() {
     const [results, setResults] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -41,10 +41,10 @@ export default function SalonAndSpaHero() {
                         </div>
                     </div>
                     <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
-                        Salon and Spa
+                        Skincare
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Step into a world of calm. From massages to facials and detox treatments, our spa partners offer a luxurious escape designed to rejuvenate your body, mind, and soul. Prefer to unwind at home? Book a Mobile Spa experience and enjoy professional pampering wherever you are. Comfort meets convenience.
+                        Discover top skincare salons and spas for radiant skin and ultimate relaxation.
                     </div>
                 </div>
 

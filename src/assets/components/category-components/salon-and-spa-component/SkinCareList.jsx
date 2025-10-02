@@ -6,11 +6,11 @@ import axios from 'axios';
 import { Commet } from "react-loading-indicators";
 
 // Reusable card component
-const ExperienceCard = ({ imageSrc, title, description, rating, reviews, location }) => {
+const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, location }) => {
   return (
     <div className="group bg-white rounded-[16.2px] border border-solid border-gray-300 overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
       <div className="relative overflow-hidden aspect-w-4 aspect-h-3">
-        <Link to="/services/servicedetails">
+        <Link to={`/services/servicedetails/${id}`}>
           <img
             src={imageSrc}
             alt={title}
@@ -20,7 +20,7 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
       </div>
 
       <div className="p-4 sm:p-6">
-        <Link to="/services/servicedetails" className="text-lg font-bold text-gray-800 mb-1">{title}</Link>
+        <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1">{title}</Link>
         <p className="text-[15px] text-gray-500 mb-2">{description}</p>
         <div className="w-full flex justify-between items-center text-sm text-gray-500 mb-4">
           <div className='flex flex-row justify-start items-center'>
@@ -31,11 +31,11 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
             <span className='text-[14.5px]'>
-              {location?.length > 10 ? location.slice(0, 10) + "…" : location || 'Unknown'}
+              {location?.length > 10 ? location.slice(0, 12) + "…" : location || 'Unknown'}
             </span>
           </div>
         </div>
-        <Link to="/services/servicedetails" className="flex justify-center">
+        <Link to={`/services/servicedetails/${id}`} className="flex justify-center">
           <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-black text-center font-sans">
             View Details
           </button>
@@ -45,14 +45,14 @@ const ExperienceCard = ({ imageSrc, title, description, rating, reviews, locatio
   );
 };
 
-export default function ClubList() {
+export default function SkincareList() {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "266faf6c-74cd-4dbc-98af-d68bd50a2f6a"; // Club category ID
+  const CATEGORY_ID = "f9a8e415-2b5e-4651-808e-be967aa5c231"; // Skin Care category ID
 
   useEffect(() => {
     async function fetchBusinesses() {
@@ -66,6 +66,7 @@ export default function ClubList() {
 
         const data = response.data.data?.data ?? [];
         const mappedData = data.map((biz) => ({
+          id: biz.id,
           title: biz.business_name,
           description: biz.description || "No description available",
           rating: biz.average_rating || 0,
