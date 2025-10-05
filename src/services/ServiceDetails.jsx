@@ -7,6 +7,7 @@ import ServicesDetailHero from './ServicesDetailHero';
 import ServiceDetailDescription from './ServiceDetailDescription';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import { Commet } from "react-loading-indicators";
+import { Helmet } from 'react-helmet';
 
 function ServiceDetails() {
   const { businessId } = useParams();
@@ -54,6 +55,12 @@ function ServiceDetails() {
 
   return (
     <>
+    <Helmet>
+        <title>{business ? `${business.business_name} | MyPal` : 'Service Details | MyPal'}</title>
+        <meta name="description" content={business ? business.description || `Details and information about ${business.business_name}` : "Discover detailed information about our services on MyPal."} />
+        <meta name="keywords" content="MyPal, service details, local services, business information, reviews, ratings" />
+        <meta name="author" content="MyPal" />
+    </Helmet>
       <ServicesHeader />
       <ServiceDetailTitle business={business} />
       <ServicesDetailHero business={business} />

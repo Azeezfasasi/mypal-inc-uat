@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import shortletheroimg from '../../../images/shortletheroimg.jpeg'
+import fooddrink from '../../../images/fooddrink.jpeg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
 import SearchResultsModal from '../../home-components/SearchResultsModal';
 
-const heroImage = shortletheroimg;
+const heroImage = fooddrink;
 
 export default function FoodAndDrinkHero() {
     const [results, setResults] = useState(null);

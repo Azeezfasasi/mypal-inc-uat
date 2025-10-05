@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import shortletheroimg from '../../../images/shortletheroimg.jpeg'
+import bars from '../../../images/bars.jpeg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
 import SearchResultsModal from '../../home-components/SearchResultsModal';
 
-const heroImage = shortletheroimg;
+const heroImage = bars;
 
 export default function BarsAndLaungesHero() {
     const [results, setResults] = useState(null);
@@ -26,7 +26,7 @@ export default function BarsAndLaungesHero() {
             <RestaurantHeader />
             {/* Background Image with Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center rounded-b-[20px]"
+                className="absolute inset-0 bg-cover bg-center rounded-b-[20px] filter brightness-50"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
             </div>

@@ -1,12 +1,10 @@
 import React, { useState} from 'react';
-// import search from '../../../images/search.svg'
-// import location from '../../../images/location.svg'
-import mobilityheroimg from '../../../images/mobilityheroimg.svg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
 import SearchResultsModal from '../../home-components/SearchResultsModal';
+import hotel from '../../../images/hotel.jpeg'
 
-const heroImage = mobilityheroimg;
+const heroImage = hotel;
 
 export default function AccommodationHero() {
     const [results, setResults] = useState(null);
@@ -29,7 +27,7 @@ export default function AccommodationHero() {
             <RestaurantHeader />
             {/* Background Image with Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center rounded-b-[20px]"
+                className="absolute inset-0 bg-cover bg-center rounded-b-[20px] filter brightness-55"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
             </div>

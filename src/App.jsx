@@ -37,6 +37,14 @@ import LuxuryNight from "./nightlife/LuxuryNught";
 import FoodAndDrink from "./nightlife/FoodAndDrink";
 import BarsAndLaunge from "./nightlife/BarsAndLaunge";
 import HappeningThisMonth from "./nightlife/HappeningThisMonth";
+import BeachesResortAccommodation from "./accommodation/BeachesResortAccommodation";
+import HotelExperience from "./accommodation/HotelsExperience";
+import FineDiningAPIViewer from "./ForCheckReview/FineDiningAoi";
+import NailsAndHairCare from "./beauty-and-health/NailsAndHairCare";
+import EventTicketing from "./category/EventTicketing";
+import ConcertAndShows from "./event/ConcertsAndShows";
+import PrivateCinemal from "./event/PrivateCinemal";
+import FestivalAndCorporatePromotion from "./event/FestivaAndCorporatePromotion";
 
 function App() {
   return (
@@ -46,33 +54,40 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/business/search-results" element={<SearchResults />} />
         <Route path="/services/servicedetails/:businessId" element={<ServiceDetails />} />
-        <Route path="/category/restaurant" element={<Restaurant />} />
+        <Route path="/category/restaurants" element={<Restaurant />} />
         <Route path="/category/mobility" element={<Mobility />} />
         <Route path="/restaurant/finedining" element={<FineDining />} />
         <Route path="/restaurant/buffetservices" element={<BuffetServices />} />
         <Route path="/restaurant/iconicdelicacies" element={<LocalDelicacies />} />
         <Route path="/restaurant/mainstream" element={<MainStream />} />
         <Route path="/mobility/in-cityrides" element={<InCityRides />} />
-        <Route path="/mobility/luxuryrides" element={<LuxuryRides/>} />
+        <Route path="/mobility/luxuryondemand" element={<LuxuryRides/>} />
         <Route path="/mobility/householdlogistics" element={<HouseholdLogistics />} />
-        <Route path="/category/outdooractivities" element={<OutdoorActivities />} />
+        <Route path="/category/outdoor-activities" element={<OutdoorActivities />} />
         <Route path="/outdooractivities/beaches&resorts" element={<BeachesResorts />} />
-        <Route path="/outdooractivities/boatandyachtcruises" element={<BoatsYatch />} />
+        <Route path="/outdooractivities/boat&yachtcruises" element={<BoatsYatch />} />
         <Route path="/outdooractivities/boatsyatch" element={<BoatsYatch />} />
         <Route path="/outdooractivities/parks&recreation" element={<ParksRecreation />} />
         <Route path="/category/accommodation" element={<Accommodation />} />
-        <Route path="accommodation/shortsletshomes" element={<ShortLets />} />
-        <Route path="/category/BeautyHealth" element={<BeautyHealth />} />
+        <Route path="/accommodation/short-lethomes&beachhouses" element={<ShortLets />} />
+        <Route path="/accommodation/beachresortaccommodation" element={<BeachesResortAccommodation />} />
+        <Route path="/accommodation/hotelexperience" element={<HotelExperience />} />
+        <Route path="/category/beauty-health" element={<BeautyHealth />} />
         <Route path="/category/nightlife" element={<NightLife />} />
         <Route path="/beautyhealth/salonsandspa" element={<SalonAndSpa />} />
-        <Route path="/beautyhealth/skincare" element={<SkinCare />} />
+        <Route path="/beautyhealth/spa&skincare" element={<SkinCare />} />
+        <Route path="/beautyhealth/nail&haircare" element={<NailsAndHairCare />} />
         <Route path="/beautyhealth/fitness&gym" element={<FitnessAndGym />} />
-        <Route path="/nightlife/club" element={<Club />} />
+        <Route path="/nightlife/clubbing&parties" element={<Club />} />
         <Route path="/nightlife/luxurynight" element={<LuxuryNight />} />
         <Route path="/nightlife/food&drinks" element={<FoodAndDrink />} />
         <Route path="/nightlife/bars&lounges" element={<BarsAndLaunge />} />
         <Route path="/nightlife/happeningthismonth" element={<HappeningThisMonth />} />
         <Route path="/forbusiness" element={<Business />} />
+        <Route path="/category/event-ticketing" element={<EventTicketing />} />
+        <Route path="/restaurant/concerts&shows" element={<ConcertAndShows />} />
+        <Route path="/restaurant/privatecinemas" element={<PrivateCinemal />} />
+        <Route path="/restaurant/festivals&corporatepromotions" element={<FestivalAndCorporatePromotion />} />
 
         {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />
@@ -80,6 +95,7 @@ function App() {
         <Route path="/category/businesslistbycategory/:categoryId" element={<BusinessListByCategoryWrapper />} />
         <Route path="/business/:businessId" element={<BusinessDetails />} />
         <Route path="/business/categorycheckwithbusinesses" element={<CategoryApiCheckWithBusinesses />} />
+        <Route path="/business/finediningapi" element={<FineDiningAPIViewer />} />
       </Routes>
     </>
   )

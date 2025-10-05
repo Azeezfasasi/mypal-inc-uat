@@ -57,21 +57,61 @@ export default function PacksRecreationLists() {
   useEffect(() => {
     async function fetchBusinesses() {
       try {
-        const response = await axios.get(
-          `${API_BASE}/business-categories/${CATEGORY_ID}/businesses`,
-          {
-            headers: { "x-api-key": API_KEY },
-          }
-        );
+        // First fetch categories to find the parent slug that contains our subcategory id
+        const catsResp = await axios.get(`${API_BASE}/categories/all`, {
+          headers: { "x-api-key": API_KEY },
+        });
 
-        const data = response.data.data?.data ?? [];
-        const mappedData = data.map((biz) => ({
+        const allCats = catsResp.data.data ?? catsResp.data ?? [];
+
+        // Find parent category (top-level) that contains our subcategory id
+        let parentSlug = null;
+        for (const mainCat of allCats) {
+          if (Array.isArray(mainCat.categories)) {
+            const found = mainCat.categories.find((sc) => sc.id === CATEGORY_ID);
+            if (found) {
+              parentSlug = mainCat.slug || mainCat.name?.toLowerCase().replace(/\s+/g, '-') || null;
+              break;
+            }
+          }
+        }
+
+        // If no parentSlug found, try to find the subcategory itself and use its slug as fallback
+        if (!parentSlug) {
+          const foundSub = allCats
+            .flatMap((c) => (Array.isArray(c.categories) ? c.categories : []))
+            .find((sc) => sc.id === CATEGORY_ID);
+          if (foundSub && foundSub.slug) parentSlug = foundSub.slug;
+        }
+
+        // If still no parentSlug, set error and return early
+        if (!parentSlug) {
+          setError({ message: 'Category parent slug not found for the given CATEGORY_ID' });
+          setLoading(false);
+          return;
+        }
+
+        // Call the businesses endpoint using the parent slug and categoryId query param
+        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${CATEGORY_ID}`, {
+          headers: { "x-api-key": API_KEY },
+        });
+
+        // Normalize response: some endpoints return data.data.data, some return data.data or plain array
+        let dataArr = resp.data?.data ?? resp.data;
+        if (dataArr && dataArr.data) dataArr = dataArr.data;
+        if (!Array.isArray(dataArr)) {
+          if (dataArr == null) dataArr = [];
+          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
+          else dataArr = [];
+        }
+
+        const mappedData = dataArr.map((biz) => ({
           id: biz.id,
-          title: biz.business_name,
-          description: biz.description || "No description available",
+          title: biz.business_name || biz.name || 'Unnamed Business',
+          description: biz.description || 'No description available',
           rating: biz.average_rating || 0,
-          reviews: biz.total_reviews || 0,
-          location: biz.address || "Not specified",
+          reviews: biz.total_reviews || biz.reviews || 0,
+          location: biz.address || biz.city || 'Not specified',
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 

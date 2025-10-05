@@ -52,7 +52,7 @@ export default function ShortLetList() {
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "a2b1ff38-9ac2-4643-93d4-5c7af05b25cf";
+  const CATEGORY_ID = "07073f12-9b02-43cf-b7f1-5d2061aef9dd"; // Short Let category ID
 
   useEffect(() => {
     async function fetchBusinesses() {

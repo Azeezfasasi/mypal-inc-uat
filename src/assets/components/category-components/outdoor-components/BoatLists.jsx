@@ -31,7 +31,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
             <span className='text-[14.5px]'>
-              {location?.length > 10 ? location.slice(0, 12) + "…" : location || 'Unknown'}
+              {location?.length > 10 ? location.slice(0, 12) + "…" : location}
             </span>
           </div>
         </div>
@@ -52,26 +52,67 @@ export default function BoatLists() {
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "88fab941-04f1-440a-9494-50b96a34cbea";
+  // const CATEGORY_ID = '4a85050b-da46-4fb6-8bf0-6eee16858d00'; // Fine Dining category ID
+  const CATEGORY_ID = "2b6a0d6b-583a-4ed1-a7c9-64ce0a8466d3";
 
   useEffect(() => {
     async function fetchBusinesses() {
       try {
-        const response = await axios.get(
-          `${API_BASE}/business-categories/${CATEGORY_ID}/businesses`,
-          {
-            headers: { "x-api-key": API_KEY },
-          }
-        );
+        // First fetch categories to find the parent slug that contains our subcategory id
+        const catsResp = await axios.get(`${API_BASE}/categories/all`, {
+          headers: { "x-api-key": API_KEY },
+        });
 
-        const data = response.data.data?.data ?? [];
-        const mappedData = data.map((biz) => ({
+        const allCats = catsResp.data.data ?? catsResp.data ?? [];
+
+        // Find parent category (top-level) that contains our subcategory id
+        let parentSlug = null;
+        for (const mainCat of allCats) {
+          if (Array.isArray(mainCat.categories)) {
+            const found = mainCat.categories.find((sc) => sc.id === CATEGORY_ID);
+            if (found) {
+              parentSlug = mainCat.slug || mainCat.name?.toLowerCase().replace(/\s+/g, '-') || null;
+              break;
+            }
+          }
+        }
+
+        // If no parentSlug found, try to find the subcategory itself and use its slug as fallback
+        if (!parentSlug) {
+          const foundSub = allCats
+            .flatMap((c) => (Array.isArray(c.categories) ? c.categories : []))
+            .find((sc) => sc.id === CATEGORY_ID);
+          if (foundSub && foundSub.slug) parentSlug = foundSub.slug;
+        }
+
+        // If still no parentSlug, set error and return early
+        if (!parentSlug) {
+          setError({ message: 'Category parent slug not found for the given CATEGORY_ID' });
+          setLoading(false);
+          return;
+        }
+
+        // Call the businesses endpoint using the parent slug and categoryId query param
+        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${CATEGORY_ID}`, {
+          headers: { "x-api-key": API_KEY },
+        });
+
+        // Normalize response: some endpoints return data.data.data, some return data.data or plain array
+        let dataArr = resp.data?.data ?? resp.data;
+        if (dataArr && dataArr.data) dataArr = dataArr.data;
+        if (!Array.isArray(dataArr)) {
+          if (dataArr == null) dataArr = [];
+          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
+          else dataArr = [];
+        }
+
+        const mappedData = dataArr.map((biz) => ({
           id: biz.id,
-          title: biz.business_name,
-          description: biz.description || "No description available",
+          title: biz.business_name || biz.name || 'Unnamed Business',
+          description: biz.description || 'No description available',
           rating: biz.average_rating || 0,
-          reviews: biz.total_reviews || 0,
-          location: biz.address || "Not specified",
+          reviews: biz.total_reviews || biz.reviews || 0,
+          location: biz.address || biz.city || 'Not specified',
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 
@@ -88,12 +129,12 @@ export default function BoatLists() {
 
   // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
-      </div>
-    );
-  }
+  return (
+    <div className="flex justify-center items-center py-20">
+      <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+    </div>
+  );
+}
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (

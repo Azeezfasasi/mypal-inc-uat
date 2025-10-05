@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import shortletheroimg from '../../../images/shortletheroimg.jpeg'
+import club from '../../../images/club.jpeg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
 import SearchResultsModal from '../../home-components/SearchResultsModal';
 
-const heroImage = shortletheroimg;
+const heroImage = club;
 
 export default function ClubHero() {
     const [results, setResults] = useState(null);
@@ -26,7 +26,7 @@ export default function ClubHero() {
             <RestaurantHeader />
             {/* Background Image with Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center rounded-b-[20px]"
+                className="absolute inset-0 bg-cover bg-center rounded-b-[20px] filter brightness-55"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
             </div>
@@ -41,7 +41,7 @@ export default function ClubHero() {
                         </div>
                     </div>
                     <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
-                        Club
+                        Club & Parties
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
                         Step into a world of high-energy beats, dazzling lights, and unforgettable vibes. From exclusive nightclubs to vibrant party spots, experience electrifying music, premium drinks, and the perfect atmosphere to let loose, connect, and make memories that last beyond sunrise

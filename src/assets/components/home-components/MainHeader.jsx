@@ -35,54 +35,41 @@ const ChevronRightIcon = ({ className }) => (
 // Updated categories data with a 'path' for each item
 const categories = [
     { name: 'Mobility', path: '/category/mobility', subCategories: [
-        { name: 'Luxury Rides', path: '/mobility/luxuryrides' },
-        { name: 'Ride Hailing Taxi', path: '/mobility/incityrides' },
-        { name: 'Logistics & Delivery', path: '/mobility/householdlogistics' }
+        { name: 'In-City Rides', path: '/mobility/in-cityrides' },
+        { name: 'Luxury on Demand', path: '/mobility/luxuryondemand' },
+        { name: 'Household Logistics', path: '/mobility/householdlogistics' }
     ] },
     { name: 'Night Life', path: '/category/nightlife', subCategories: [
-        { name: 'Activities', path: '/' },
-        { name: 'Luxury Night', path: '/' },
-        { name: 'Food & Drinks', path: '/' },
-        { name: 'Bars & Lounges', path: '/' },
-        { name: 'Clubbing & Parties', path: '/' },
-        { name: 'Happening This Month', path: '/' }
+        { name: 'Luxury Night', path: '/nightlife/luxurynight' },
+        { name: 'Food & Drinks', path: '/nightlife/food&drinks' },
+        { name: 'Bars & Lounges', path: '/nightlife/bars&lounges' },
+        { name: 'Clubbing & Parties', path: '/nightlife/clubbing&parties' },
+        { name: 'Happening This Month', path: '/nightlife/happeningthismonth' }
     ] },
     { name: 'Restaurant', path: '/category/restaurant', subCategories: [
-        { name: 'Chinese', path: '/restaurant/finedining' },
-        { name: 'Indian', path: '/restaurant/finedining' },
-        { name: 'Asian', path: '/restaurant/finedining' },
-        { name: 'Greek', path: '/restaurant/finedining' },
-        { name: 'Continental', path: '/restaurant/finedining' },
-        { name: 'Arabian', path: '/restaurant/finedining' },
-        { name: 'Mexican', path: '/restaurant/finedining' },
-        { name: 'Brazilian', path: '/restaurant/finedining' },
-        { name: 'Buffet Offering', path: '/restaurant/buffetservices' },
-        { name: 'African Delicacies', path: '/restaurant/localdelicacies' },
-        { name: 'Takeout', path: '/restaurant/finedining' },
-        { name: 'Kids Friendly', path: '/restaurant/finedining' }
-        
+        { name: 'Fine Dining', path: '/restaurant/finedining' },
+        { name: 'Buffet Services', path: '/restaurant/buffetservices' },
+        { name: 'Iconic Delicacies', path: '/restaurant/iconicdelicacies' }        
     ]},
     { name: 'Event ticketing', path: '/', subCategories: [
-        { name: 'Sport Events', path: '/' },
-        { name: 'Concerts & Shows', path: '/' },
-        { name: 'Theatre and Cinema', path: '/' },
-        { name: 'Festivals & Carnivals', path: '/' },
-        { name: 'Conferences & Seminars', path: '/' }
+        { name: 'Concerts & Shows', path: '/restaurant/concerts&shows' },
+        { name: 'Private Cinema', path: '/restaurant/privatecinemas' },
+        { name: 'Festivals & Corporate Promotions', path: '/restaurant/festivals&corporatepromotions' }
     ]},
     { name: 'Beauty & Health', path: '/category/BeautyHealth', subCategories: [
-        { name: 'Wellness & Spa’s', path: '/' },
-        { name: 'Fitness & Gym', path: '/' },
-        { name: 'Pharmacies', path: '/' }
+        { name: 'Spa & Skin Care', path: '/beautyhealth/spa&skincare' },
+        { name: 'Nail & Hair Care', path: '/beautyhealth/nail&haircare' },
+        { name: 'Fitness & Gym', path: '/beautyhealth/fitness&gym' }
     ] },
     { name: 'Accommodation', path: '/category/accommodation', subCategories: [
-        { name: 'Short-lets & Beach Houses', path: '/' },
-        { name: 'Beaches & Resorts', path: '/' },
-        { name: 'Hotel Experience', path: '/' }
+        { name: 'Short-lets & Beach Houses', path: '/accommodation/short-lethomes&beachhouses' },
+        { name: 'Beaches Resorts Accommodation', path: '/accommodation/beachresortaccommodation' },
+        { name: 'Hotel Experience', path: '/accommodation/hotelexperience' }
     ]},
     { name: 'Outdoor Activities', path: '/category/outdooractivities', subCategories: [
-        { name: 'Beaches and Resort', path: '/outdooractivities/beachesresorts' },
-        { name: 'Cruises (Boat and Yacht)', path: '/outdooractivities/boatsyatch' },
-        { name: 'Parks and Recreation', path: '/outdooractivities/parksrecreation' }
+        { name: 'Beaches & Resorts', path: '/outdooractivities/beaches&resorts' },
+        { name: 'Boat & Yacht Cruises', path: '/outdooractivities/boat&yachtcruises' },
+        { name: 'Parks & Recreation', path: '/outdooractivities/parks&recreation' }
     ]},
 ];
 
@@ -373,23 +360,3 @@ export default function MainHeader() {
         </div>
     );
 }
-
-// A simple App component to make the example runnable
-// const Home = () => <div className="p-8 text-center text-xl">Home Page</div>;
-// const ForBusiness = () => <div className="p-8 text-center text-xl">For Business Page</div>;
-
-// This is the main component that renders the full application
-// export default function App() {
-//     return (
-//         <BrowserRouter>
-//             <div className="font-sans antialiased text-white bg-gray-900 min-h-screen">
-//                 <MainHeader />
-//                 <Routes>
-//                     <Route path="/" element={<Home />} />
-//                     <Route path="/for-business" element={<ForBusiness />} />
-//                 </Routes>
-//             </div>
-//         </BrowserRouter>
-//     );
-// }
-
