@@ -37,14 +37,14 @@ export default function LuxuryNightHero() {
                 <div className="w-full md:w-[95%] flex flex-col gap-4 items-center justify-start relative mt-[-120px] md:mt-[-160px] mb-16">
                     <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 flex justify-center items-center px-4 h-[33px] relative overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
                         <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-center px-2 md:px-0">
-                            Explore the Best in Luxury Nightlife
+                            Where the Night Comes Alive in Luxury.
                         </div>
                     </div>
                     <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
                         Luxury Night
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Experience the epitome of nightlife with our curated selection of upscale clubs and lounges, where elegance meets excitement.
+                        Immerse yourself in the elegance of the night, where fine ambiance, curated cocktails, and captivating music create unforgettable moments. From rooftop lounges to exclusive nightclubs, experience nightlife redefined with sophistication, style, and a touch of magic.
                     </div>
                 </div>
 

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-// import restauranthero2 from '../../../images/restauranthero2.svg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
 import SearchResultsModal from '../../home-components/SearchResultsModal';
-import event1 from '../../../images/event1.jpeg';
+import eventticket from '../../../images/eventticket.jpeg';
 
-const heroImage = event1;
+const heroImage = eventticket;
 
 export default function EventHero() {
     const [results, setResults] = useState(null);
@@ -27,11 +26,11 @@ export default function EventHero() {
             <RestaurantHeader />
             {/* Background Image with Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center rounded-b-[20px]"
+                className="absolute inset-0 bg-cover bg-center rounded-b-[20px] filter brightness-50"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
                 {/* Dark overlay for text readability */}
-                <div className="absolute inset-0 bg-black opacity-60 rounded-b-[20px]"></div>
+                <div className="absolute inset-0 opacity-60 rounded-b-[20px]"></div>
             </div>
 
             {/* Hero Content */}

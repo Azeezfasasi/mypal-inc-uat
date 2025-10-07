@@ -64,7 +64,7 @@ export default function RestaurantCategory() {
               to={`/restaurant/${category.name
                 .toLowerCase()
                 .replace(/\s+/g, "")}`}
-              className="relative w-full h-[300px] md:h-[563px] max-w-md overflow-hidden rounded-[10px] shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105"
+              className="relative w-full h-[300px] md:h-[563px] max-w-lg overflow-hidden rounded-[10px] shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105"
             >
               {/* Image */}
               <img

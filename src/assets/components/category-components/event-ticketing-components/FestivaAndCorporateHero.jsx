@@ -44,7 +44,7 @@ export default function FestivalAndCorporateHero() {
                         Festivals and Corporate Promotions
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Discover top-tier festival and corporate promotion experiences that define luxury nightlife.
+                        Discover festivals and corporate promotion experiences on MyPal.
                     </div>
                 </div>
 

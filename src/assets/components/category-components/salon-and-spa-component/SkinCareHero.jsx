@@ -41,10 +41,10 @@ export default function SkincareHero() {
                         </div>
                     </div>
                     <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
-                        Skincare
+                        Spa & Skin Care
                     </div>
                     <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
-                        Discover top skincare salons and spas for radiant skin and ultimate relaxation.
+                        Step into serenity and indulge in world-class spa and skincare treatments designed to relax your mind and revive your natural radiance. From soothing massages to premium facials and body therapies, discover a sanctuary where self-care meets luxury.
                     </div>
                 </div>
 
