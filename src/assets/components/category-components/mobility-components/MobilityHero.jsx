@@ -1,10 +1,10 @@
 import React from 'react';
 import search from '../../../images/search.svg'
 import location from '../../../images/location.svg'
-import mobilityheroimg from '../../../images/mobilityheroimg.svg'
+import mobil from '../../../images/mobil.jpeg'
 import RestaurantHeader from '../restaurant-components/RestaurantHeader';
 
-const heroImage = mobilityheroimg;
+const heroImage = mobil;
 
 export default function MobilityHero() {
     return (
@@ -12,7 +12,7 @@ export default function MobilityHero() {
             <RestaurantHeader />
             {/* Background Image with Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center rounded-b-[20px]"
+                className="absolute inset-0 bg-cover bg-center rounded-b-[20px] filter brightness-60"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
             </div>
