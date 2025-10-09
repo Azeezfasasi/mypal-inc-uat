@@ -51,7 +51,7 @@ const categories = [
         { name: 'Buffet Services', path: '/restaurant/buffetservices' },
         { name: 'Iconic Delicacies', path: '/restaurant/iconicdelicacies' }        
     ]},
-    { name: 'Event ticketing', path: '/', subCategories: [
+    { name: 'Event ticketing', path: '/category/event-ticketing', subCategories: [
         { name: 'Concerts & Shows', path: '/restaurant/concerts&shows' },
         { name: 'Private Cinema', path: '/restaurant/privatecinemas' },
         { name: 'Festivals & Corporate Promotions', path: '/restaurant/festivals&corporatepromotions' }
