@@ -1,51 +1,56 @@
 import React, { useState } from 'react';
-import videoimage from '../../images/videoimage.svg'
-import videoplay from '../../images/videoplay.svg'
+import vidimg2 from '../../images/vidimg2.svg'
 import businessvideo from '../../videos/businessvideo.mp4'
 
 const VideoImage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-    // The URL of the video to be played.
-  const videoUrl = businessvideo;
   
-  // The URL of the thumbnail image.
-  const thumbnailUrl = videoimage;
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
 
   return (
-    <div className="lg:h-[559px] w-[100%] bg-white p-4 sm:p-8 flex items-center justify-center font-sans antialiased mt-6 lg:mt-16 mb-16">
-      <div className="relative w-full h-[350px] md:h-screen max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl">
-        
-        {/* The video element, only rendered when isPlaying is true */}
-        {isPlaying && (
-          <video
-            className="absolute inset-0 w-full h-[100%] object-fill"
-            src={videoUrl}
-            autoPlay
-            controls
-          ></video>
-        )}
+    <>
+    <div className="relative w-[90%] h-[0%] mx-auto rounded-[20px] overflow-hidden mt-[40px] md:mt-[70px] mb-[50px] md:mb-[70px] border">
+      {!isPlaying ? (
+        <div
+          className="relative w-full cursor-pointer"
+          onClick={handlePlay}
+        >
+          <img
+            src={vidimg2}
+            alt="Preview"
+            className="w-full h-full object-cover rounded-[20px]"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/20"></div>
 
-        {/* The thumbnail image and play button, only rendered when isPlaying is false */}
-        {!isPlaying && (
-          <div className="relative w-full h-full">
-            <img
-              src={thumbnailUrl}
-              alt="Video Thumbnail"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* Play Button Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button
-                onClick={() => setIsPlaying(true)}
-                className="relative w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center bg-white/70 backdrop-blur-sm rounded-full transform transition-transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50"
-              >
-                <img src={videoplay} alt="" className='cursor-pointer'/>
-              </button>
+          {/* Play button */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-[rgba(251,251,251,0.69)] rounded-full w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
+              <div className="bg-orange-500 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  className="w-8 h-8 sm:w-10 sm:h-10 ml-1"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <video
+          src={businessvideo}
+          controls
+          autoPlay
+          className="w-full rounded-[20px] aspect-[16/9] object-contain"
+        />
+      )}
     </div>
+    </>
   );
 };
 

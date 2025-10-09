@@ -9,6 +9,7 @@ import VideoImage from './assets/components/business-components/VideoImage'
 import BusinessBlog from './assets/components/business-components/BusinessBlog'
 import FooterSection from './assets/components/home-components/FooterSection'
 import { Helmet } from 'react-helmet'
+import VideoPlayCard from './assets/components/business-components/VideoPlayCard'
 
 function Business() {
   return (
