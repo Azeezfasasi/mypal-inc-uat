@@ -46,17 +46,17 @@ const categories = [
         { name: 'Clubbing & Parties', path: '/nightlife/clubbing&parties' },
         { name: 'Happening This Month', path: '/nightlife/happeningthismonth' }
     ] },
-    { name: 'Restaurant', path: '/category/restaurant', subCategories: [
+    { name: 'Restaurant', path: '/category/restaurants', subCategories: [
         { name: 'Fine Dining', path: '/restaurant/finedining' },
         { name: 'Buffet Services', path: '/restaurant/buffetservices' },
         { name: 'Iconic Delicacies', path: '/restaurant/iconicdelicacies' }        
     ]},
-    { name: 'Event ticketing', path: '/', subCategories: [
+    { name: 'Event ticketing', path: '/category/event-ticketing', subCategories: [
         { name: 'Concerts & Shows', path: '/restaurant/concerts&shows' },
         { name: 'Private Cinema', path: '/restaurant/privatecinemas' },
         { name: 'Festivals & Corporate Promotions', path: '/restaurant/festivals&corporatepromotions' }
     ]},
-    { name: 'Beauty & Health', path: '/category/BeautyHealth', subCategories: [
+    { name: 'Beauty & Health', path: '/category/beauty-health', subCategories: [
         { name: 'Spa & Skin Care', path: '/beautyhealth/spa&skincare' },
         { name: 'Nail & Hair Care', path: '/beautyhealth/nail&haircare' },
         { name: 'Fitness & Gym', path: '/beautyhealth/fitness&gym' }
@@ -66,7 +66,7 @@ const categories = [
         { name: 'Beaches Resorts Accommodation', path: '/accommodation/beachresortaccommodation' },
         { name: 'Hotel Experience', path: '/accommodation/hotelexperience' }
     ]},
-    { name: 'Outdoor Activities', path: '/category/outdooractivities', subCategories: [
+    { name: 'Outdoor Activities', path: '/category/outdoor-activities', subCategories: [
         { name: 'Beaches & Resorts', path: '/outdooractivities/beaches&resorts' },
         { name: 'Boat & Yacht Cruises', path: '/outdooractivities/boat&yachtcruises' },
         { name: 'Parks & Recreation', path: '/outdooractivities/parks&recreation' }
