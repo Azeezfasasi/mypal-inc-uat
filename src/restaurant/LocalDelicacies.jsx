@@ -14,7 +14,7 @@ function LocalDelicacies() {
         <link rel="canonical" href="https://www.mypal.ng/restaurant/localdelicacies" />
       </Helmet>
       <DelicaciesHero />
-      <BuffetFilter />
+      {/* <BuffetFilter /> */}
       <BuffetLists />
       <FooterSection />
     </>

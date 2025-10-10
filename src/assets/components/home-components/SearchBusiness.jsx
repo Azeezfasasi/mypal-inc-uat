@@ -109,7 +109,7 @@ export default function SearchBusiness({ onSearchResults }) {
         {/* Explore Button */}
         <button
           onClick={handleSearch}
-          className="w-full md:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg"
+          className="w-full md:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer"
         >
           {loading ? 'Searching...' : 'Explore'}
         </button>

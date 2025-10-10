@@ -1,21 +1,18 @@
 import React from 'react';
 import x from '../../images/x.svg'
 import fb from '../../images/fb.svg'
-// import web from '../../images/web.svg'
 import indeed from '../../images/indeed.svg'
 import instagram from '../../images/instagram.svg'
 import location from '../../images/location.svg'
 import sms from '../../images/sms.svg'
 import people from '../../images/people.svg'
 import mypallogo from '../../images/mypallogo.svg'
-// import mypal2 from '../../images/mypal2.jpg'
-// import phonecall from '../../images/phonecall.svg'
 import { Phone } from 'lucide-react';
 
 const FooterSection = () => {
     return (
         <div className="bg-[#12416b] text-white font-sans antialiased p-8 md:p-12 lg:p-16 rounded-t-3xl md:rounded-t-[4rem]">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-16">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16">
                 {/* Column 1: MyPal and Description */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <h3 className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">My Pal</h3>
@@ -29,16 +26,16 @@ const FooterSection = () => {
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <div className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">Discover</div>
                     <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Accessibility Statement</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Cookies Policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Copyright Notice</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">GDPR and Privacy policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Terms and Conditions</a></li>
+                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</a></li>
+                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</a></li>
+                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</a></li>
+                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</a></li>
+                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</a></li>
                     </ul>
                 </div>
 
                 {/* Column 3: Discover (Duplicate for design) */}
-                <div className="flex-col items-center md:items-start text-center md:text-left md:flex">
+                {/* <div className="flex-col items-center md:items-start text-center md:text-left md:flex">
                     <div className="text-[#fbfbfb] font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">Discover</div>
                     <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
                         <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Accessibility Statement</a></li>
@@ -47,7 +44,7 @@ const FooterSection = () => {
                         <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">GDPR and Privacy policy</a></li>
                         <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Terms and Conditions</a></li>
                     </ul>
-                </div>
+                </div> */}
 
                 {/* Column 4: Connect with us */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">

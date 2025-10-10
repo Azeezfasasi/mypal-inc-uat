@@ -14,7 +14,7 @@ function BuffetServices() {
         <link rel="canonical" href="https://www.mypal.ng/restaurant/buffetservices" />
       </Helmet>
       <BuffetHero />
-      <BuffetFilter />
+      {/* <BuffetFilter /> */}
       <BuffetLists />
       <FooterSection />
     </>

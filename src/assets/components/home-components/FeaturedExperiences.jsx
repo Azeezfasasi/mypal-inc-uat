@@ -91,10 +91,11 @@ export default function FeaturedExperiences() {
                 const base = API_BASE.replace(/\/+$/g, '');
 
                 // candidate endpoints to try (in order)
+                // try the generic /businesses list endpoints first; some servers treat "all" as an id
                 const candidates = [
-                    `${base}/businesses/all?page=1&limit=100`,
                     `${base}/businesses?page=1&limit=100`,
                     `${base}/businesses?limit=100`,
+                    `${base}/businesses/all?page=1&limit=100`,
                     `${base}/businesses`,
                 ];
 
@@ -110,6 +111,7 @@ export default function FeaturedExperiences() {
                         // if we got an array (possibly empty), accept it
                         if (Array.isArray(arr)) {
                             payload = arr;
+                            // console.info('FeaturedExperiences: selected endpoint', endpoint, 'returned', arr.length, 'items');
                             break;
                         }
                     } catch (err) {

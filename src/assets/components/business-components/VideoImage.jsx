@@ -11,7 +11,7 @@ const VideoImage = () => {
 
   return (
     <>
-    <div className="relative w-[90%] h-[0%] mx-auto rounded-[20px] overflow-hidden mt-[40px] md:mt-[70px] mb-[50px] md:mb-[70px] border">
+    <div className="relative w-[90%] h-[0%] mx-auto rounded-[20px] overflow-hidden mt-[40px] md:mt-[70px] mb-[50px] md:mb-[70px]" sstyle={{ paddingTop: '56.25%' }}>
       {!isPlaying ? (
         <div
           className="relative w-full cursor-pointer"

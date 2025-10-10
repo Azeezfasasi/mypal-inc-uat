@@ -3,11 +3,11 @@ import FineDiningHero from '../assets/components/category-components/restaurant-
 import FineDiningFilter from '../assets/components/category-components/restaurant-components/FineDiningFilter'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import FineDiningLists from '../assets/components/category-components/restaurant-components/FineDiningLists'
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 function FineDining() {
-  const [filter, setFilter] = useState('All');
+  // const [filter, setFilter] = useState('All');
 
   return (
     <>
@@ -17,8 +17,8 @@ function FineDining() {
         <link rel="canonical" href="https://www.mypal.ng/restaurant/finedining" />
       </Helmet>
       <FineDiningHero />
-      <FineDiningFilter selectedFilter={filter} onChange={setFilter} />
-      <FineDiningLists filter={filter} />
+      {/* <FineDiningFilter selectedFilter={filter} onChange={setFilter} /> */}
+      <FineDiningLists />
       <FooterSection />
     </>
   )
