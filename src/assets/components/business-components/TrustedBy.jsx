@@ -8,7 +8,7 @@ const TrustedBy = () => {
   return (
     <div className="w-full bg-white md:py-0 px-4 md:px-8 flex flex-col items-center justify-center">
       {/* Title */}
-      <h2 className="text-xl sm:text-[25px] text-center text-[#999999] font-normal mb-12 sm:mb-12">
+      <h2 className="text-xl sm:text-[25px] text-center text-[#999999] font-normal mb-6 sm:mb-12">
         Trusted by people using this companies
       </h2>
 
@@ -17,22 +17,22 @@ const TrustedBy = () => {
 
         {/* Tech Mahindra Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={cilantro} alt="" className='w-[150px] h-[120px]' />
+          <img src={cilantro} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
 
         {/* Airbnb Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={three60} alt="" className='w-[150px] h-[120px]' />
+          <img src={three60} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
 
         {/* Merck Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={tamberma} alt="" className='w-[150px] h-[120px]' />
+          <img src={tamberma} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
 
         {/* Simon Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={tropicana} alt="" className='w-[150px] h-[140px]' />
+          <img src={tropicana} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
       </div>
     </div>
