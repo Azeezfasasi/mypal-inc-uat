@@ -45,10 +45,12 @@ import EventTicketing from "./category/EventTicketing";
 import ConcertAndShows from "./event/ConcertsAndShows";
 import PrivateCinemal from "./event/PrivateCinemal";
 import FestivalAndCorporatePromotion from "./event/FestivaAndCorporatePromotion";
+import CookieConsent from "./assets/components/home-components/CookieConsent";
 
 function App() {
   return (
     <>
+      <CookieConsent />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
