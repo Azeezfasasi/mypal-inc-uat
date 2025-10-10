@@ -46,6 +46,8 @@ import ConcertAndShows from "./event/ConcertsAndShows";
 import PrivateCinemal from "./event/PrivateCinemal";
 import FestivalAndCorporatePromotion from "./event/FestivaAndCorporatePromotion";
 import CookieConsent from "./assets/components/home-components/CookieConsent";
+import { Cookie } from "lucide-react";
+import CookiePolicyPage from "./other-pages/CookiePolicyPage";
 
 function App() {
   return (
@@ -90,6 +92,7 @@ function App() {
         <Route path="/restaurant/concerts&shows" element={<ConcertAndShows />} />
         <Route path="/restaurant/privatecinemas" element={<PrivateCinemal />} />
         <Route path="/restaurant/festivals&corporatepromotions" element={<FestivalAndCorporatePromotion />} />
+        <Route path="/cookie-policy" element={<CookiePolicyPage />} />
 
         {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />

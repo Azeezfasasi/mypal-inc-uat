@@ -8,6 +8,7 @@ import sms from '../../images/sms.svg'
 import people from '../../images/people.svg'
 import mypallogo from '../../images/mypallogo.svg'
 import { Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const FooterSection = () => {
     return (
@@ -26,11 +27,11 @@ const FooterSection = () => {
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <div className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">Discover</div>
                     <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</a></li>
+                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</Link></li>
+                        <li><Link to="/cookie-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</Link></li>
+                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</Link></li>
+                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</Link></li>
+                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</Link></li>
                     </ul>
                 </div>
 
