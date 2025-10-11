@@ -154,10 +154,10 @@ const TermsAndConditionsPageComponent = () => {
             <p>
               If you have any questions or concerns about these Terms, please contact us at:{" "}
               <a
-                href="mailto:info@mi-pal.com"
+                href="mailto:info@mypal-inc.com"
                 className="text-blue-600 underline hover:text-blue-800"
               >
-                info@mi-pal.com
+                info@mypal-inc.com
               </a>
             </p>
           </div>

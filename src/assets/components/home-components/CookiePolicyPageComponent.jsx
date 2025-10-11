@@ -211,6 +211,20 @@ const CookiePolicyPageComponent = () => {
                 We may use third-party service providers to help us analyze how our Services are used, and to serve advertisements. These third parties may set their own cookies on your device. We do not control the use of these cookies and are not responsible for their privacy practices. We recommend you review the privacy policies of these third-party service providers for more information on their use of cookies.
               </div>
             </details>
+
+            {/* Contact Us */}
+            <details className="border border-gray-300 rounded-md">
+              <summary className="px-4 py-3 flex items-center justify-between cursor-pointer">
+                <div>
+                  <div className="font-medium text-[#DB3806]">Contact Us</div>
+                  <div className="text-gray-800">How to reach us regarding your privacy.</div>
+                </div>
+              </summary>
+              <div className="px-4 pb-3 text-gray-500">
+                If you have any questions or concerns about our use of cookies or this Cookies Policy, please contact us at: <a href="mailto:info@mypal-inc.com" className="text-blue-600">info@mypal-inc.com</a>.
+                By using MyPal, you acknowledge that you have read, understood, and agree to our use of cookies as described in this Cookies Policy. Thank you for choosing MyPal!
+              </div>
+            </details>
           </div>
 
           <div className="flex justify-end gap-2 mt-4">
@@ -222,7 +236,7 @@ const CookiePolicyPageComponent = () => {
             </button>
             <button
               onClick={() => handleConsent("save-custom")}
-              className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm cursor-pointer"
+              className="px-3 py-1.5 bg-[#DB3806] text-white rounded-md text-sm cursor-pointer"
             >
               Save
             </button>

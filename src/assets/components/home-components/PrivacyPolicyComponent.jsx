@@ -116,10 +116,10 @@ const PrivacyPolicyComponent = () => {
                 <strong>Data Deletion:</strong> You can request deletion of your account and
                 personal data by contacting{" "}
                 <a
-                  href="mailto:info@mi-pal.com"
+                  href="mailto:info@mypal-inc.com"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  info@mi-pal.com
+                  iinfo@mypal-inc.com
                 </a>
                 .
               </li>
@@ -150,10 +150,10 @@ const PrivacyPolicyComponent = () => {
             <p>
               If you have any questions or concerns about this Privacy Policy, please contact us at:{" "}
               <a
-                href="mailto:info@mi-pal.com"
+                href="mailto:info@mypal-inc.com"
                 className="text-blue-600 underline hover:text-blue-800"
               >
-                info@mi-pal.com
+                info@mypal-inc.com
               </a>
             </p>
           </div>

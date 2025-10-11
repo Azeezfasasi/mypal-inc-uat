@@ -9,6 +9,7 @@ import people from '../../images/people.svg'
 import mypallogo from '../../images/mypallogo.svg'
 import { Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FaWhatsapp } from "react-icons/fa";
 
 const FooterSection = () => {
     return (
@@ -16,7 +17,7 @@ const FooterSection = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16">
                 {/* Column 1: MyPal and Description */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                    <h3 className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">My Pal</h3>
+                    <h3 className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">MyPal</h3>
                     <p className="text-[#fbfbfb] font-['AvenirNextRoundedStd-Bold',_sans-serif] text-base mb-6 max-w-xs">
                         Connecting you to the world's finest hospitality experiences through our premium digital platform.
                     </p>
@@ -54,8 +55,8 @@ const FooterSection = () => {
                     </div>
 
                     {/*Phone */}
-                    <div className="flex items-center space-x-2 text-sm text-gray-300 mb-3">
-                        <Phone />
+                    <div className="flex items-center space-x-2 text-sm text-gray-300 mb-3 text-left">
+                        <FaWhatsapp className="w-6 h-6 text-white" />
                         <a href="tel:09055557535" className="hover:text-white transition-colors duration-200 text-[#ffffff] font-['Poppins-Regular',_sans-serif] text-base font-normal relative">09055557535</a>
                     </div>
 

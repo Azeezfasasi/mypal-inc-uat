@@ -216,16 +216,15 @@ const CookieConsent = () => {
                 <div className="w-6" />
               </summary>
               <div className="px-4 pb-3 text-sm text-gray-700">
-                <p className="mb-2">If you have any questions or concerns about our use of cookies or this Cookies Policy, please contact us at: <a href="mailto:info@mi-pal.com" className="text-blue-600">info@mi-pal.com</a>.</p>
-                <br />
-                <p>By using Mypal, you acknowledge that you have read, understood, and agree to our use of cookies as described in this Cookies Policy. Thank you for choosing Mypal!</p>
+                <p className="mb-2">If you have any questions or concerns about our use of cookies or this Cookies Policy, please contact us at: <a href="mailto:info@mypal-inc.com" className="text-blue-600">info@mypal-inc.com</a>.</p>
+                <p>By using MyPal, you acknowledge that you have read, understood, and agree to our use of cookies as described in this Cookies Policy. Thank you for choosing MyPal!</p>
               </div>
             </details>
           </div>
 
           <div className="flex justify-end gap-2 mt-4">
             <button onClick={() => handleConsent('cancel-custom')} className="px-3 py-1.5 border rounded-md text-sm cursor-pointer">Cancel</button>
-            <button onClick={() => handleConsent('save-custom')} className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm cursor-pointer">Save</button>
+            <button onClick={() => handleConsent('save-custom')} className="px-3 py-1.5 bg-[#DB3806] text-white rounded-md text-sm cursor-pointer">Save</button>
           </div>
         </div>
       )}
