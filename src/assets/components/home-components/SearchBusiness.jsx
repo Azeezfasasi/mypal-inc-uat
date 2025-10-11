@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import searchIcon from '../../images/search.svg';
 import locationIcon from '../../images/location.svg';
+// import { Commet } from "react-loading-indicators";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function SearchBusiness({ onSearchResults }) {
   const [query, setQuery] = useState('');
@@ -109,9 +111,23 @@ export default function SearchBusiness({ onSearchResults }) {
         {/* Explore Button */}
         <button
           onClick={handleSearch}
-          className="w-full md:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer"
+          className="w-full md:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer flex items-center justify-center"
+          aria-busy={loading}
+          aria-live="polite"
         >
-          {loading ? 'Searching...' : 'Explore'}
+          {loading ? (
+            <>
+              <ClipLoader
+                color="#ffffff"
+                loading={loading}
+                size={30}
+                aria-label="Loading Spinner"
+              />
+              <span className="ml-2">Searching...</span>
+            </>
+          ) : (
+            'Explore'
+          )}
         </button>
       </div>
     </div>

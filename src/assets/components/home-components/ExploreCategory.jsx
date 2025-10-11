@@ -30,6 +30,17 @@ const ICON_MAP = {
     mobility: mobility,
 };
 
+// Map backend icon names (like "chef-hat", "waves") to local svg assets
+const BACKEND_ICON_MAP = {
+    'chef-hat': restaurant,
+    'waves': outdoor,
+    'bed': accomodation,
+    'sparkles': beauty,
+    'moon': nightlife,
+    'car': mobility,
+    'ticket': restaurant,
+};
+
 export default function ExploreCategory() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -59,8 +70,9 @@ export default function ExploreCategory() {
                     id: group.id,
                     name: group.name,
                     description: `${group.total_businesses ?? 0}`,
-                    // prefer group image if provided, otherwise fall back to local mapped icon
-                    icon: group.image_url || ICON_MAP[group.slug] || restaurant,
+                    // prefer (in order): explicit image URL from backend, mapped backend icon name,
+                    // local slug-based icon, then final fallback
+                    icon: group.image_url || BACKEND_ICON_MAP[group.icon] || ICON_MAP[group.slug] || restaurant,
                     link: `/category/${group.slug}`,
                 }));
 
