@@ -206,12 +206,6 @@ const CookiePolicyPageComponent = () => {
                   <div className="font-medium text-[#DB3806]">Third-Party Cookies</div>
                   <div className="text-gray-800">Cookies set by third-party services we use.</div>
                 </div>
-                <input
-                  className="w-4 md:w-5 h-4 md:h-5 cursor-pointer"
-                  type="checkbox"
-                  checked={consentChoices.thirdParty}
-                  onChange={(e) => setConsentChoices((prev) => ({ ...prev, thirdParty: e.target.checked }))}
-                />
               </summary>
               <div className="px-4 pb-3 text-gray-500">
                 We may use third-party service providers to help us analyze how our Services are used, and to serve advertisements. These third parties may set their own cookies on your device. We do not control the use of these cookies and are not responsible for their privacy practices. We recommend you review the privacy policies of these third-party service providers for more information on their use of cookies.

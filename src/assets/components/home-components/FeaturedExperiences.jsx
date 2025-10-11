@@ -162,7 +162,7 @@ export default function FeaturedExperiences() {
     }, []);
 
     return (
-        <div className="bg-gray-50 py-0 md:py-0 font-sans antialiased">
+        <div id='featured-category' className="bg-gray-50 py-0 md:py-0 font-sans antialiased">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section header */}
                 <div className="w-full flex flex-row gap-[40px] items-center justify-start relative mb-8">

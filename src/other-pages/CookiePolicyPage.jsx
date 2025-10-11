@@ -14,7 +14,9 @@ export default function CookiePolicyPage() {
         <meta name="keywords" content="MyPal, cookie policy, cookies, consent" />
         <meta name="author" content="MyPal" />
     </Helmet>
-    <MainHeader />
+    <div className='sticky top-0 z-50 bg-gray-500 mb-12 overflow-visible h-fit'>
+      <MainHeader />
+    </div>
     <CookiePolicyPageComponent />
     <FooterSection />
     </>

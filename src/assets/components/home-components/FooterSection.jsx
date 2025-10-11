@@ -30,22 +30,10 @@ const FooterSection = () => {
                         <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</Link></li>
                         <li><Link to="/cookie-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</Link></li>
                         <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</Link></li>
-                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</Link></li>
-                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</Link></li>
+                        <li><Link to="/privacy-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</Link></li>
+                        <li><Link to="/terms-and-conditions" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</Link></li>
                     </ul>
                 </div>
-
-                {/* Column 3: Discover (Duplicate for design) */}
-                {/* <div className="flex-col items-center md:items-start text-center md:text-left md:flex">
-                    <div className="text-[#fbfbfb] font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">Discover</div>
-                    <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Accessibility Statement</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Cookies Policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Copyright Notice</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">GDPR and Privacy policy</a></li>
-                        <li><a href="#" className="hover:text-[#DB3A06] transition-colors duration-200">Terms and Conditions</a></li>
-                    </ul>
-                </div> */}
 
                 {/* Column 4: Connect with us */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">

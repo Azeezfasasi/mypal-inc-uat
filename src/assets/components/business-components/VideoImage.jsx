@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import vidimg2 from '../../images/vidimg2.svg'
-import businessvideo from '../../videos/businessvideo.mp4'
+import mypal from '../../videos/mypal.mp4'
 
 const VideoImage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -11,10 +11,10 @@ const VideoImage = () => {
 
   return (
     <>
-    <div className="relative w-[90%] h-[0%] mx-auto rounded-[20px] overflow-hidden mt-[40px] md:mt-[70px] mb-[50px] md:mb-[70px]" sstyle={{ paddingTop: '56.25%' }}>
+    <div className="relative w-[90%] md:w-[90%] h-[0%] mx-auto rounded-[20px] overflow-hidden mt-[40px] md:mt-[70px] mb-[50px] md:mb-[70px]">
       {!isPlaying ? (
         <div
-          className="relative w-full cursor-pointer"
+          className="relative w-full aspect-[16/9] cursor-pointer"
           onClick={handlePlay}
         >
           <img
@@ -43,7 +43,7 @@ const VideoImage = () => {
         </div>
       ) : (
         <video
-          src={businessvideo}
+          src={mypal}
           controls
           autoPlay
           className="w-full rounded-[20px] aspect-[16/9] object-contain"
