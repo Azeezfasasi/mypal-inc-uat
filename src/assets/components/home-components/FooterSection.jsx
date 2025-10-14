@@ -57,7 +57,8 @@ const FooterSection = () => {
                     {/*Phone */}
                     <div className="flex items-center space-x-2 text-sm text-gray-300 mb-3 text-left">
                         <FaWhatsapp className="w-6 h-6 text-white" />
-                        <a href="tel:09055557535" className="hover:text-white transition-colors duration-200 text-[#ffffff] font-['Poppins-Regular',_sans-serif] text-base font-normal relative">09055557535</a>
+                        <a href="https://wa.me/2349055557535" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200 text-[#ffffff] font-['Poppins-Regular',_sans-serif] text-base font-normal relative">
+                        09055557535</a>
                     </div>
 
                     {/* Email */}
