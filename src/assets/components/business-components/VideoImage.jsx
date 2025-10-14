@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import vidimg2 from '../../images/vidimg2.svg'
+// import vidimg2 from '../../images/vidimg2.svg'
+import bgvid from '../../images/bgvid.jpg'
 import mypal from '../../videos/mypal.mp4'
 
 const VideoImage = () => {
@@ -18,7 +19,7 @@ const VideoImage = () => {
           onClick={handlePlay}
         >
           <img
-            src={vidimg2}
+            src={bgvid}
             alt="Preview"
             className="w-full h-full object-cover rounded-[20px]"
           />

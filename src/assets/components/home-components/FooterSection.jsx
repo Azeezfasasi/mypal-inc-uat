@@ -19,7 +19,7 @@ const FooterSection = () => {
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <h3 className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">MyPal</h3>
                     <p className="text-[#fbfbfb] font-['AvenirNextRoundedStd-Bold',_sans-serif] text-base mb-6 max-w-xs">
-                        Connecting you to the world's finest hospitality experiences through our premium digital platform.
+                        Effortlessly discover and explore the best experiences your city has to offer.
                     </p>
                     <img src={mypallogo} alt="MyPal Logo" className='w-[100px] h-[100px] rounded-[20px]' />
                 </div>
