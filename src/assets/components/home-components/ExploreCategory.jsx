@@ -143,9 +143,9 @@ export default function ExploreCategory() {
                                 </h3>
 
                                 {/* description Count */}
-                                <p className="mt-0 text-[#A42C05] text-foundation-red-dark text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] sm:text-[18px] md:text-[22px] lg:text-2xl font-medium relative self-stretch underline">
+                                {/* <p className="mt-0 text-[#A42C05] text-foundation-red-dark text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] sm:text-[18px] md:text-[22px] lg:text-2xl font-medium relative self-stretch underline">
                                     {category.description} businesses
-                                </p>
+                                </p> */}
                             </Link>
                         ))}
                     </div>
