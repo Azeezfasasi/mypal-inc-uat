@@ -41,7 +41,7 @@ export default function HeroSection() {
             {/* Hero Content */}
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 md:px-8">
                 {/* Text Content */}
-                <div className="w-full md:w-[95%] text-left mt-[-60px] md:mt-[-50px] mb-6 md:mb-12 flex flex-col items-start">
+                <div className="w-full md:w-[95%] text-left mt-[-60px] md:mt-[-100px] mb-6 md:mb-12 flex flex-col items-start border border-white">
                     <h1 className="text-[30px] md:text-5xl lg:text-6xl leading-tight tracking-wide drop-shadow-lg text-left font-['DrukCyr-Medium',_sans-serif] font-bold relative">
                         Effortlessly <span className="text-[#DB3A06]">discover</span> real experiences on MyPal. Reserve, enjoy, and share <span className="text-[#DB3A06]">Unforgettable</span> moments.
                     </h1>
