@@ -1,6 +1,7 @@
 import React from "react";
 import MainHeader from "./MainHeader";
 import FooterSection from "./FooterSection";
+import { Helmet } from "react-helmet";
 
 export default function CopyrightNotice({
   year = 2025,
@@ -10,13 +11,21 @@ export default function CopyrightNotice({
 }) {
   return (
     <>
-    <MainHeader />
+    <Helmet>
+        <title>Copyright Notice - {company}</title>
+        <meta name="description" content={`Read the copyright notice for using ${company} services.`} />
+        <meta name="keywords" content={`${company}, copyright notice, user agreement`} />
+        <meta name="author" content={company} />
+    </Helmet>
+    <div className='sticky top-0 z-50 bg-gray-500 mb-12 overflow-visible h-fit'>
+        <MainHeader />
+    </div>
     <div
       className={`bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 py-6 px-4 ${className}`}
       aria-labelledby="copyright-heading"
     >
-      <div className="max-w-4xl mx-auto">
-        <h2 id="copyright-heading" className="sr-only">
+      <div className="w-[90%] mx-auto">
+        <h2 id="copyright-heading" className="text-2xl font-bold mb-4">
           Copyright Notice
         </h2>
 
@@ -26,7 +35,7 @@ export default function CopyrightNotice({
               © {year} {company}. All Rights Reserved.
             </p>
 
-            <p className="mt-3 text-xs leading-relaxed">
+            <p className="mt-3 leading-relaxed text-justify">
               {company} and the {company} logo are trademarks or registered
               trademarks of {company} Hospitality Innovation Services. All
               content on this website, including but not limited to text,
@@ -36,32 +45,32 @@ export default function CopyrightNotice({
               trademark, and intellectual property laws.
             </p>
 
-            <p className="mt-3 text-xs leading-relaxed">
+            <p className="mt-3 leading-relaxed text-justify">
               Unauthorized reproduction, distribution, modification, or
               transmission of any part of this site or its content, in any form
               or by any means, including electronic or mechanical, without
               prior written permission from {company} Hospitality Innovation
               Services, is strictly prohibited.
             </p>
-          </div>
 
-          <div className="sm:w-1/3">
-            <p className="text-xs leading-relaxed">For permissions or
-              partnership inquiries, please contact:</p>
-            <p className="mt-2 text-sm">
-              <a
-                href={`mailto:${email}`}
-                className="underline hover:text-gray-900 dark:hover:text-white"
-              >
-                {email}
-              </a>
-            </p>
+            {/* <div className=""> */}
+                <p className="mt-3 leading-relaxed">For permissions or
+                partnership inquiries, please contact:</p>
+                <p className="mt-2 text-sm">
+                    <a
+                        href={`mailto:${email}`}
+                        className="underline text-red-500 hover:text-red-700 dark:hover:text-white"
+                    >
+                        {email}
+                    </a>
+                </p>
+            {/* </div> */}
           </div>
         </div>
 
         <hr className="border-t border-gray-200 dark:border-gray-800 my-4" />
 
-        <p className="text-xs text-gray-500 dark:text-gray-500">
+        <p className="text-gray-500 dark:text-gray-500">
           This notice is provided for informational purposes only and does not
           constitute legal advice. For formal permission requests please email
           the address above.
