@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import x from '../../images/x.svg'
 import fb from '../../images/fb.svg'
 import indeed from '../../images/indeed.svg'
@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { FaWhatsapp } from "react-icons/fa";
 
 const FooterSection = () => {
+    const [showContactModal, setShowContactModal] = useState(false);
     return (
         <div className="bg-[#12416b] text-white font-sans antialiased p-8 md:p-12 lg:p-16 rounded-t-3xl md:rounded-t-[4rem]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-16">
@@ -68,7 +69,7 @@ const FooterSection = () => {
                     </div>
 
                     {/* Contact Us button with avatars */}
-                    <button className="flex items-center bg-white text-gray-800 rounded-full py-2 px-2 transition-transform duration-300 hover:scale-105">
+                    <button onClick={() => setShowContactModal(true)} className="flex items-center bg-white text-gray-800 rounded-full py-2 px-2 transition-transform duration-300 hover:scale-105 cursor-pointer">
                         <span className="font-semibold text-lg mr-3">Contact Us</span>
                         <div className="flex -space-x-2">
                             <img src={people} alt="" />
@@ -79,8 +80,41 @@ const FooterSection = () => {
 
             {/* Copyright Section */}
             <div className="mt-8 pt-8 border-t border-gray-700 text-center md:text-right  text-[rgba(255,255,255,0.48)] font-['Poppins-Medium',_sans-serif] text-xl font-medium relative">
-                © GlobalNxt 2025. All rights reserved.
+                © Mi-Pal Technologies {new Date().getFullYear()} All Right Reserved
             </div>
+            {/* Contact Modal (hidden by default) */}
+            {showContactModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black opacity-60" onClick={() => setShowContactModal(false)}></div>
+                    <div className="relative bg-white rounded-lg max-w-3xl w-full mx-4 p-6 shadow-xl">
+                        <div className="flex items-start justify-between">
+                            <h3 className="text-2xl font-bold text-gray-900">Contact Us</h3>
+                            <button onClick={() => setShowContactModal(false)} className="text-red-600 hover:text-red-700 font-bold cursor-pointer">Close</button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 text-gray-800">
+                            <div>
+                                <p className="mb-2"><strong>Address:</strong> 18B Zainab Street, Medina, Gbagada, Lagos</p>
+                                <p className="mb-2"><strong>WhatsApp:</strong> <a href="https://wa.me/2349055557535" target="_blank" rel="noreferrer" className="text-green-600 hover:underline">Chat on WhatsApp</a></p>
+                                <p className="mb-2"><strong>Email:</strong> <a href="mailto:hello@mypal-inc.com" className="text-blue-600 hover:underline">hello@mypal-inc.com</a></p>
+                            </div>
+
+                            <div>
+                                <h4 className="font-semibold mb-2">Business Hours</h4>
+                                <ul className="list-inside list-disc text-gray-700 mb-4">
+                                    <li>Mon - Fri: 9:00 AM - 6:00 PM</li>
+                                    <li>Saturday: 10:00 AM - 4:00 PM</li>
+                                    <li>Sunday: Closed</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 text-right">
+                            <button onClick={() => setShowContactModal(false)} className="px-4 py-2 bg-[#12416b] text-white rounded hover:bg-[#0f3550]">Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

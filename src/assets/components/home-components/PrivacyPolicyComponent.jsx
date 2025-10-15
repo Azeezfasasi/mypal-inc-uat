@@ -119,7 +119,7 @@ const PrivacyPolicyComponent = () => {
                   href="mailto:info@mypal-inc.com"
                   className="text-blue-600 underline hover:text-blue-800"
                 >
-                  iinfo@mypal-inc.com
+                  info@mypal-inc.com
                 </a>
                 .
               </li>

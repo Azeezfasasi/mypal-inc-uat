@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MainHeader from './MainHeader';
 import heroimagedeem from '../../images/heroimagedeem.svg'
-
 import SearchBusiness from './SearchBusiness';
 import SearchResultsModal from './SearchResultsModal';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -41,7 +40,7 @@ export default function HeroSection() {
             {/* Hero Content */}
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 md:px-8">
                 {/* Text Content */}
-                <div className="w-full md:w-[95%] text-left mt-[-60px] md:mt-[-100px] mb-6 md:mb-8 flex flex-col items-start">
+                <div className="w-full md:w-[95%] text-left mt-[-120px] md:mt-[-100px] mb-6 md:mb-8 flex flex-col items-start">
                     <h1 className="text-[30px] md:text-5xl lg:text-6xl leading-tight tracking-wide drop-shadow-lg text-left font-['DrukCyr-Medium',_sans-serif] font-bold relative">
                         Effortlessly <span className="text-[#DB3A06]">discover</span> real experiences on MyPal. Reserve, enjoy, and share <span className="text-[#DB3A06]">Unforgettable</span> moments.
                     </h1>
@@ -74,7 +73,7 @@ export default function HeroSection() {
                                 navigate('/', { state: { scrollTo: 'featured-category' } });
                             }
                         }}
-                        className="w-full md:w-[22%] px-2 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-800 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer mt-8 text-center"
+                        className="w-full md:w-[40%] lg:w-[22%] px-2 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-800 text-white font-semibold rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer mt-8 text-center"
                     >
                         Explore Featured Experience
                     </Link>
