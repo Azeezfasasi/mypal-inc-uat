@@ -30,7 +30,7 @@ const FooterSection = () => {
                     <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
                         <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</Link></li>
                         <li><Link to="/cookie-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</Link></li>
-                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</Link></li>
+                        <li><Link to="/copyright-notice" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</Link></li>
                         <li><Link to="/privacy-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</Link></li>
                         <li><Link to="/terms-and-conditions" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Terms and Conditions</Link></li>
                     </ul>

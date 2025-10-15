@@ -50,6 +50,7 @@ import { Cookie } from "lucide-react";
 import CookiePolicyPage from "./other-pages/CookiePolicyPage";
 import TermsAndConditions from "./other-pages/TermsAndConditions";
 import PrivacyPolicy from "./other-pages/PrivacyPolicy";
+import CopyrightNotice from "./assets/components/home-components/CopyrightNotice";
 
 function App() {
   return (
@@ -97,6 +98,7 @@ function App() {
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/copyright-notice" element={<CopyrightNotice />} />
 
         {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />
