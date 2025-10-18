@@ -20,7 +20,7 @@ export default function CopyrightNotice({
     <ServicesHeader />
     <div
       className={`text-gray-700 py-6 px-4 ${className}`}
-      aria-labelledby="copyright-heading"
+      // aria-labelledby="copyright-heading"
     >
       <div className="w-[90%] mx-auto">
         <h2 id="copyright-heading" className="text-2xl font-bold mb-4">
