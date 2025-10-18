@@ -22,10 +22,9 @@ export default function BlogList() {
   const [filter, setFilter] = useState('all'); // 'all' | 'featured'
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('published_at');
-  const [sortOrder, setSortOrder] = useState('DESC');
 
   // Fetch helper
-  async function fetchPosts({ page = 1, limit = 9, filter = 'all', search = '', sortBy = 'published_at', sortOrder = 'DESC' } = {}) {
+  async function fetchPosts({ page = 1, limit = 9, filter = 'all', search = '', sortBy = 'published_at' } = {}) {
     setLoading(true);
     setError(null);
     try {
@@ -33,7 +32,7 @@ export default function BlogList() {
       const url = `${API_BASE.replace(/\/+$/g, '')}${base}`;
       const res = await axios.get(url, {
         headers: { 'x-api-key': API_KEY },
-        params: { page, limit, search, sort_by: sortBy, sort_order: sortOrder },
+        params: { page, limit, search, sort_by: sortBy },
       });
 
       const payload = res.data || {};
@@ -50,15 +49,8 @@ export default function BlogList() {
     }
   }
 
-  // initial + watch params
   useEffect(() => {
-    setPage(1);
-    fetchPosts({ page: 1, limit, filter, search, sortBy, sortOrder });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, search, sortBy, sortOrder, limit]);
-
-  useEffect(() => {
-    fetchPosts({ page, limit, filter, search, sortBy, sortOrder });
+    fetchPosts({ page, limit, filter, search, sortBy });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -79,17 +71,23 @@ export default function BlogList() {
 
       <div className="min-h-screen bg-white py-8 px-4">
         <div className="max-w-7xl mx-auto">
+            <div className='pb-[48px] md:pb-[64px]'>
+                <h2 className="text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] text-[#6941C6] md:text-[#CE4015] font-bold mb-2">Blog Posts</h2>
+                <h1 className="text-[36px] md:text-[48px] leading-[44px] md:leading-[60px] text-[#181D27] font-bold mb-2">Resources and insights</h1>
+                <p className="text-[18px] md:text-[20px] leading-[28px] md:leading-[30px] text-[#535862]">The latest industry news, interviews, technologies, and resources</p>
+            </div>
+
           {/* Top controls */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-[#FCEDE6] text-[#DB3A06]' : 'bg-white border'}`}>
+                className={`px-4 py-2 rounded ${filter === 'all' ? 'bg-[#FCEDE6] text-[#DB3A06] font-semibold' : 'bg-white border border-gray-300 cursor-pointer'}`}>
                 View all
               </button>
               <button
                 onClick={() => setFilter('featured')}
-                className={`px-4 py-2 rounded ${filter === 'featured' ? 'bg-[#FCEDE6] text-[#DB3A06]' : 'bg-white border'}`}>
+                className={`px-4 py-2 rounded ${filter === 'featured' ? 'bg-[#FCEDE6] text-[#DB3A06] font-semibold' : 'bg-white border border-gray-300 cursor-pointer'}`}>
                 Featured
               </button>
             </div>
@@ -99,18 +97,13 @@ export default function BlogList() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search posts..."
-                className="w-full md:w-64 px-3 py-2 border rounded"
+                className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded"
               />
 
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border rounded">
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-300 rounded">
                 <option value="published_at">Most recent</option>
                 <option value="view_count">Most viewed</option>
                 <option value="reading_time_minutes">Shortest read</option>
-              </select>
-
-              <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="px-3 py-2 border rounded">
-                <option value="DESC">DESC</option>
-                <option value="ASC">ASC</option>
               </select>
             </div>
           </div>

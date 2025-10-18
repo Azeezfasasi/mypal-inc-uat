@@ -95,9 +95,9 @@ const BusinessBlog = () => {
               </div>
               {/* Post Content */}
               <div className="p-4 sm:p-6">
-                <h3 className="text-2xl font-medium text-[#000000] mb-3">
+                <Link to={post.link} className="text-2xl font-medium text-[#000000] mb-3">
                   {post.title}
-                </h3>
+                </Link>
                 <p className="text-gray-600 mb-4 text-sm font-normal">
                   {post.description}
                 </p>
