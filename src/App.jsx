@@ -51,6 +51,7 @@ import CookiePolicyPage from "./other-pages/CookiePolicyPage";
 import TermsAndConditions from "./other-pages/TermsAndConditions";
 import PrivacyPolicy from "./other-pages/PrivacyPolicy";
 import CopyrightNotice from "./assets/components/home-components/CopyrightNotice";
+import BlogDetails from "./blog/BlogDetails";
 
 function App() {
   return (
@@ -99,6 +100,7 @@ function App() {
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/copyright-notice" element={<CopyrightNotice />} />
+        <Route path="/blog-details" element={<BlogDetails />} />
 
         {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />

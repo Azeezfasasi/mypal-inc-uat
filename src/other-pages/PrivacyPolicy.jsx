@@ -1,8 +1,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import MainHeader from '../assets/components/home-components/MainHeader'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import PrivacyPolicyComponent from '../assets/components/home-components/PrivacyPolicyComponent'
+import ServicesHeader from '../assets/components/services-components/ServicesHeader'
 
 export default function PrivacyPolicy() {
   return (
@@ -13,9 +13,7 @@ export default function PrivacyPolicy() {
         <meta name="keywords" content="MyPal, privacy policy, user agreement" />
         <meta name="author" content="MyPal" />
     </Helmet>
-    <div className='sticky top-0 z-50 bg-gray-500 mb-12 overflow-visible h-fit'>
-      <MainHeader />
-    </div>
+    <ServicesHeader />
     <PrivacyPolicyComponent />
     <FooterSection />
     </>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import MainHeader from '../assets/components/home-components/MainHeader'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import CookiePolicyPageComponent from '../assets/components/home-components/CookiePolicyPageComponent'
 import CookieConsent from '../assets/components/home-components/CookieConsent'
+import ServicesHeader from '../assets/components/services-components/ServicesHeader'
 
 export default function CookiePolicyPage() {
   return (
@@ -14,9 +14,7 @@ export default function CookiePolicyPage() {
         <meta name="keywords" content="MyPal, cookie policy, cookies, consent" />
         <meta name="author" content="MyPal" />
     </Helmet>
-    <div className='sticky top-0 z-50 bg-gray-500 mb-12 overflow-visible h-fit'>
-      <MainHeader />
-    </div>
+    <ServicesHeader />
     <CookiePolicyPageComponent />
     <FooterSection />
     </>

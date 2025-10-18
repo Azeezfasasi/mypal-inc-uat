@@ -1,7 +1,7 @@
 import React from "react";
-import MainHeader from "./MainHeader";
 import FooterSection from "./FooterSection";
 import { Helmet } from "react-helmet";
+import ServicesHeader from "../services-components/ServicesHeader";
 
 export default function CopyrightNotice({
   year = 2025,
@@ -17,9 +17,7 @@ export default function CopyrightNotice({
         <meta name="keywords" content={`${company}, copyright notice, user agreement`} />
         <meta name="author" content={company} />
     </Helmet>
-    <div className='sticky top-0 z-50 bg-gray-500 mb-12 overflow-visible h-fit'>
-        <MainHeader />
-    </div>
+    <ServicesHeader />
     <div
       className={`bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 py-6 px-4 ${className}`}
       aria-labelledby="copyright-heading"
