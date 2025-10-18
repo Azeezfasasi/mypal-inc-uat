@@ -19,7 +19,7 @@ export default function CopyrightNotice({
     </Helmet>
     <ServicesHeader />
     <div
-      className={`text-gray-700 dark:text-gray-300 py-6 px-4 ${className}`}
+      className={`text-gray-700 py-6 px-4 ${className}`}
       aria-labelledby="copyright-heading"
     >
       <div className="w-[90%] mx-auto">
