@@ -135,7 +135,7 @@ export default function BlogList() {
                           <div className="text-xs text-gray-400">{new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
                         </div>
                         <h3 className="text-lg font-bold mb-2">{post.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3 line-clamp-3">{post.excerpt || post.description || ''}</p>
+                        <p className="text-sm text-gray-600 mb-3 line-clamp-3">{post.excerpt.split(" ").slice(0, 18).join(" ") || post.description.split(" ").slice(0, 1).join(" ") || ''}</p>
                         <div className="flex items-center justify-between">
                           <div className="text-sm text-gray-500">{post.author_name || ''}</div>
                           <div className="text-sm text-[#4D1402] font-medium">Read more →</div>

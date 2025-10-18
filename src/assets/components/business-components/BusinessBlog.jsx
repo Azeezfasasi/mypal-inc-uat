@@ -95,11 +95,11 @@ const BusinessBlog = () => {
               </div>
               {/* Post Content */}
               <div className="p-4 sm:p-6">
-                <Link to={post.link} className="text-2xl font-medium text-[#000000] mb-3">
-                  {post.title}
+                <Link to={post.link} className="text-[20px] md:text-2xl font-medium text-[#000000] mb-3">
+                  {post.title.split(" ").slice(0, 10).join(" ")}...
                 </Link>
                 <p className="text-gray-600 mb-4 text-sm font-normal">
-                  {post.description}
+                  {post.description.split(" ").slice(0, 15).join(" ")}...
                 </p>
                 <Link
                   to={post.link}
