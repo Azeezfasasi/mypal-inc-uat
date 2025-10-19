@@ -13,7 +13,7 @@ export default function PrivateCinemal() {
         <link rel="canonical" href="https://www.mypal.ng/event/privatecinemal" />
       </Helmet>
       <PrivateCinemalHero />
-      <PrivateCinemaList />
+      <PrivateCinemaList subcategorySlug="Private Cinemas" />
       <FooterSection />
     </>
   )

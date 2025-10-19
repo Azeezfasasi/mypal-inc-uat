@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import searchIcon from '../../images/search.svg';
 import locationIcon from '../../images/location.svg';
-// import { Commet } from "react-loading-indicators";
 import ClipLoader from "react-spinners/ClipLoader";
+import axios from 'axios';
 
 export default function SearchBusiness({ onSearchResults }) {
   const [query, setQuery] = useState('');
@@ -12,70 +12,157 @@ export default function SearchBusiness({ onSearchResults }) {
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
+  const MIN_QUERY_LENGTH = 3;
+
   const handleSearch = async () => {
     if (!query && !location) return;
 
+    // minimal guard to avoid server-side 400s for trivial queries
+    if (!query || query.length < MIN_QUERY_LENGTH) {
+      alert(`Type at least ${MIN_QUERY_LENGTH} characters to search`);
+      return;
+    }
+
     setLoading(true);
-
     try {
-      const response = await fetch(
-        `${API_URL}/businesses?query=${encodeURIComponent(query)}&location=${encodeURIComponent(location)}`,
-        {
-          headers: {
-            'x-api-key': API_KEY,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      // If data.data is an array, filter as before
-      if (Array.isArray(data.data)) {
-        const filtered = data.data.filter(business => {
-          const nameMatch = query
-            ? (business.business_name || business.name || '').toLowerCase().includes(query.toLowerCase())
-            : true;
-          const locationMatch = location
-            ? (business.address || '').toLowerCase().includes(location.toLowerCase())
-            : true;
-          return nameMatch && locationMatch;
+      // 1) Fetch categories/segments
+      let segments = [];
+      try {
+        const catsResp = await axios.get(`${API_URL}/categories/all`, {
+          headers: API_KEY ? { 'x-api-key': API_KEY } : { 'Content-Type': 'application/json' },
+          timeout: 8000,
         });
-        if (onSearchResults) {
-          onSearchResults(filtered);
-        } else {
-          console.warn('onSearchResults prop is missing!');
-        }
-      } else if (data.data && typeof data.data === 'object') {
-        // If data.data is a single business object, check if it matches the query/location
-        const business = data.data;
-        const nameMatch = query
-          ? (business.business_name || business.name || '').toLowerCase().includes(query.toLowerCase())
-          : true;
-        const locationMatch = location
-          ? (business.address || '').toLowerCase().includes(location.toLowerCase())
-          : true;
-        if (nameMatch && locationMatch) {
-          if (onSearchResults) {
-            onSearchResults(business);
-          }
-        } else {
-          if (onSearchResults) {
-            onSearchResults([]); // No match
-          }
-        }
-      } else {
-        if (onSearchResults) {
-          onSearchResults([]);
+        const catsData = catsResp.data;
+        segments = Array.isArray(catsData.data) ? catsData.data : (Array.isArray(catsData) ? catsData : []);
+      } catch (err) {
+        console.warn('[SearchBusiness] categories/all failed, falling back to previous method', err?.message || err);
+        // if categories can't be fetched, return empty results
+        onSearchResults && onSearchResults([]);
+        setLoading(false);
+        return;
+      }
+
+      // flatten categories into objects with id + parentSlug
+      const cats = [];
+      for (const seg of segments) {
+        const parentSlug = seg.slug || (seg.name ? String(seg.name).toLowerCase().replace(/[^a-z0-9]+/g, '-') : null);
+        if (!seg.categories || !Array.isArray(seg.categories)) continue;
+        for (const c of seg.categories) {
+          cats.push({ id: c.id, slug: c.slug || null, parentSlug });
         }
       }
+
+      if (!cats.length) {
+        onSearchResults && onSearchResults([]);
+        setLoading(false);
+        return;
+      }
+
+      // 2) Batched parallel per-category searches against /categories/{parentSlug}/businesses
+      const agg = [];
+      const paramNames = ['search', 'query', 'q'];
+      const CONCURRENCY = 6;
+      const chunk = (arr, size) => {
+        const out = [];
+        for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+        return out;
+      };
+
+      const batches = chunk(cats, CONCURRENCY);
+      for (const batch of batches) {
+        const promises = batch.map(async (cat) => {
+          const { id, parentSlug } = cat || {};
+          if (!parentSlug) return [];
+          try {
+            for (const param of paramNames) {
+              try {
+                const resp = await axios.get(`${API_URL}/categories/${parentSlug}/businesses`, {
+                  params: { categoryId: id, [param]: query || '', limit: 50 },
+                  headers: API_KEY ? { 'x-api-key': API_KEY } : { 'Content-Type': 'application/json' },
+                  timeout: 8000,
+                });
+                const j = resp.data;
+                const items = Array.isArray(j.data) ? j.data : (j.data && Array.isArray(j.data.items) ? j.data.items : []);
+                if (items && items.length) return items;
+              } catch (err) {
+                const status = err?.response?.status;
+                if (status === 400) {
+                  console.info('[SearchBusiness] per-category returned 400', { id, parentSlug, param, query, body: err?.response?.data });
+                  continue;
+                }
+                console.info('[SearchBusiness] per-category search error', { id, parentSlug, param, err });
+                continue;
+              }
+            }
+          } catch (err) {
+            console.info('[SearchBusiness] per-category outer error', { cat, err });
+          }
+          return [];
+        });
+
+        const settled = await Promise.allSettled(promises);
+        for (const s of settled) {
+          if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length) agg.push(...s.value);
+        }
+        if (agg.length >= 500) break;
+      }
+
+      // 3) Fallback: if no server-side per-category results, fetch per-category lists and filter locally
+      if (!agg.length) {
+        for (const cat of cats) {
+          const { id, parentSlug } = cat || {};
+          if (!parentSlug) continue;
+          try {
+            const resp = await axios.get(`${API_URL}/categories/${parentSlug}/businesses`, {
+              params: { categoryId: id, limit: 50 },
+              headers: API_KEY ? { 'x-api-key': API_KEY } : { 'Content-Type': 'application/json' },
+              timeout: 8000,
+            });
+            const j = resp.data;
+            if (Array.isArray(j.data)) agg.push(...j.data);
+            else if (j.data && Array.isArray(j.data.items)) agg.push(...j.data.items);
+          } catch {
+            // ignore per-category errors
+          }
+          if (agg.length >= 500) break;
+        }
+      }
+
+      // 4) Client-side filter
+      const q = (query || '').toLowerCase();
+      const filtered = agg.filter((b) => {
+        if (!b) return false;
+        const name = (b.business_name || b.name || '').toLowerCase();
+        const desc = (b.description || '').toLowerCase();
+        const catName = (b.category && b.category.name) ? b.category.name.toLowerCase() : '';
+        const experiences = Array.isArray(b.experiences) ? b.experiences.map(e => (e.experience_name || '').toLowerCase()).join(' ') : '';
+        const menus = Array.isArray(b.fine_dining_menus) ? b.fine_dining_menus.map(m => (m.name || '').toLowerCase()).join(' ') : '';
+        const services = Array.isArray(b.serviceCategory) ? b.serviceCategory.map(s => (s.name || '').toLowerCase()).join(' ') : '';
+        const tableTypes = Array.isArray(b.tableManagements) ? b.tableManagements.map(t => (t.type || '').toLowerCase()).join(' ') : '';
+
+        return (
+          name.includes(q) ||
+          desc.includes(q) ||
+          catName.includes(q) ||
+          experiences.includes(q) ||
+          menus.includes(q) ||
+          services.includes(q) ||
+          tableTypes.includes(q)
+        );
+      });
+
+      // dedupe by id and return
+      const map = new Map();
+      for (const b of filtered) if (b && b.id) map.set(b.id, b);
+      const result = Array.from(map.values());
+      if (!result.length) alert(`No results found for "${query}".`);
+      onSearchResults && onSearchResults(result);
+      setLoading(false);
+      return;
     } catch (error) {
       console.error('Error fetching search results:', error);
       alert('Failed to fetch search results. Please check your API key or network.');
+      onSearchResults && onSearchResults([]);
     } finally {
       setLoading(false);
     }

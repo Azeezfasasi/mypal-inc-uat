@@ -5,7 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 async function fetchCategories() {
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const resp = await axios.get(`${API_BASE}/categories/all`, { headers: { 'x-api-key': API_KEY } });
+  if (!API_BASE || !API_KEY) return [];
+  // set a reasonable timeout to avoid hanging requests
+  const resp = await axios.get(`${API_BASE}/categories/all`, { headers: { 'x-api-key': API_KEY }, timeout: 8000 });
   let data = resp.data?.data ?? resp.data ?? [];
   if (data && data.data) data = data.data;
   if (!Array.isArray(data)) data = Array.isArray(Object.values(data)) ? Object.values(data) : [];

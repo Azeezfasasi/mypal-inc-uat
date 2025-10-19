@@ -61,7 +61,7 @@ const categories = [
         { name: 'Iconic Delicacies', path: '/restaurant/iconicdelicacies' }        
     ]},
     { name: 'Night Life', path: '/category/nightlife', subCategories: [
-        { name: 'Luxury Night', path: '/nightlife/luxurynight' },
+        { name: 'Luxury Night', path: '/nightlife/luxurynightlife' },
         { name: 'Food & Drinks', path: '/nightlife/food&drinks' },
         { name: 'Bars & Lounges', path: '/nightlife/bars&lounges' },
         { name: 'Clubbing & Parties', path: '/nightlife/clubbing&parties' },

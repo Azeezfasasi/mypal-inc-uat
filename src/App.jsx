@@ -16,6 +16,7 @@ import OutdoorActivities from "./category/OutdoorActivities"
 import ParksRecreation from "./outdooractivities/ParksRecreation"
 import BoatsYatch from "./outdooractivities/BoatsYatch"
 import BeachesResorts from "./outdooractivities/BeachesResorts"
+import BusinessListBySlug from "./category/BusinessListBySlug"
 import Accommodation from "./category/Accommodation"
 import BeautyHealth from "./category/BeautyHealth"
 import NightLife from "./category/NightLife"
@@ -98,6 +99,7 @@ function App() {
         <Route path="/nightlife/eventsnights" element={<EventNights />} />
         <Route path="/forbusiness" element={<Business />} />
         <Route path="/category/event-ticketing" element={<EventTicketing />} />
+  {/* <Route path="/category/:segmentSlug/:subcategorySlug" element={<BusinessListBySlug />} /> */}
         <Route path="/restaurant/concerts&shows" element={<ConcertAndShows />} />
         <Route path="/restaurant/privatecinemas" element={<PrivateCinemal />} />
         <Route path="/restaurant/festivals&corporatepromotions" element={<FestivalAndCorporatePromotion />} />

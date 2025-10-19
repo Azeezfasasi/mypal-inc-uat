@@ -13,7 +13,7 @@ export default function FestivalAndCorporatePromotion() {
         <link rel="canonical" href="https://www.mypal.ng/event/festival-and-corporate-promotion" />
       </Helmet>
       <FestivalAndCorporateHero />
-      <FestivalAndCorporateList />
+      <FestivalAndCorporateList subcategorySlug="Festivals & Corporate Promotions" />
       <FooterSection />
     </>
   )
