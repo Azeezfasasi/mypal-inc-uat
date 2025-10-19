@@ -151,7 +151,13 @@ export default function BlogList() {
                             </div>
                             <div className="">
                               <div className="text-[14px] leading-[20px] font-semibold text-[#181D27]">{post.author_name || ''}</div>
-                              <div className="text-[14px] leading-[20px] text-gray-400">{new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
+                              <div className="text-[14px] leading-[20px] text-gray-400">
+                                {new Date(post.published_at || post.created_at).toLocaleDateString("en-GB", {
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                })}
+                              </div>
                             </div>
                           </div>
                         </div>

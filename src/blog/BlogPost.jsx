@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import FooterSection from '../assets/components/home-components/FooterSection';
 import { Commet } from "react-loading-indicators";
+import blogplaceholder from '../assets/images/blogplaceholder.png';
 import blogplaceholder2 from '../assets/images/blogplaceholder2.png';
 import ShareButtons from '../assets/components/blog-components/ShareButtons';
 import { Toaster } from "react-hot-toast";
@@ -90,8 +91,33 @@ export default function BlogPost() {
             style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
             {post.excerpt || post.meta_description}
           </div>
-          <div className="text-blue-600 text-center text-[14px] font-semibold leading-[20px] relative self-stretch">
-            Design
+
+          {/* Blog Post Categories */}
+          <div className="flex flex-wrap gap-1 md:gap-2 items-center justify-center relative self-stretch mt-5">
+            {(() => {
+              const cats = Array.isArray(post.categories) && post.categories.length > 0
+                ? post.categories
+                : (typeof post.category === 'string' && post.category.trim())
+                  ? [post.category.trim()]
+                  : ['General'];
+
+              const colors = [
+                'bg-orange-50 text-orange-600 ring-orange-200',
+                'bg-blue-50 text-blue-600 ring-blue-200',
+                'bg-pink-50 text-pink-600 ring-pink-200',
+                'bg-green-50 text-green-600 ring-green-200',
+                'bg-violet-50 text-violet-600 ring-violet-200'
+              ];
+
+              return cats.map((c, i) => (
+                <span
+                  key={c + i}
+                  className={`px-3 mx-1 py-1 rounded-full text-[16px] md:text-[20px] leading-[28px] md:leading-[30px] font-medium ring-1 ${colors[i % colors.length]}`}
+                >
+                  {c}
+                </span>
+              ));
+            })()}
           </div>
         </div>
 
@@ -99,10 +125,10 @@ export default function BlogPost() {
         {(post.featured_image_url || blogplaceholder2) && (
           <div className="mb-6 w-full overflow-hidden rounded-lg">
             <img
-              src={post.featured_image_url || blogplaceholder2}
+              src={post.featured_image_url || blogplaceholder}
               alt={post.featured_image_alt || post.title}
               className="w-full h-[240px] md:h-[640px] object-cover"
-              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder2; }}
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }}
             />
           </div>
         )}

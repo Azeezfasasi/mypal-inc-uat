@@ -54,6 +54,7 @@ const BusinessBlog = () => {
   }, [API_BASE, API_KEY]);
 
   return (
+    <>
     <div className="w-full bg-white py-0 lg:py-2 px-0 md:px-0 flex flex-col items-center mb-8">
         {/* Section Title */}
         <div className="w-[90%] flex flex-row gap-[40px] items-center justify-start relative mt-0 mb-10 mx-auto">
@@ -71,6 +72,24 @@ const BusinessBlog = () => {
             {/* Right Gradient Line */}
             <div className="hidden md:block border-t border-solid shrink-0 md:w-[15%] lg:w-[20%] h-0 relative -mt-px" style={{borderImage: "linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(102,102,102,0.14) 100%)",borderImageSlice: 1,}}
             ></div>
+        </div>
+
+        {/* Section Subtitle */}
+        <div className='w-[90%] flex flex-col md:flex-row justify-between items-start mb-10'>
+          <div className="flex flex-col gap-5 items-start justify-start relative">
+            <div className="flex flex-col gap-3 items-start justify-start self-stretch shrink-0 relative">
+              <div className="text-[#181d27] text-left text-[30px] md:text-[36px] font-semibold leading-[38px] md:leading-[44px] relative self-stretch"
+                style={{ letterSpacing: 'var(--display-md-semibold-letter-spacing, -0.02em)' }}>
+                Lastest blog posts
+              </div>
+            </div>
+            <div className="text-[#535862] text-left text-[18px] md:text-[20px] font-normal leading-[28px] md:leading-[30px] relative">
+              Tool and strategies modern teams need to help their companies grow.
+            </div>
+          </div>
+          <div className="h-fit hidden md:flex justify-end">
+            <Link to="/blogs" className="px-4 py-2 bg-[#ce4015] text-white rounded-lg">View All Posts</Link>
+          </div>
         </div>
 
       {/* Blog Posts Slider Container */}
@@ -122,10 +141,11 @@ const BusinessBlog = () => {
         <div className="w-[90%] mt-4 mx-auto text-sm text-red-600">Failed to load posts</div>
       )}
 
-      <div className="w-[90%] mt-6 mx-auto flex justify-end">
-        <Link to="/blogs" className="px-4 py-2 bg-[#4D1402] text-white rounded-lg">See more</Link>
+      <div className="w-[90%] mt-6 mx-auto flex md:hidden justify-center">
+        <Link to="/blogs" className="px-4 py-2 bg-[#ce4015] text-white rounded-lg">View All Posts</Link>
       </div>
     </div>
+  </>
   );
 };
 
