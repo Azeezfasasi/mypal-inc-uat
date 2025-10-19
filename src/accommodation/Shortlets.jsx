@@ -14,7 +14,7 @@ export default function ShortLets() {
         <link rel="canonical" href="https://www.mypal.ng/accommodation/shortlets" />
       </Helmet>
       <ShortLetHero />
-      <ShortLetList />
+      <ShortLetList subcategorySlug="Short-let Homes & Beach Houses" />
       <FooterSection />
     </>
   )

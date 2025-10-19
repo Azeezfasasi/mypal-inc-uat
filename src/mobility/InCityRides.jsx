@@ -13,7 +13,7 @@ function InCityRides() {
         <link rel="canonical" href="https://www.mypal.ng/mobility/incityrides" />
       </Helmet>
       <InCityHero />
-      <InCityLists />
+      <InCityLists subcategorySlug="In-City Rides" />
       <FooterSection />
     </>
   )

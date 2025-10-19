@@ -13,7 +13,7 @@ export default function FoodAndDrink() {
         <link rel="canonical" href="https://www.mypal.ng/nightlife/food-and-drink" />
       </Helmet>
       <FoodAndDrinkHero />
-      <FoodAndDrinkList />
+      <FoodAndDrinkList subcategorySlug="Food & Drinks" />
       <FooterSection />
     </>
   )

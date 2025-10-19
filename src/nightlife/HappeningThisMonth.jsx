@@ -13,7 +13,7 @@ export default function HappeningThisMonth() {
         <link rel="canonical" href="https://www.mypal.ng/nightlife/happeningthismonth" />
       </Helmet>
       <HappeningHero />
-      <HappeningList />
+      <HappeningList subcategorySlug="Happening this month" />
       <FooterSection />
     </>
   )

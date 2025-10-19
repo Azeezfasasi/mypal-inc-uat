@@ -14,7 +14,7 @@ export default function BarsAndLaunge() {
         <link rel="canonical" href="https://www.mypal.ng/nightlife/bars-and-lounges" />
       </Helmet>
       <BarsAndLaungesHero />
-      <BarsAndLoungesList/>
+      <BarsAndLoungesList subcategorySlug="Bars & Lounges" />
       <FooterSection />
     </>
   )

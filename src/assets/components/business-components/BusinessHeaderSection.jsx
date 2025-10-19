@@ -65,7 +65,8 @@ const categories = [
         { name: 'Food & Drinks', path: '/nightlife/food&drinks' },
         { name: 'Bars & Lounges', path: '/nightlife/bars&lounges' },
         { name: 'Clubbing & Parties', path: '/nightlife/clubbing&parties' },
-        { name: 'Happening This Month', path: '/nightlife/happeningthismonth' }
+        { name: 'Happening This Month', path: '/nightlife/happeningthismonth' },
+        { name: 'Event Night', path: '/nightlife/eventsnights' }
     ] },
     { name: 'Mobility', path: '/category/mobility', subCategories: [
         { name: 'In-City Rides', path: '/mobility/in-cityrides' },

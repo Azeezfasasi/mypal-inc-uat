@@ -13,7 +13,7 @@ export default function LuxuryNight() {
         <link rel="canonical" href="https://www.mypal.ng/nightlife/luxurynight" />
       </Helmet>
       <LuxuryNightHero />
-      <LuxuryNightList />
+      <LuxuryNightList subcategorySlug="Luxury Nightlife" />
       <FooterSection />
     </>
   )

@@ -3,6 +3,7 @@ import { Star, MapPin } from 'lucide-react';
 import star from '../../../images/star.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import useCategories from '../../../../hooks/useCategories';
 import { Commet } from "react-loading-indicators";
 
 // Reusable card component
@@ -31,7 +32,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
             <span className='text-[14.5px]'>
-              {location?.length > 10 ? location.slice(0, 12) + "…" : location || 'Unknown'}
+              {location?.length > 10 ? location.slice(0, 12) + "…" : location}
             </span>
           </div>
         </div>
@@ -45,33 +46,54 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
   );
 };
 
-export default function ShortLetList() {
+export default function ShortLetList({ subcategorySlug = 'Short-let Homes & Beach Houses' }) {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "07073f12-9b02-43cf-b7f1-5d2061aef9dd"; // Short Let category ID
+  // We no longer hardcode a backend category ID. Instead we accept a
+  // `subcategorySlug` prop (defaults to 'event-nights') and resolve the
+  // category ID by fetching `/categories/all` at runtime.
+  const { loading: catsLoading, error: catsError, findBySlug } = useCategories();
 
   useEffect(() => {
     async function fetchBusinesses() {
       try {
-        const response = await axios.get(
-          `${API_BASE}/business-categories/${CATEGORY_ID}/businesses`,
-          {
-            headers: { "x-api-key": API_KEY },
-          }
-        );
+        // find the subcategory by slug using the hook helper
+        const subcategory = findBySlug(subcategorySlug);
 
-        const data = response.data.data?.data ?? [];
-        const mappedData = data.map((biz) => ({
+        if (!subcategory) {
+          // fallback: nothing to show
+          setExperiences([]);
+          setLoading(false);
+          return;
+        }
+
+        const parentSlug = subcategory._parentSlug || subcategory.slug;
+
+        // Call the businesses endpoint using the parent slug and categoryId query param
+        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+          headers: { "x-api-key": API_KEY },
+        });
+
+        // Normalize response: some endpoints return data.data.data, some return data.data or plain array
+        let dataArr = resp.data?.data ?? resp.data;
+        if (dataArr && dataArr.data) dataArr = dataArr.data;
+        if (!Array.isArray(dataArr)) {
+          if (dataArr == null) dataArr = [];
+          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
+          else dataArr = [];
+        }
+
+        const mappedData = dataArr.map((biz) => ({
           id: biz.id,
-          title: biz.business_name,
-          description: biz.description || "No description available",
+          title: biz.business_name || biz.name || 'Unnamed Business',
+          description: biz.description || 'No description available',
           rating: biz.average_rating || 0,
-          reviews: biz.total_reviews || 0,
-          location: biz.address || "Not specified",
+          reviews: biz.total_reviews || biz.reviews || 0,
+          location: biz.address || biz.city || 'Not specified',
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 
@@ -83,17 +105,25 @@ export default function ShortLetList() {
       }
     }
 
+    // Wait until categories have loaded (or errored) before attempting to resolve the subcategory
+    if (catsLoading) return;
+    if (catsError) {
+      setError(catsError);
+      setLoading(false);
+      return;
+    }
+
     fetchBusinesses();
-  }, [API_BASE, API_KEY, CATEGORY_ID]);
+  }, [API_BASE, API_KEY, subcategorySlug, catsLoading, catsError, findBySlug]);
 
   // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
-      </div>
-    );
-  }
+  return (
+    <div className="flex justify-center items-center py-20">
+      <Commet color="#DB3A06" size="medium" text="Loading..." textColor="#193cb8" />
+    </div>
+  );
+}
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   return (

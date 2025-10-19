@@ -13,7 +13,7 @@ export default function HotelExperience() {
         <link rel="canonical" href="https://www.mypal.ng/accommodation/hotelexperience" />
       </Helmet>
       <HostelExperienceHero />
-      <HotelExperienceLists />
+      <HotelExperienceLists subcategorySlug="Hotel Experience" />
       <FooterSection />
     </>
   )

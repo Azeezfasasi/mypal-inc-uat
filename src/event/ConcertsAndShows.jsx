@@ -13,7 +13,7 @@ export default function ConcertAndShows() {
         <link rel="canonical" href="https://www.mypal.ng/event/concerts-and-shows" />
       </Helmet>
       <ConcertAndShowsHero />
-      <ConcertAndShowsList />
+      <ConcertAndShowsList subcategorySlug="Concerts & Shows" />
       <FooterSection />
     </>
   )

@@ -46,7 +46,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
   );
 };
 
-export default function NailsAndHaircareList({ subcategorySlug = 'Nail & Hair Care' }) {
+export default function EventNightList({ subcategorySlug = 'Events Nights' }) {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

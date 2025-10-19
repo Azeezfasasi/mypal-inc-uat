@@ -13,7 +13,7 @@ function HouseholdLogistics() {
         <link rel="canonical" href="https://www.mypal.ng/mobility/householdlogistics" />
       </Helmet>
       <HouseholdHero />
-      <HouseholdLists />
+      <HouseholdLists subcategorySlug="Household Logistics" />
       <FooterSection />
     </>
   )

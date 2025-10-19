@@ -13,7 +13,7 @@ function LuxuryRides() {
         <link rel="canonical" href="https://www.mypal.ng/mobility/luxuryrides" />
       </Helmet>
       <LuxuryHero />
-      <LuxuryLists />
+      <LuxuryLists subcategorySlug="Luxury on Demand" />
       <FooterSection />
     </>
   )

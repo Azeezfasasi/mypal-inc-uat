@@ -1,6 +1,5 @@
 import React from 'react'
 import FineDiningHero from '../assets/components/category-components/restaurant-components/FineDiningHero'
-import FineDiningFilter from '../assets/components/category-components/restaurant-components/FineDiningFilter'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import FineDiningLists from '../assets/components/category-components/restaurant-components/FineDiningLists'
 // import { useState } from 'react'
@@ -17,8 +16,7 @@ function FineDining() {
         <link rel="canonical" href="https://www.mypal.ng/restaurant/finedining" />
       </Helmet>
       <FineDiningHero />
-      {/* <FineDiningFilter selectedFilter={filter} onChange={setFilter} /> */}
-      <FineDiningLists />
+      <FineDiningLists subcategorySlug="Fine Dining" />
       <FooterSection />
     </>
   )

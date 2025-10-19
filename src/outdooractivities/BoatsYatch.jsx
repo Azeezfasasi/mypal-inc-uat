@@ -8,12 +8,12 @@ function BoatsYatch() {
   return (
     <>
       <Helmet>
-        <title>Boat and Yacht Rentals in Lagos | MyPal</title>
+        <title>Boat, Yacht & Cruises around you | MyPal</title>
         <meta name="description" content="Explore premium boat and yacht rentals in Lagos with MyPal. Discover top-rated services, read reviews, and book your perfect maritime experience today." />
         <link rel="canonical" href="https://www.mypal.ng/outdooractivities/boatsyatch" />
       </Helmet>
       <BoatYatchHero />
-      <BoatLists />
+      <BoatLists subcategorySlug="Boat & Yacht Cruises" />
       <FooterSection />
     </>
   )

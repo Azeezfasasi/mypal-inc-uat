@@ -13,7 +13,7 @@ export default function Club() {
         <link rel="canonical" href="https://www.mypal.ng/nightlife/club" />
       </Helmet>
       <ClubHero />
-      <ClubList />
+      <ClubList subcategorySlug="Club" />
       <FooterSection />
     </>
   )

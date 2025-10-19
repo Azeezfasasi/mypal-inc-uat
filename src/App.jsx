@@ -55,6 +55,7 @@ import BlogDetails from "./blog/BlogDetails";
 import BlogApiCheck from "./ForCheckReview/BlogApiCheck";
 import BlogList from "./blog/BlogList";
 import BlogPost from "./blog/BlogPost";
+import EventNights from "./nightlife/EventNights";
 
 function App() {
   return (
@@ -90,10 +91,11 @@ function App() {
         <Route path="/beautyhealth/nail&haircare" element={<NailsAndHairCare />} />
         <Route path="/beautyhealth/fitness&gym" element={<FitnessAndGym />} />
         <Route path="/nightlife/clubbing&parties" element={<Club />} />
-        <Route path="/nightlife/luxurynight" element={<LuxuryNight />} />
+        <Route path="/nightlife/luxurynightlife" element={<LuxuryNight />} />
         <Route path="/nightlife/food&drinks" element={<FoodAndDrink />} />
         <Route path="/nightlife/bars&lounges" element={<BarsAndLaunge />} />
         <Route path="/nightlife/happeningthismonth" element={<HappeningThisMonth />} />
+        <Route path="/nightlife/eventsnights" element={<EventNights />} />
         <Route path="/forbusiness" element={<Business />} />
         <Route path="/category/event-ticketing" element={<EventTicketing />} />
         <Route path="/restaurant/concerts&shows" element={<ConcertAndShows />} />

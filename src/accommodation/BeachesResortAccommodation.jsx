@@ -14,7 +14,7 @@ export default function BeachesResortAccommodation() {
         <link rel="canonical" href="https://www.mypal.ng/accommodation/beaches-resorts" />
       </Helmet>
       <BeachesResortAccommodationHero />
-      <BeachesAndResortAccomList />
+      <BeachesAndResortAccomList subcategorySlug="Beach Resort Accommodation" />
       <FooterSection />
     </>
   )

@@ -13,7 +13,7 @@ export default function SkinCare() {
         <link rel="canonical" href="https://www.mypal.ng/beauty-and-health/skincare" />
       </Helmet>
       <SkincareHero />
-      <SkincareList/>
+      <SkincareList subcategorySlug="Spa & Skin Care" />
       <FooterSection />
     </>
   )

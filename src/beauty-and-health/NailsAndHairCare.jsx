@@ -13,7 +13,7 @@ export default function NailsAndHairCare() {
         <link rel="canonical" href="https://www.mypal.ng/beauty-and-health/nails-and-hair-care" />
       </Helmet>
       <NailsAndHaircareHero />
-      <NailsAndHaircareList/>
+      <NailsAndHaircareList subcategorySlug="Nail & Hair Care" />
       <FooterSection />
     </>
   )

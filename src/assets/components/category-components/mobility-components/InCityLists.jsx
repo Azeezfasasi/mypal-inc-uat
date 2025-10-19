@@ -3,6 +3,7 @@ import { Star, MapPin } from 'lucide-react';
 import star from '../../../images/star.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import useCategories from '../../../../hooks/useCategories';
 import { Commet } from "react-loading-indicators";
 
 // Reusable card component
@@ -45,54 +46,35 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
   );
 };
 
-export default function InCityLists() {
+export default function InCityLists({ subcategorySlug = 'In-City Rides' }) {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "a53dfa5d-3098-4b1a-a2d8-7defdccdd09c"; // In City
+  // We no longer hardcode a backend category ID. Instead we accept a
+  // `subcategorySlug` prop (defaults to 'event-nights') and resolve the
+  // category ID by fetching `/categories/all` at runtime.
+  const { loading: catsLoading, error: catsError, findBySlug } = useCategories();
 
   useEffect(() => {
     async function fetchBusinesses() {
       try {
-        // First fetch categories to find the parent slug that contains our subcategory id
-        const catsResp = await axios.get(`${API_BASE}/categories/all`, {
-          headers: { "x-api-key": API_KEY },
-        });
+        // find the subcategory by slug using the hook helper
+        const subcategory = findBySlug(subcategorySlug);
 
-        const allCats = catsResp.data.data ?? catsResp.data ?? [];
-
-        // Find parent category (top-level) that contains our subcategory id
-        let parentSlug = null;
-        for (const mainCat of allCats) {
-          if (Array.isArray(mainCat.categories)) {
-            const found = mainCat.categories.find((sc) => sc.id === CATEGORY_ID);
-            if (found) {
-              parentSlug = mainCat.slug || mainCat.name?.toLowerCase().replace(/\s+/g, '-') || null;
-              break;
-            }
-          }
-        }
-
-        // If no parentSlug found, try to find the subcategory itself and use its slug as fallback
-        if (!parentSlug) {
-          const foundSub = allCats
-            .flatMap((c) => (Array.isArray(c.categories) ? c.categories : []))
-            .find((sc) => sc.id === CATEGORY_ID);
-          if (foundSub && foundSub.slug) parentSlug = foundSub.slug;
-        }
-
-        // If still no parentSlug, set error and return early
-        if (!parentSlug) {
-          setError({ message: 'Category parent slug not found for the given CATEGORY_ID' });
+        if (!subcategory) {
+          // fallback: nothing to show
+          setExperiences([]);
           setLoading(false);
           return;
         }
 
+        const parentSlug = subcategory._parentSlug || subcategory.slug;
+
         // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${CATEGORY_ID}`, {
+        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
           headers: { "x-api-key": API_KEY },
         });
 
@@ -123,8 +105,16 @@ export default function InCityLists() {
       }
     }
 
+    // Wait until categories have loaded (or errored) before attempting to resolve the subcategory
+    if (catsLoading) return;
+    if (catsError) {
+      setError(catsError);
+      setLoading(false);
+      return;
+    }
+
     fetchBusinesses();
-  }, [API_BASE, API_KEY, CATEGORY_ID]);
+  }, [API_BASE, API_KEY, subcategorySlug, catsLoading, catsError, findBySlug]);
 
   // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
@@ -154,4 +144,3 @@ export default function InCityLists() {
     </div>
   );
 }
-

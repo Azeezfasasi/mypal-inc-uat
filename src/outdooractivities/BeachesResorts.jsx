@@ -13,7 +13,7 @@ function BeachesResorts() {
         <link rel="canonical" href="https://www.mypal.ng/outdooractivities/beachesresorts" />
       </Helmet>
       <BeachesResortsHero />
-      <BeachesLists />
+      <BeachesLists subcategorySlug="Beaches & Resorts" />
       <FooterSection />
     </>
   )

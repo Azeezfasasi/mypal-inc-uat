@@ -13,7 +13,7 @@ function ParksRecreation() {
         <link rel="canonical" href="https://www.mypal.ng/outdooractivities/parksrecreation" />
       </Helmet>
       <ParkHero />
-      <PacksRecreationLists />
+      <PacksRecreationLists subcategorySlug="Parks & Recreation" />
       <FooterSection />
     </>
   )

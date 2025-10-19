@@ -13,7 +13,7 @@ export default function FitnessAndGym() {
         <link rel="canonical" href="https://www.mypal.ng/beauty-and-health/fitness-and-gym" />
       </Helmet>
       <FitnessAndGymHero />
-      <FitnessAndGymList />
+      <FitnessAndGymList subcategorySlug="Fitness & Gym" />
       <FooterSection />
     </>
   )
