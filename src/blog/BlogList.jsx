@@ -125,32 +125,40 @@ export default function BlogList() {
           ) : (
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {posts.map((post, idx) => (
-                  <article key={post.id || idx} className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-300">
-                    <Link to={post.slug ? `/blog/${post.slug}` : '/blog-details'} className="block">
-                      <div className="h-48 w-full overflow-hidden">
-                        <img
-                          src={post.featured_image_url || post.featured_image || post.image || blogplaceholder}
-                          alt={post.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }}
-                        />
-                      </div>
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="text-xs text-[#DB3A06] font-semibold">{post.categories?.[0] || (post.tags?.[0] || 'Post')}</div>
-                          <div className="text-xs text-gray-400">{new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
+                {posts.map((post, idx) => {
+                  const authorAvatar = post.author_avatar_url || post.author_avatar || post.author?.image || post.author?.avatar || blogplaceholder;
+                  return (
+                    <article key={post.id || idx} className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-300">
+                      <Link to={post.slug ? `/blog/${post.slug}` : '/blog-details'} className="block">
+                        <div className="h-48 w-full overflow-hidden">
+                          <img
+                            src={post.featured_image_url || post.featured_image || post.image || blogplaceholder}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }}
+                          />
                         </div>
-                        <h3 className="text-lg font-bold mb-2">{post.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3 line-clamp-3">{post.excerpt.split(" ").slice(0, 18).join(" ") || post.description.split(" ").slice(0, 1).join(" ") || ''}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-gray-500">{post.author_name || ''}</div>
-                          <div className="text-sm text-[#4D1402] font-medium">Read more →</div>
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="text-xs text-[#DB3A06] font-semibold">{post.categories?.[0] || (post.tags?.[0] || 'Post')}</div>
+                          </div>
+                          <h3 className="text-lg font-bold mb-2">{post.title.split(" ").slice(0, 6).join(" ")}...</h3>
+                          <p className="text-sm text-gray-600 mb-3 line-clamp-3">{(post.excerpt || '').split(" ").slice(0, 18).join(" ") || ((post.description || '').split(" ").slice(0, 18).join(" ")) || ''}</p>
+                          <div className="flex items-center justify-start gap-2">
+                            <div>
+                              {/* Author avatar (defensive) */}
+                              <img src={authorAvatar} alt={post.author_name || 'Author avatar'} className='rounded-full w-10 h-10 object-cover' onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }} />
+                            </div>
+                            <div className="mt-4">
+                              <div className="text-[14px] leading-[20px] font-semibold text-[#181D27]">{post.author_name || ''}</div>
+                              <div className="text-[14px] leading-[20px] text-gray-400">{new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </article>
-                ))}
+                      </Link>
+                    </article>
+                  );
+                })}
               </div>
 
               {/* Pagination */}
