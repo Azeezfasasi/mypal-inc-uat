@@ -5,7 +5,10 @@ import { Helmet } from 'react-helmet';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import FooterSection from '../assets/components/home-components/FooterSection';
 import { Commet } from "react-loading-indicators";
-import blogplaceholder from '../assets/images/blogplaceholder.png';
+import blogplaceholder2 from '../assets/images/blogplaceholder2.png';
+import ShareButtons from '../assets/components/blog-components/ShareButtons';
+import { Toaster } from "react-hot-toast";
+import { Avatar } from 'rsuite';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -15,6 +18,8 @@ export default function BlogPost() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const postUrl = window.location.href; // current page URL
 
   useEffect(() => {
     let mounted = true;
@@ -26,7 +31,11 @@ export default function BlogPost() {
         const res = await axios.get(url, { headers: { 'x-api-key': API_KEY } });
         if (!mounted) return;
         const payload = res.data || {};
-        const item = payload.data || payload;
+        // normalize payload: some endpoints return { data: { data: [ { ... } ] } }
+        // or { data: [ { ... } ] } or the item directly
+        let item = payload.data?.data || payload.data || payload;
+        // if item is an array (list), pick the first element (we requested a single post by slug)
+        if (Array.isArray(item)) item = item[0] || null;
         setPost(item);
 
         // Increment view count if we have an id
@@ -61,23 +70,79 @@ export default function BlogPost() {
         <meta name="author" content="MyPal Team" />
     </Helmet>
     <ServicesHeader />
-    <div className="min-h-screen bg-white py-8 px-4">
+    <div className="min-h-screen bg-white py-8 px-4 mb-10">
       <div className="max-w-4xl mx-auto">
-        {post.featured_image_url && (
-          <div className="mb-6 w-full h-64 overflow-hidden rounded-lg">
+        {/* Blog top sections */}
+        <div className="flex flex-col gap-3 items-start justify-center self-stretch relative mb-[30px] md:mb-[40px]">
+          <div className="text-[#CE4015] text-center font-semibold text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] relative self-stretch">
+            Published {" "}
+            {new Date(post.published_at || post.created_at).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </div>
+          <div className="text-gray-900 text-center font-semibold text-[36px] md:text-[48px] leading-[44px] md:leading-[60px] relative self-stretch"
+            style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
+            {post.title || post.name}
+          </div>
+          <div className="text-[#535862] text-center font-normal text-[18px] md:text-[20px] leading-[28px] md:leading-[30px] relative self-stretch"
+            style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
+            {post.excerpt || post.meta_description}
+          </div>
+          <div className="text-blue-600 text-center text-[14px] font-semibold leading-[20px] relative self-stretch">
+            Design
+          </div>
+        </div>
+
+        {/* Blog Image */}
+        {(post.featured_image_url || blogplaceholder2) && (
+          <div className="mb-6 w-full overflow-hidden rounded-lg">
             <img
-              src={post.featured_image_url}
+              src={post.featured_image_url || blogplaceholder2}
               alt={post.featured_image_alt || post.title}
-              className="w-full h-full object-cover"
-              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }}
+              className="w-full h-[240px] md:h-[640px] object-cover"
+              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder2; }}
             />
           </div>
         )}
 
-        <div className="mb-4 text-sm text-gray-500">{post.author_name || ''} • {new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
-        <h1 className="text-3xl font-bold mb-4">{post.title || post.name}</h1>
+        {/* Blog Details */}
         <p className="text-gray-600 mb-6">{post.excerpt || post.meta_description}</p>
         <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: post.content || post.content_html || post.content_rendered || '' }} />
+
+        {/* Blog Footer Section */}
+        <div className='flex flex-col md:flex-row justify-between border-t gap-5 md:gap-0 border-gray-200 mt-[40px] pt-3'>
+          <div className="flex items-center justify-start gap-2">
+            <div>
+              {/* Author avatar (defensive) */}
+              <img
+                src={post.author_avatar_url || post.author_avatar || post.author?.image || blogplaceholder2}
+                alt={post.author_name || 'Author avatar'}
+                className='rounded-full w-[56px] h-[56px] object-cover'
+                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder2; }}
+              />
+            </div>
+            <div className="">
+              <div className="text-[14px] leading-[20px] font-semibold text-[#181D27]">{post.author_name || ''}</div>
+              <div className="text-[14px] leading-[20px] text-gray-400">
+                {(
+                  // prefer top-level author_title from the post when it contains non-whitespace
+                  (typeof post.author_title === 'string' && post.author_title.trim())
+                    ? post.author_title.trim()
+                    // otherwise, try nested author object fields
+                    : (post.author?.title || post.author?.role || 'Content Team')
+                )}
+              </div>
+            </div>
+          </div>
+          <div className='flex items-center'>
+            <ShareButtons postUrl={postUrl} />
+          </div>
+
+          {/* Toast container */}
+          <Toaster position="top-right" reverseOrder={false} />
+        </div>
       </div>
     </div>
     <FooterSection />

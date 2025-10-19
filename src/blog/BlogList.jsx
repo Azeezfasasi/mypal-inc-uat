@@ -144,12 +144,12 @@ export default function BlogList() {
                           </div>
                           <h3 className="text-lg font-bold mb-2">{post.title.split(" ").slice(0, 6).join(" ")}...</h3>
                           <p className="text-sm text-gray-600 mb-3 line-clamp-3">{(post.excerpt || '').split(" ").slice(0, 18).join(" ") || ((post.description || '').split(" ").slice(0, 18).join(" ")) || ''}</p>
-                          <div className="flex items-center justify-start gap-2">
+                          <div className="flex items-center justify-start gap-2 mt-4">
                             <div>
                               {/* Author avatar (defensive) */}
                               <img src={authorAvatar} alt={post.author_name || 'Author avatar'} className='rounded-full w-10 h-10 object-cover' onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }} />
                             </div>
-                            <div className="mt-4">
+                            <div className="">
                               <div className="text-[14px] leading-[20px] font-semibold text-[#181D27]">{post.author_name || ''}</div>
                               <div className="text-[14px] leading-[20px] text-gray-400">{new Date(post.published_at || post.created_at).toLocaleDateString()}</div>
                             </div>
