@@ -1,5 +1,5 @@
 import React from 'react'
-import howitworks2 from '../../images/howitworks2.png'
+import howitworks3 from '../../images/howitworks3.png'
 import howimage from '../../images/howimage.svg'
 
 function BusinessHowItWorks() {
@@ -26,7 +26,7 @@ function BusinessHowItWorks() {
 
         {/* laptop image */}
         <div className='hidden w-full md:flex justify-center'>
-          <img src={howitworks2} alt="How it works" />
+          <img src={howitworks3} alt="How it works" />
         </div>
 
         {/* Mobile image */}

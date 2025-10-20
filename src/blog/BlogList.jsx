@@ -79,7 +79,7 @@ export default function BlogList() {
       <div className="min-h-screen bg-white py-8 px-4">
         <div className="max-w-7xl mx-auto">
             <div className='pb-[48px] md:pb-[64px]'>
-                <h2 className="text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] text-[#6941C6] md:text-[#CE4015] font-bold mb-2">Blog Posts</h2>
+                <h2 className="text-[18px] md:text-[20px] leading-[28px] md:leading-[30px] text-[#6941C6] md:text-[#CE4015] font-bold mb-2">Blog Posts</h2>
                 <h1 className="text-[36px] md:text-[48px] leading-[44px] md:leading-[60px] text-[#181D27] font-bold mb-2">Resources and insights</h1>
                 <p className="text-[18px] md:text-[20px] leading-[28px] md:leading-[30px] text-[#535862]">The latest industry news, interviews, technologies, and resources</p>
             </div>

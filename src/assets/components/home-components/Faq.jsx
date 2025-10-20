@@ -6,11 +6,11 @@ import addcircle from '../../images/addcircle.svg'
 const faqData = [
     {
         question: 'What is MyPal and how does it work?',
-        answer: 'MyPal is a digital platform that helps you effortlessly discover and reserve the best experiences your city has to offer. You are able to explore deals, dining options, exclusive events, and lifestyle recommendations. Businesses are able to showcase their services with videos, images, and promotions, turning visibility into bookings. You are able to share your experiences through photos and videos, building authentic word-of-mouth. MyPal provides businesses with a digital storefront, and direct access to MyPal tribe and communities.',
+        answer: 'MyPal is a digital platform that helps you effortlessly discover and reserve the best experiences your city has to offer. You are able to explore deals, dining options, exclusive events, and lifestyle recommendations. As a business, you are able to showcase your offerings, turning visibility into reservations. MyPal provides businesses with a digital storefront, and direct access to MyPal tribe and communities.',
     },
     {
         question: 'How can Businesses Join MyPal?',
-        answer: 'Businesses can easily join MyPal by <a href="https://business.mypal-inc.com/signup" target="_blank" rel="noopener noreferrer" class="text-[#db3a06] hover:underline">signing up here</a>. Upon approval, you are able to access your dashboard, showcase your services with descriptions, menus, images, and videos, and start connecting with customers right away.',
+        answer: 'As a business, you can join MyPal by <a href="https://business.mypal-inc.com/signup" target="_blank" rel="noopener noreferrer" class="text-[#db3a06] hover:underline">signing up here</a>. Connect seamlessly with MyPal Tribe & Communities.',
     },
     {
         question: 'What types of services can businesses offer on MyPal?',

@@ -35,11 +35,6 @@ const ChevronRightIcon = ({ className }) => (
 
 // Updated categories data with a 'path' for each item
 const categories = [
-    { name: 'Outdoor Activities', path: '/category/outdoor-activities', subCategories: [
-        { name: 'Beaches & Resorts', path: '/outdooractivities/beaches&resorts' },
-        { name: 'Boat & Yacht Cruises', path: '/outdooractivities/boat&yachtcruises' },
-        { name: 'Parks & Recreation', path: '/outdooractivities/parks&recreation' }
-    ]},
     { name: 'Accommodation', path: '/category/accommodation', subCategories: [
         { name: 'Short-lets & Beach Houses', path: '/accommodation/short-lethomes&beachhouses' },
         { name: 'Beaches Resorts Accommodation', path: '/accommodation/beachresortaccommodation' },
@@ -59,6 +54,11 @@ const categories = [
         { name: 'Fine Dining', path: '/restaurant/finedining' },
         { name: 'Buffet Services', path: '/restaurant/buffetservices' },
         { name: 'Iconic Delicacies', path: '/restaurant/iconicdelicacies' }        
+    ]},
+    { name: 'Outdoorsy', path: '/category/outdoor-activities', subCategories: [
+        { name: 'Beaches & Resorts', path: '/outdooractivities/beaches&resorts' },
+        { name: 'Boat & Yacht Cruises', path: '/outdooractivities/boat&yachtcruises' },
+        { name: 'Parks & Recreation', path: '/outdooractivities/parks&recreation' }
     ]},
     { name: 'Night Life', path: '/category/nightlife', subCategories: [
         { name: 'Luxury Night', path: '/nightlife/luxurynightlife' },
