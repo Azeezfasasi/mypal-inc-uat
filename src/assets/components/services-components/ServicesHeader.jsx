@@ -76,6 +76,73 @@ const categories = [
 
 // MainHeader component - Removed default export
 export default function ServicesHeader() {
+    // // State for the desktop dropdown menu
+    // const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+    // const [activeCategory, setActiveCategory] = useState(categories[0]);
+    
+    // // State for the mobile menu panel
+    // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    
+    // // State for the nested mobile category submenu
+    // const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
+
+    // // state to control the mobile category list independently
+    // const [isMobileCategoryListOpen, setIsMobileCategoryListOpen] = useState(false);
+
+    // const dropdownRef = useRef(null);
+    // // const location = useLocation();
+    // const [activeLink, setActiveLink] = useState('');
+
+    // useEffect(() => {
+    //     // Set the active link based on the current URL path
+    //     if (location.pathname === '/') {
+    //         setActiveLink('Home');
+    //     } else if (location.pathname.startsWith('/forbusiness')) {
+    //         setActiveLink('For Business');
+    //     } else {
+    //         setActiveLink('');
+    //     }
+    // }, [location.pathname]);
+
+    // // This effect handles closing the desktop dropdown when a click occurs outside of it
+    // useEffect(() => {
+    //     function handleClickOutside(event) {
+    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    //             setIsCategoryDropdownOpen(false);
+    //         }
+    //     }
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [dropdownRef]);
+
+
+    // const toggleCategoryDropdown = () => {
+    //     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+    //     if (isCategoryDropdownOpen) {
+    //         setActiveCategory(categories[0]);
+    //     }
+    // };
+    
+    // const toggleMobileMenu = () => {
+    //     setIsMobileMenuOpen(!isMobileMenuOpen);
+    //     // Reset the mobile category state when the main menu closes
+    //     if (isMobileMenuOpen) {
+    //         setMobileActiveCategory(null);
+    //         // FIX: Also reset the mobile category list state when the main menu closes
+    //         setIsMobileCategoryListOpen(false);
+    //     }
+    // };
+
+    // // Helper function to handle mobile category clicks
+    // const handleMobileCategoryClick = (category) => {
+    //     if (mobileActiveCategory?.name === category.name) {
+    //         setMobileActiveCategory(null); // Collapse if already open
+    //     } else {
+    //         setMobileActiveCategory(category); // Expand the new category
+    //     }
+    // };
     // State for the desktop dropdown menu
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState(categories[0]);
@@ -88,21 +155,26 @@ export default function ServicesHeader() {
 
     // state to control the mobile category list independently
     const [isMobileCategoryListOpen, setIsMobileCategoryListOpen] = useState(false);
+    // modal state for Download App (coming soon)
+    const [showDownloadModal, setShowDownloadModal] = useState(false);
 
     const dropdownRef = useRef(null);
-    // const location = useLocation();
     const [activeLink, setActiveLink] = useState('');
 
     useEffect(() => {
         // Set the active link based on the current URL path
-        if (location.pathname === '/') {
-            setActiveLink('Home');
-        } else if (location.pathname.startsWith('/forbusiness')) {
-            setActiveLink('For Business');
-        } else {
-            setActiveLink('');
-        }
-    }, [location.pathname]);
+        const path = window.location.pathname || '/';
+        if (path === '/') setActiveLink('Home');
+        else if (path.startsWith('/forbusiness')) setActiveLink('For Business');
+        else setActiveLink('');
+    }, []);
+
+    // close modal on Escape
+    useEffect(() => {
+        const onKey = (e) => { if (e.key === 'Escape') setShowDownloadModal(false); };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, []);
 
     // This effect handles closing the desktop dropdown when a click occurs outside of it
     useEffect(() => {
@@ -227,7 +299,7 @@ export default function ServicesHeader() {
                     </nav>
 
                     {/* Download App Button */}
-                    <button className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
+                    <button onClick={() => setShowDownloadModal(true)} className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
                         Download App
                     </button>
                 </div>
@@ -347,7 +419,7 @@ export default function ServicesHeader() {
                     </Link>
 
                     <button
-                    onClick={toggleMobileMenu}
+                    onClick={() => { toggleMobileMenu(); setShowDownloadModal(true); }}
                     className="mt-6 px-6 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-orange-700"
                     >
                     Download App
@@ -356,27 +428,23 @@ export default function ServicesHeader() {
                 </div>
             </div>
             )}
+
+            {/* Coming Soon Modal for Download App */}
+            {showDownloadModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black opacity-50" onClick={() => setShowDownloadModal(false)} />
+                    <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 z-60">
+                        <h3 className="text-xl font-semibold mb-2">Coming Soon</h3>
+                        <p className="text-gray-600 mb-4">Our mobile app is not yet available. We'll notify you when it launches.</p>
+                        <div className="flex justify-end">
+                            <button onClick={() => setShowDownloadModal(false)} className="px-4 py-2 text-white bg-[#DB3A06] rounded hover:bg-red-700 cursor-pointer">Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
-// A simple App component to make the example runnable
-// const Home = () => <div className="p-8 text-center text-xl">Home Page</div>;
-// const ForBusiness = () => <div className="p-8 text-center text-xl">For Business Page</div>;
-
-// This is the main component that renders the full application
-// export default function App() {
-//     return (
-//         <BrowserRouter>
-//             <div className="font-sans antialiased text-white bg-gray-900 min-h-screen">
-//                 <MainHeader />
-//                 <Routes>
-//                     <Route path="/" element={<Home />} />
-//                     <Route path="/for-business" element={<ForBusiness />} />
-//                 </Routes>
-//             </div>
-//         </BrowserRouter>
-//     );
-// }
 
 

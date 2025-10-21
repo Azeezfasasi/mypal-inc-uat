@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Share2, MapPin, Phone, Star } from 'lucide-react';
 import margicstar from '../assets/images/margicstar.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
@@ -25,40 +25,6 @@ const businessHours = [
     { day: 'Friday', time: 'N/A' },
 ];
 
-// Helper function to determine button text based on category
-// const getDownloadButtonText = (category) => {
-//   if (!category) return "Download the app to make reservation";
-
-//   let categoryText = "";
-
-//   if (typeof category === "object" && category !== null) {
-//     // Update this line to use business_type instead of name
-//     categoryText = category.business_type || category.title || "";
-//   }
-
-//   if (!categoryText) return "Download the app to make reservation";
-
-//   const normalized = categoryText.toLowerCase();
-
-//   if (normalized.includes("fine dining"))
-//     return "Download the app to make reservation";
-//   if (normalized.includes("buffet") || normalized.includes("iconic delicacies"))
-//     return "Download the app to place orders";
-//   if (
-//     normalized.includes("Beaches & Resorts")
-//   )
-//     return "Download the app to buy tickets";
-//   if (
-//     normalized.includes("Boat and Yachts cruises") ||
-//     normalized.includes("cruise") ||
-//     normalized.includes("Salons and spa") ||
-//     normalized.includes("Short-let homes") ||
-//     normalized.includes("Club") 
-//   )
-//     return "Download the app to make reservations";
-
-//   return "Download the app to make reservation";
-// };
 const getDownloadButtonText = (category) => {
   if (!category) return "Download the app to make reservation";
 
@@ -94,6 +60,16 @@ const getDownloadButtonText = (category) => {
 
 
 export default function ServiceDetailDescription({ business }) {
+    // modal state for Download App (coming soon)
+                const [showDownloadModal, setShowDownloadModal] = useState(false);
+
+        // close modal on Escape key
+        useEffect(() => {
+            const onKey = (e) => { if (e.key === 'Escape') setShowDownloadModal(false); };
+            document.addEventListener('keydown', onKey);
+            return () => document.removeEventListener('keydown', onKey);
+        }, []);
+
     // Dynamic address and phone
     const address = business?.address || 'No address provided.';
     // const phone = business?.business_number || 'No phone number.';
@@ -118,13 +94,10 @@ export default function ServiceDetailDescription({ business }) {
                     <div className="lg:w-2/3">
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-                            <button className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-5 rounded-[10px] bg-[#DB3A06] text-white font-semibold shadow-md hover:bg-orange-700 transition-colors duration-200 gap-2.5 cursor-pointer text-[14px] md:text-[16px]">
+                            <button onClick={() => setShowDownloadModal(true)} className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-5 rounded-[10px] bg-[#DB3A06] text-white font-semibold shadow-md hover:bg-orange-700 transition-colors duration-200 gap-2.5 cursor-pointer text-[14px] md:text-[16px]">
                                 {getDownloadButtonText(business?.category)}
                             </button>
                             <div className='flex flex-row items-center space-x-3'>
-                                {/* <button className="p-5 rounded-[10px] border border-solid border-[#DB3A06] text-[#DB3A06] hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-                                <Heart className="w-5 h-5" />
-                                </button> */}
                                 <ShareButton />
                             </div>
                         </div>
@@ -190,7 +163,7 @@ export default function ServiceDetailDescription({ business }) {
 
                             {/* Download Button */}
                             <div className="mt-8">
-                                <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px]">
+                                <button onClick={() => setShowDownloadModal(true)} className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px]">
                                     {getDownloadButtonText(business?.category)}
                                 </button>
                             </div>
@@ -198,7 +171,20 @@ export default function ServiceDetailDescription({ business }) {
                     </div>
                 </div>
             </div>
+            {showDownloadModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black opacity-70" onClick={() => setShowDownloadModal(false)} />
+                    <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 z-60">
+                        <h3 className="text-xl font-semibold mb-2">Coming Soon</h3>
+                        <p className="text-gray-600 mb-4">Our mobile app is not yet available. We'll notify you when it launches.</p>
+                        <div className="flex justify-end">
+                            <button onClick={() => setShowDownloadModal(false)} className="px-4 py-2 text-white bg-[#DB3A06] rounded hover:bg-red-600 cursor-pointer">Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
+
 
