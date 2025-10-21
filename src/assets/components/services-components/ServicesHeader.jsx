@@ -76,73 +76,6 @@ const categories = [
 
 // MainHeader component - Removed default export
 export default function ServicesHeader() {
-    // // State for the desktop dropdown menu
-    // const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
-    // const [activeCategory, setActiveCategory] = useState(categories[0]);
-    
-    // // State for the mobile menu panel
-    // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    
-    // // State for the nested mobile category submenu
-    // const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
-
-    // // state to control the mobile category list independently
-    // const [isMobileCategoryListOpen, setIsMobileCategoryListOpen] = useState(false);
-
-    // const dropdownRef = useRef(null);
-    // // const location = useLocation();
-    // const [activeLink, setActiveLink] = useState('');
-
-    // useEffect(() => {
-    //     // Set the active link based on the current URL path
-    //     if (location.pathname === '/') {
-    //         setActiveLink('Home');
-    //     } else if (location.pathname.startsWith('/forbusiness')) {
-    //         setActiveLink('For Business');
-    //     } else {
-    //         setActiveLink('');
-    //     }
-    // }, [location.pathname]);
-
-    // // This effect handles closing the desktop dropdown when a click occurs outside of it
-    // useEffect(() => {
-    //     function handleClickOutside(event) {
-    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-    //             setIsCategoryDropdownOpen(false);
-    //         }
-    //     }
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, [dropdownRef]);
-
-
-    // const toggleCategoryDropdown = () => {
-    //     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
-    //     if (isCategoryDropdownOpen) {
-    //         setActiveCategory(categories[0]);
-    //     }
-    // };
-    
-    // const toggleMobileMenu = () => {
-    //     setIsMobileMenuOpen(!isMobileMenuOpen);
-    //     // Reset the mobile category state when the main menu closes
-    //     if (isMobileMenuOpen) {
-    //         setMobileActiveCategory(null);
-    //         // FIX: Also reset the mobile category list state when the main menu closes
-    //         setIsMobileCategoryListOpen(false);
-    //     }
-    // };
-
-    // // Helper function to handle mobile category clicks
-    // const handleMobileCategoryClick = (category) => {
-    //     if (mobileActiveCategory?.name === category.name) {
-    //         setMobileActiveCategory(null); // Collapse if already open
-    //     } else {
-    //         setMobileActiveCategory(category); // Expand the new category
-    //     }
-    // };
     // State for the desktop dropdown menu
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState(categories[0]);
@@ -259,7 +192,7 @@ export default function ServicesHeader() {
 
                             {/* Dropdown Menu (Desktop) */}
                             {isCategoryDropdownOpen && (
-                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[60rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
                                     {/* Left Column: Main Categories */}
                                     <div className="flex flex-col space-y-2 bg-white rounded-xl shadow-lg w-[225px] h-fit py-2">
                                         {categories.map((category) => (
@@ -279,7 +212,7 @@ export default function ServicesHeader() {
                                     {/* Right Column: Sub-categories */}
                                     <div className="h-fit flex-1 bg-white rounded-xl shadow-lg p-4 grid grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto">
                                         {activeCategory && activeCategory.subCategories && activeCategory.subCategories.map((sub, index) => (
-                                            <Link to={sub.path} key={index} onClick={() => setIsCategoryDropdownOpen(false)} className="text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                                            <Link to={sub.path} key={index} onClick={() => setIsCategoryDropdownOpen(false)} className="text-gray-600 hover:text-gray-900 transition-colors duration-200 text-center">
                                                 {sub.name}
                                             </Link>
                                         ))}

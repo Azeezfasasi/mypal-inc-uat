@@ -188,7 +188,7 @@ export default function BusinessHeaderSection() {
 
                             {/* Dropdown Menu (Desktop) */}
                             {isCategoryDropdownOpen && (
-                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[60rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
                                     {/* Left Column: Main Categories */}
                                     <div className="flex flex-col space-y-2 bg-white rounded-xl shadow-lg w-[225px] h-fit py-2">
                                         {categories.map((category) => (
@@ -208,7 +208,7 @@ export default function BusinessHeaderSection() {
                                     {/* Right Column: Sub-categories */}
                                     <div className="h-fit flex-1 bg-white rounded-xl shadow-lg p-4 grid grid-cols-2 lg:grid-cols-3 gap-4 overflow-auto">
                                         {activeCategory && activeCategory.subCategories && activeCategory.subCategories.map((sub, index) => (
-                                            <Link to={sub.path} key={index} onClick={() => setIsCategoryDropdownOpen(false)} className="text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                                            <Link to={sub.path} key={index} onClick={() => setIsCategoryDropdownOpen(false)} className="text-gray-600 hover:text-gray-900 transition-colors duration-200 text-center">
                                                 {sub.name}
                                             </Link>
                                         ))}
