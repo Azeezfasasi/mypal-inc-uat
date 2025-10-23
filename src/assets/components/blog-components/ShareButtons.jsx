@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaTiktok, FaLinkedinIn, FaXTwitter, FaLink, FaT } from "react-icons/fa6";
+import { FaLinkedinIn, FaXTwitter, FaLink, FaT } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
 
 const ShareButtons = ({ postUrl }) => {
@@ -21,12 +21,12 @@ const ShareButtons = ({ postUrl }) => {
     window.open(shareUrl, "_blank");
   };
 
-  const shareOnTiktok = () => {
-    const shareUrl = `https://www.tiktok.com/share?url=${encodeURIComponent(
-      postUrl
-    )}`;
-    window.open(shareUrl, "_blank");
-  };
+  // const shareOnTiktok = () => {
+  //   const shareUrl = `https://www.tiktok.com/share?url=${encodeURIComponent(
+  //     postUrl
+  //   )}`;
+  //   window.open(shareUrl, "_blank");
+  // };
 
   const shareOnLinkedIn = () => {
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
@@ -55,12 +55,12 @@ const ShareButtons = ({ postUrl }) => {
       </button>
 
       {/* TikTok */}
-      <button
+      {/* <button
         onClick={shareOnTiktok}
         className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition cursor-pointer"
       >
         <FaTiktok />
-      </button>
+      </button> */}
 
       {/* LinkedIn */}
       <button
