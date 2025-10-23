@@ -52,7 +52,7 @@ const FooterSection = () => {
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <div className="text-[#fbfbfb] text-left font-['AvenirNextRoundedStd-Bold',_sans-serif] text-xl font-bold mb-4">Discover</div>
                     <ul className="space-y-2 text-[#fbfbfb] text-base font-thin">
-                        <li><Link to="/" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</Link></li>
+                        <li><Link to="/accessibility-statement" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Accessibility Statement</Link></li>
                         <li><Link to="/cookie-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Cookies Policy</Link></li>
                         <li><Link to="/copyright-notice" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">Copyright Notice</Link></li>
                         <li><Link to="/privacy-policy" className="hover:text-[#DB3A06] transition-colors duration-200 hover:font-semibold">GDPR and Privacy policy</Link></li>

@@ -57,6 +57,7 @@ import BlogApiCheck from "./ForCheckReview/BlogApiCheck";
 import BlogList from "./blog/BlogList";
 import BlogPost from "./blog/BlogPost";
 import EventNights from "./nightlife/EventNights";
+import AccessibilityStatement from "./other-pages/AccessibilityStatement";
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/copyright-notice" element={<CopyrightNotice />} />
+        <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
         <Route path="/blog-details" element={<BlogDetails />} />
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
