@@ -14,7 +14,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 const FooterSection = () => {
     const [showContactModal, setShowContactModal] = useState(false);
-    const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
@@ -157,7 +157,7 @@ const FooterSection = () => {
                                 />
                                 {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email}</p>}
 
-                                <label className="block text-sm font-medium text-gray-700 mt-4">Phone (optional)</label>
+                                {/* <label className="block text-sm font-medium text-gray-700 mt-4">Phone (optional)</label>
                                 <input
                                     type="tel"
                                     value={form.phone}
@@ -165,9 +165,8 @@ const FooterSection = () => {
                                     className={`mt-1 block w-full rounded-md border py-2 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-800 ${errors.phone ? 'border-red-500' : 'border-gray-200'}`}
                                     placeholder="e.g. +2349055557535"
                                 />
-                                {errors.phone && <p className="text-sm text-red-500 mt-1">{errors.phone}</p>}
+                                {errors.phone && <p className="text-sm text-red-500 mt-1">{errors.phone}</p>} */}
 
-                                
                             </div>
 
                             <div className="col-span-1 md:col-span-1">
@@ -176,7 +175,7 @@ const FooterSection = () => {
                                     rows={8}
                                     value={form.message}
                                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                                    className={`mt-1 block w-full rounded-md border py-3 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-800 ${errors.message ? 'border-red-500' : 'border-gray-200'}`}
+                                    className={`mt-1 block w-full rounded-md border py-0 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 text-gray-800 ${errors.message ? 'border-red-500' : 'border-gray-200'}`}
                                     placeholder="Write your message here..."
                                 />
                                 {errors.message && <p className="text-sm text-red-500 mt-1">{errors.message}</p>}
@@ -199,8 +198,7 @@ const FooterSection = () => {
                                         if (!form.name || form.name.trim().length < 2) errs.name = 'Please enter your name';
                                         const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                                         if (!form.email || !emailRx.test(form.email)) errs.email = 'Please enter a valid email';
-                                        // phone is optional but if provided, do a basic validation
-                                        if (form.phone && form.phone.replace(/[^0-9+]/g, '').length < 7) errs.phone = 'Please enter a valid phone number';
+                                        // if (form.phone && form.phone.replace(/[^0-9+]/g, '').length < 7) errs.phone = 'Please enter a valid phone number';
                                         if (!form.message || form.message.trim().length < 10) errs.message = 'Please enter a longer message';
                                         setErrors(errs);
                                         if (Object.keys(errs).length) return;
@@ -212,7 +210,7 @@ const FooterSection = () => {
                                             const payload = {
                                                 name: form.name,
                                                 email: form.email,
-                                                ...(form.phone ? { phone: form.phone } : {}),
+                                                // ...(form.phone ? { phone: form.phone } : {}),
                                                 message: form.message,
                                             };
                                             const response = await axios.post(url, payload);
@@ -220,7 +218,7 @@ const FooterSection = () => {
                                                 throw new Error('Unexpected response from server');
                                             }
                                             setSuccessMsg('Thanks — your message was sent successfully.');
-                                            setForm({ name: '', email: '', phone: '', message: '' });
+                                            setForm({ name: '', email: '', message: '' });
                                             setTimeout(() => { setShowContactModal(false); setSuccessMsg(''); }, 3800);
                                         } catch (err) {
                                             console.error('Contact submit failed', err.response ?? err.message);
