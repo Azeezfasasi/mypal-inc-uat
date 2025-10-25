@@ -1,0 +1,331 @@
+name: CI, Deploy with Rollback
+
+# Purpose: This workflow provides a complete CI/CD pipeline with deployment and automatic rollback
+# Features:
+#   - Deployment with backup
+#   - Automatic rollback on failure
+#   - Backup creation before deployment
+#   - Cleanup of old deployments and backups
+#   - Health checks for new deployments
+#   - Notifications for deployment status
+#
+# Triggered by:
+#   - Push to main branch
+#   - Manual workflow dispatch with action options (deploy/rollback)
+#
+# Required secrets:
+#   - SERVER_HOST: The hostname/IP of the deployment server
+#   - DEPLOY_KEY: SSH private key for deployment
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+        - deploy
+        - rollback
+
+jobs:
+  # Primary deployment job - handles building, testing, and deploying the application
+  deploy:
+    if: |
+      (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy')
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.deploy-status.outputs.status }}
+      commit-hash: ${{ github.sha }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get commit hash
+        id: get-commit
+        run: echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: ${{ runner.os }}-build-${{ hashFiles('src/**/*', 'package.json', 'vite.config.js') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install dependencies (use cache if available)
+        run: |
+          # Check if node_modules exists and is up to date with package-lock.json
+          # We use .modules.yaml as a marker file that npm creates
+          if [ ! -d "node_modules" ] || [ ! -f "node_modules/.modules.yaml" ]; then
+            echo "📦 Installing dependencies..."
+            npm ci --prefer-offline --no-audit
+          else
+            echo "✅ Using cached dependencies"
+          fi
+
+      - name: Build (skip if cached)
+        run: |
+          # Check if the dist directory exists and contains the main entry point
+          # This avoids rebuilding if the code hasn't changed
+          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
+            echo "🏗️ Building application..."
+            npm run build
+          else
+            echo "✅ Using cached build"
+          fi
+        env:
+          VITE_API_BASE_URL: https://api.mypal-inc.com/v1
+          VITE_API_KEY: mpk_live_cdd468e3e1a988b45aaa865511fb9701d104e45bfe2a69f119b562b92c108ce1
+
+      - name: Create deployment package
+        run: |
+          echo "📦 Creating deployment package..."
+          mkdir -p deploy-package
+          cp -r dist deploy-package/
+          # Include static assets so runtime can find images (logos, icons) used by emails
+          if [ -d "assets" ]; then
+            cp -r assets deploy-package/
+          fi
+          cp package.json deploy-package/
+          cp package-lock.json deploy-package/
+          # Create a minimal package for faster transfer
+          cd deploy-package
+          echo "📦 Installing production dependencies only..."
+          npm ci --omit=dev --no-optional --no-audit --prefer-offline
+          cd ..
+          tar -czf deploy-package.tar.gz deploy-package/
+          echo "✅ Deployment package created"
+
+      - name: Prepare server for deployment
+        id: prepare-server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            set -e
+            echo "🚀 Preparing for deployment..."
+            cd ~/mypal/frontend
+
+            # Create backup of current deployment
+            if [ -d "mypalsite" ]; then
+              echo "📦 Creating backup of current deployment..."
+              BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)_$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')"
+              mkdir -p "$BACKUP_DIR"
+
+              # Backup the site directory
+              cp -r mypalsite "$BACKUP_DIR/"
+
+              # Store backup location for rollback
+              echo "$BACKUP_DIR" > .last_successful_backup
+              echo "✅ Backup created: $BACKUP_DIR"
+            else
+              echo "⚠️ No current deployment to backup"
+            fi
+
+            echo "✅ Server preparation complete"
+
+      - name: Upload deployment package
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "deploy-package.tar.gz"
+          target: "~/mypal/frontend"
+
+      - name: Complete zero-downtime deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            set -e
+            cd ~/mypal/frontend
+
+            # Use GitHub SHA for uniquely identifying deployments
+            DEPLOY_DIR="deploy_$(date +%Y%m%d_%H%M%S)_${{ github.sha }}"
+
+            echo "📦 Extracting and preparing new version..."
+            tar -xzf deploy-package.tar.gz
+
+            # Create deployment directory and move contents
+            mkdir -p "$DEPLOY_DIR"
+            mv deploy-package/* "$DEPLOY_DIR"/
+            # ensure assets (static files) are available in the deployment root
+            if [ -d "$DEPLOY_DIR/assets" ]; then
+              echo "✅ Assets copied to deployment"
+            fi
+            rm -rf deploy-package deploy-package.tar.gz
+
+            cd "$DEPLOY_DIR"
+
+            echo "🔍 Verifying build..."
+            # Verify build artifacts exist
+            if [ ! -f "dist/index.html" ]; then
+              echo "❌ Build verification failed! Missing index.html."
+              exit 1
+            fi
+
+            echo "🚀 Deploying new version..."
+            # Create site directory if not exists
+            mkdir -p ../mypalsite
+            # Copy new files
+            cp -r dist/* ../mypalsite/
+
+            echo "⏳ Waiting for deployment to complete..."
+            sleep 5
+
+            # Health check
+            echo "🔍 Performing health checks..."
+            if [ -f "../mypalsite/index.html" ]; then
+              echo "✅ Deployment health check passed"
+            else
+              echo "❌ Deployment failed! index.html not found"
+              exit 1
+            fi
+
+            echo "🧹 Optimizing storage - cleaning up old files..."
+            # Keep only last 3 deployments and 2 backups
+            ls -dt deploy_* | tail -n +4 | xargs -r rm -rf
+            ls -dt backup_* | tail -n +3 | xargs -r rm -rf
+
+            echo "✅ Deployment completed!"
+
+            # Record successful deployment information
+            echo "${{ github.sha }}" > .last_successful_deployment
+            echo "$DEPLOY_DIR" > .last_successful_deployment_dir
+            # Also maintain backup reference for rollback
+            if [ -f ".last_successful_backup" ]; then
+              cp .last_successful_backup .previous_backup
+            fi
+
+      - name: Cleanup deployment artifacts
+        run: |
+          rm -rf deploy-package.tar.gz deploy-package/
+
+      - name: Set deployment status output
+        id: deploy-status
+        if: success()
+        run: echo "status=success" >> $GITHUB_OUTPUT
+
+  # Rollback job - executed when deployment fails or when manually triggered
+  rollback:
+    if: |
+      failure() && needs.deploy.result == 'failure' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'rollback')
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Rollback to last successful deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            set -e
+            echo "🔄 Starting rollback process..."
+            cd ~/mypal/frontend
+
+            # Check for backup sources
+            if [ -f ".last_successful_backup" ]; then
+              BACKUP_DIR=$(cat .last_successful_backup)
+              echo "🔍 Found backup reference: $BACKUP_DIR"
+            elif [ -f ".last_successful_deployment_dir" ]; then
+              BACKUP_DIR=$(cat .last_successful_deployment_dir)
+              echo "🔍 Found deployment reference as backup: $BACKUP_DIR"
+            elif [ -f ".previous_backup" ]; then
+              BACKUP_DIR=$(cat .previous_backup)
+              echo "🔍 Found previous backup reference: $BACKUP_DIR"
+            else
+              echo "❌ No backup references found! Cannot rollback."
+              exit 1
+            fi
+
+            # Verify the backup directory exists
+            if [ ! -d "$BACKUP_DIR" ]; then
+              echo "❌ Backup directory $BACKUP_DIR not found!"
+              exit 1
+            fi
+
+            echo "📦 Rolling back to backup: $BACKUP_DIR"
+
+            # Restore from backup
+            echo "🔄 Restoring files from backup..."
+            if [ -d "$BACKUP_DIR/mypalsite" ]; then
+              rm -rf mypalsite
+              cp -r "$BACKUP_DIR/mypalsite" .
+              echo "✅ Restored site directory"
+            else
+              echo "❌ No site directory in backup!"
+              exit 1
+            fi
+
+            # Verify rollback was successful
+            if [ -f "mypalsite/index.html" ]; then
+              echo "✅ Rollback completed successfully!"
+              exit 0
+            fi
+
+            echo "❌ Rollback failed!"
+            exit 1
+
+      - name: Notify rollback completion
+        if: success()
+        run: |
+          echo "✅ Rollback completed successfully"
+          echo "🔄 Application has been rolled back to the last successful deployment"
+
+      - name: Notify rollback failure
+        if: failure()
+        run: |
+          echo "❌ Rollback failed!"
+          echo "🚨 Manual intervention required"
+
+  # Notification job - always runs to provide status updates
+  notify:
+    if: always()
+    needs: [deploy, rollback]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify deployment result
+        run: |
+          # Check deployment status from output variable
+          # This provides centralized reporting for the entire workflow
+          if [ "${{ needs.deploy.outputs.status }}" == "success" ]; then
+            echo "✅ Deployment completed successfully!"
+            echo "📝 Commit: ${{ needs.deploy.outputs.commit-hash }}"
+          elif [ "${{ needs.rollback.result }}" == "success" ]; then
+            echo "🔄 Deployment failed but rollback was successful"
+            echo "📝 Commit: ${{ needs.deploy.outputs.commit-hash }}"
+          else
+            echo "❌ Deployment failed and rollback also failed!"
+            echo "🚨 Manual intervention required"
+            echo "📝 Failed commit: ${{ needs.deploy.outputs.commit-hash }}"
+          fi
