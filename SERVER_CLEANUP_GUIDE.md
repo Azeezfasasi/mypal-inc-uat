@@ -1,41 +1,62 @@
 # Server Disk Space Cleanup Guide
 
 ## Problem
-Your server ran out of disk space, causing deployment failures.
+Your server ran out of disk space, causing deployment failures. Both backend and frontend directories have accumulated old deployments.
 
-## Immediate Fix Required
+## Quick Cleanup (Recommended)
 
-### 1. SSH into your server
+### Option 1: Use the Automated Script
+
+1. **Upload the cleanup script to your server:**
+```bash
+# On your local machine
+scp cleanup-server.sh root@your-server-ip:/root/
+```
+
+2. **SSH into your server and run it:**
+```bash
+ssh root@your-server-ip
+chmod +x /root/cleanup-server.sh
+sudo /root/cleanup-server.sh
+```
+
+This will clean:
+- ✅ All old backend deployments (`~/mypal/backend/deploy_*`, `backup_*`)
+- ✅ All old frontend deployments (`/var/www/mypal/deploy_*`, `backup_*`)
+- ✅ System caches (apt, journal logs, nginx)
+- ✅ Old kernels and tmp files
+
+### Option 2: Manual Cleanup
+
+### Option 2: Manual Cleanup
+
+**SSH into your server:**
 ```bash
 ssh root@your-server-ip
 ```
 
-### 2. Check current disk usage
+**1. Check current disk usage:**
 ```bash
 df -h
 ```
 
-### 3. Find what's using space
+**2. Clean Backend deployments:**
 ```bash
-# Check /var/www/mypal directory
-du -h /var/www/mypal | sort -rh | head -20
-
-# Check overall system usage
-du -h / 2>/dev/null | sort -rh | head -30
+cd ~/mypal/backend
+ls -d deploy_* backup_* | wc -l  # Count files
+rm -rf deploy_* backup_*          # Remove all
+df -h                             # Check space freed
 ```
 
-### 4. Clean up old deployments and backups
+**3. Clean Frontend deployments:**
 ```bash
 cd /var/www/mypal
-# Remove ALL old deployment directories
-rm -rf deploy_*
-# Remove ALL old backup directories  
-rm -rf backup_*
-# Check space freed
-df -h
+ls -d deploy_* backup_* | wc -l  # Count files
+rm -rf deploy_* backup_*          # Remove all (keeps mypalsite)
+df -h                             # Check space freed
 ```
 
-### 5. Clean system caches
+**4. Clean system caches:**
 ```bash
 # Clean apt cache
 sudo apt clean

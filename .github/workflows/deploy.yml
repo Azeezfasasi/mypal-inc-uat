@@ -108,7 +108,36 @@ jobs:
             set -e
             echo "🚀 Preparing for deployment..."
             cd /var/www/mypal
+            
+            # Check disk space before proceeding
+            echo "💾 Checking disk space..."
+            DISK_USAGE=$(df /var/www | tail -1 | awk '{print $5}' | sed 's/%//')
+            echo "Current disk usage: ${DISK_USAGE}%"
+            
+            # Emergency cleanup if disk is over 85%
+            if [ "$DISK_USAGE" -gt 85 ]; then
+              echo "⚠️ Disk usage critical! Running emergency cleanup..."
+              # Remove ALL old deployments and backups
+              rm -rf deploy_* backup_* 2>/dev/null || true
+              echo "✅ Emergency cleanup complete"
+              
+              # Check space again
+              DISK_USAGE=$(df /var/www | tail -1 | awk '{print $5}' | sed 's/%//')
+              echo "Disk usage after cleanup: ${DISK_USAGE}%"
+              
+              if [ "$DISK_USAGE" -gt 90 ]; then
+                echo "❌ Still critically low on disk space after cleanup!"
+                echo "Manual intervention required. Current usage: ${DISK_USAGE}%"
+                exit 1
+              fi
+            fi
              
+            # Regular cleanup - keep only last deployment and 1 backup
+            echo "🧹 Running regular cleanup..."
+            ls -dt deploy_* 2>/dev/null | tail -n +2 | xargs -r rm -rf
+            ls -dt backup_* 2>/dev/null | tail -n +2 | xargs -r rm -rf
+            echo "✅ Cleanup complete"
+            
             # Create backup of current deployment
             if [ -d "mypalsite" ]; then
               echo "📦 Creating backup of current deployment..."
@@ -123,6 +152,15 @@ jobs:
               echo "✅ Backup created: $BACKUP_DIR"
             else
               echo "⚠️ No current deployment to backup"
+            fi
+            
+            # Final disk space check
+            DISK_USAGE=$(df /var/www | tail -1 | awk '{print $5}' | sed 's/%//')
+            echo "📊 Final disk usage: ${DISK_USAGE}%"
+            
+            if [ "$DISK_USAGE" -gt 90 ]; then
+              echo "❌ Insufficient disk space for deployment!"
+              exit 1
             fi
              
             echo "✅ Server preparation complete"
@@ -197,22 +235,28 @@ jobs:
               exit 1
             fi
 
-            echo "🧹 Optimizing storage - cleaning up old files..."
-            # Keep only last 3 deployments and 2 backups
-            ls -dt deploy_* | tail -n +4 | xargs -r rm -rf
-            ls -dt backup_* | tail -n +3 | xargs -r rm -rf
+            echo "🧹 Post-deployment cleanup..."
+            # Aggressive cleanup - keep only last 1 deployment and 1 backup
+            cd ..
+            ls -dt deploy_* 2>/dev/null | tail -n +2 | xargs -r rm -rf
+            ls -dt backup_* 2>/dev/null | tail -n +2 | xargs -r rm -rf
+            echo "✅ Old deployments cleaned"
 
             echo "✅ Deployment completed!"
             
             # Clear nginx cache and reload
             echo "🔄 Clearing nginx cache and reloading..."
             if [ -d "/var/cache/nginx" ]; then
-              rm -rf /var/cache/nginx/*
+              rm -rf /var/cache/nginx/* 2>/dev/null || true
             fi
             nginx -s reload
             
             echo "📊 Deployment verification:"
-            ls -lh ../mypalsite/ | head -10
+            ls -lh mypalsite/ | head -10
+            
+            # Final disk usage report
+            DISK_USAGE=$(df /var/www | tail -1 | awk '{print $5}' | sed 's/%//')
+            echo "💾 Final disk usage: ${DISK_USAGE}%"
             
             # Record successful deployment information
             echo "${{ github.sha }}" > .last_successful_deployment
