@@ -66,7 +66,7 @@ const BusinessBlog = () => {
 
             {/* Title */}
             <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
-                MyPal Blog
+                Business Blog
             </div>
 
             {/* Right Gradient Line */}
@@ -80,7 +80,7 @@ const BusinessBlog = () => {
             <div className="flex flex-col gap-3 items-start justify-start self-stretch shrink-0 relative">
               <div className="text-[#181d27] text-left text-[30px] md:text-[36px] font-semibold leading-[38px] md:leading-[44px] relative self-stretch"
                 style={{ letterSpacing: 'var(--display-md-semibold-letter-spacing, -0.02em)' }}>
-                Lastest blog posts
+                Latest blog posts for businesses
               </div>
             </div>
             <div className="text-[#535862] text-left text-[18px] md:text-[20px] font-normal leading-[28px] md:leading-[30px] relative">
