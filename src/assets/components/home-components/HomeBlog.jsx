@@ -126,7 +126,7 @@ const HomeBlog = () => {
 
         {/* Mobile view button */}
         <div className="mt-8 flex justify-center md:hidden">
-          <Link to="/blogs" className="px-4 py-2 bg-[#ce4015] text-white rounded-md">View All Posts</Link>
+          <Link to="/blog-lists" className="px-4 py-2 bg-[#ce4015] text-white rounded-md">View All Posts</Link>
         </div>
 
         {/* Loading & error */}
