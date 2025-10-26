@@ -58,7 +58,7 @@ const HomeBlog = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Blog</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Our Blog</h2>
             <p className="mt-2 text-gray-600 max-w-xl">Tools and strategies modern teams need to help their companies grow.</p>
           </div>
           <div className="hidden md:block">
