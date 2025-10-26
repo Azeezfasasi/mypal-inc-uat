@@ -55,14 +55,31 @@ const HomeBlog = () => {
 
   return (
     <section className="w-full bg-white py-8 px-4 md:px-8 lg:px-16">
+      {/* Section header */}
+      <div className="w-full flex flex-row gap-[40px] items-center justify-start relative mb-8">
+      {/* Left Gradient Line */}
+          <div className="hidden md:block border-t border-solid shrink-0 md:w-[20%] lg:w-[30%] h-0 relative -mt-px rotate-180"
+          style={{borderImage: "linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(102,102,102,0.14) 100%)",
+          borderImageSlice: 1,}}
+          ></div>
+
+          {/* Title */}
+          <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
+              Blog
+          </div>
+
+          {/* Right Gradient Line */}
+          <div className="hidden md:block border-t border-solid shrink-0 md:w-[20%] lg:w-[30%] h-0 relative -mt-px" style={{borderImage: "linear-gradient(90deg, rgba(94,94,94,1) 0%, rgba(102,102,102,0.14) 100%)",borderImageSlice: 1,}}
+          ></div>
+      </div>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Our Blog</h2>
+            {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Our Blog</h2> */}
             <p className="mt-2 text-gray-600 max-w-xl">Tools and strategies modern teams need to help their companies grow.</p>
           </div>
           <div className="hidden md:block">
-            <Link to="/blog-lists" className="inline-flex items-center px-4 py-2 bg-[#ce4015] text-white rounded-md hover:opacity-95">View All Posts</Link>
+            <Link to="/blog-lists" className="inline-flex items-center px-4 py-2 bg-[#ce4015] text-white rounded-md hover:opacity-95">See All</Link>
           </div>
         </div>
 
