@@ -192,6 +192,9 @@ jobs:
             echo "🚀 Deploying new version..."
             # Create site directory if not exists
             mkdir -p ../mypalsite
+            # Clean the destination directory to remove old files
+            echo "🧹 Cleaning old deployment files..."
+            rm -rf ../mypalsite/*
             # Copy new files
             cp -r dist/* ../mypalsite/
 
