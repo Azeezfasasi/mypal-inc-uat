@@ -126,24 +126,24 @@ jobs:
           script: |
             set -e
             echo "🚀 Preparing for deployment..."
-            cd ~/mypal/frontend
-
+            cd /var/www/mypal
+             
             # Create backup of current deployment
             if [ -d "mypalsite" ]; then
               echo "📦 Creating backup of current deployment..."
               BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)_$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')"
               mkdir -p "$BACKUP_DIR"
-
+               
               # Backup the site directory
               cp -r mypalsite "$BACKUP_DIR/"
-
+               
               # Store backup location for rollback
               echo "$BACKUP_DIR" > .last_successful_backup
               echo "✅ Backup created: $BACKUP_DIR"
             else
               echo "⚠️ No current deployment to backup"
             fi
-
+             
             echo "✅ Server preparation complete"
 
       - name: Upload deployment package
@@ -153,7 +153,7 @@ jobs:
           username: root
           key: ${{ secrets.DEPLOY_KEY }}
           source: "deploy-package.tar.gz"
-          target: "~/mypal/frontend"
+          target: "/var/www/mypal"
 
       - name: Complete zero-downtime deployment
         uses: appleboy/ssh-action@master
@@ -163,14 +163,14 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             set -e
-            cd ~/mypal/frontend
+            cd /var/www/mypal
 
             # Use GitHub SHA for uniquely identifying deployments
             DEPLOY_DIR="deploy_$(date +%Y%m%d_%H%M%S)_${{ github.sha }}"
 
             echo "📦 Extracting and preparing new version..."
             tar -xzf deploy-package.tar.gz
-
+            
             # Create deployment directory and move contents
             mkdir -p "$DEPLOY_DIR"
             mv deploy-package/* "$DEPLOY_DIR"/
@@ -213,7 +213,7 @@ jobs:
             ls -dt backup_* | tail -n +3 | xargs -r rm -rf
 
             echo "✅ Deployment completed!"
-
+            
             # Record successful deployment information
             echo "${{ github.sha }}" > .last_successful_deployment
             echo "$DEPLOY_DIR" > .last_successful_deployment_dir
@@ -251,7 +251,7 @@ jobs:
           script: |
             set -e
             echo "🔄 Starting rollback process..."
-            cd ~/mypal/frontend
+            cd /var/www/mypal
 
             # Check for backup sources
             if [ -f ".last_successful_backup" ]; then
@@ -267,7 +267,7 @@ jobs:
               echo "❌ No backup references found! Cannot rollback."
               exit 1
             fi
-
+            
             # Verify the backup directory exists
             if [ ! -d "$BACKUP_DIR" ]; then
               echo "❌ Backup directory $BACKUP_DIR not found!"
