@@ -144,7 +144,9 @@ jobs:
               echo "⚠️ No current deployment to backup"
             fi
              
-            echo "✅ Server preparation complete"      - name: Upload deployment package
+            echo "✅ Server preparation complete"
+
+      - name: Upload deployment package
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
