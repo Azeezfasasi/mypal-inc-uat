@@ -58,6 +58,7 @@ import BlogList from "./blog/BlogList";
 import BlogPost from "./blog/BlogPost";
 import EventNights from "./nightlife/EventNights";
 import AccessibilityStatement from "./other-pages/AccessibilityStatement";
+import HomeBlogList from "./blog/HomeBlogList";
 
 function App() {
   return (
@@ -111,6 +112,7 @@ function App() {
         <Route path="/accessibility-statement" element={<AccessibilityStatement />} />
         <Route path="/blog-details" element={<BlogDetails />} />
         <Route path="/blogs" element={<BlogList />} />
+        <Route path="/blog-lists" element={<HomeBlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/blog-api-check" element={<BlogApiCheck />} />
 
