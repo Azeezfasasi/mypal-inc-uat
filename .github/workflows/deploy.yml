@@ -86,22 +86,16 @@ jobs:
 
       - name: Create deployment package
         run: |
-          echo "📦 Creating deployment package..."
+          echo "📦 Creating deployment package (static files only)..."
           mkdir -p deploy-package
+          # Only copy the built dist folder - no node_modules needed
           cp -r dist deploy-package/
-          # Include static assets so runtime can find images (logos, icons) used by emails
-          if [ -d "assets" ]; then
-            cp -r assets deploy-package/
+          # Copy public assets if they exist
+          if [ -d "public" ]; then
+            cp -r public deploy-package/
           fi
-          cp package.json deploy-package/
-          cp package-lock.json deploy-package/
-          # Create a minimal package for faster transfer
-          cd deploy-package
-          echo "📦 Installing production dependencies only..."
-          npm ci --omit=dev --no-optional --no-audit --prefer-offline
-          cd ..
           tar -czf deploy-package.tar.gz deploy-package/
-          echo "✅ Deployment package created"
+          echo "✅ Deployment package created ($(du -h deploy-package.tar.gz | cut -f1))"
 
       - name: Prepare server for deployment
         id: prepare-server
