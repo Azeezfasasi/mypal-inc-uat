@@ -64,35 +64,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Cache build artifacts
-        uses: actions/cache@v4
-        with:
-          path: dist
-          key: ${{ runner.os }}-build-${{ hashFiles('src/**/*', 'package.json', 'vite.config.js') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
+      # Removed build cache to ensure fresh builds every time
+      # This ensures all source code changes are always included
 
-      - name: Install dependencies (use cache if available)
+      - name: Install dependencies
         run: |
-          # Check if node_modules exists and is up to date with package-lock.json
-          # We use .modules.yaml as a marker file that npm creates
-          if [ ! -d "node_modules" ] || [ ! -f "node_modules/.modules.yaml" ]; then
-            echo "📦 Installing dependencies..."
-            npm ci --prefer-offline --no-audit
-          else
-            echo "✅ Using cached dependencies"
-          fi
+          echo "📦 Installing dependencies..."
+          # Always install fresh dependencies to ensure consistency
+          npm ci --prefer-offline --no-audit
+          echo "✅ Dependencies installed"
 
-      - name: Build (skip if cached)
+      - name: Build application
         run: |
-          # Check if the dist directory exists and contains the main entry point
-          # This avoids rebuilding if the code hasn't changed
-          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
-            echo "🏗️ Building application..."
-            npm run build
-          else
-            echo "✅ Using cached build"
-          fi
+          echo "🏗️ Building application..."
+          # Always build to ensure latest changes are included
+          npm run build
+          echo "✅ Build completed"
         env:
           VITE_API_BASE_URL: https://api.mypal-inc.com/v1
           VITE_API_KEY: mpk_live_cdd468e3e1a988b45aaa865511fb9701d104e45bfe2a69f119b562b92c108ce1
@@ -199,6 +186,10 @@ jobs:
             cp -r dist/* ../mypalsite/
             # Set proper permissions for web server
             chown -R www-data:www-data ../mypalsite/
+            
+            # Add timestamp marker for verification
+            echo "Deployed at: $(date)" > ../mypalsite/DEPLOY_INFO.txt
+            echo "Commit: ${{ github.sha }}" >> ../mypalsite/DEPLOY_INFO.txt
 
             echo "⏳ Waiting for deployment to complete..."
             sleep 5
@@ -218,6 +209,16 @@ jobs:
             ls -dt backup_* | tail -n +3 | xargs -r rm -rf
 
             echo "✅ Deployment completed!"
+            
+            # Clear nginx cache and reload
+            echo "🔄 Clearing nginx cache and reloading..."
+            if [ -d "/var/cache/nginx" ]; then
+              rm -rf /var/cache/nginx/*
+            fi
+            nginx -s reload
+            
+            echo "📊 Deployment verification:"
+            ls -lh ../mypalsite/ | head -10
             
             # Record successful deployment information
             echo "${{ github.sha }}" > .last_successful_deployment
