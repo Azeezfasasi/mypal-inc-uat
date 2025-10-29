@@ -1,6 +1,6 @@
 import React from "react";
 import FooterSection from "./FooterSection";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import ServicesHeader from "../services-components/ServicesHeader";
 
 export default function CopyrightNotice({
@@ -16,6 +16,7 @@ export default function CopyrightNotice({
         <meta name="description" content={`Read the copyright notice for using ${company} services.`} />
         <meta name="keywords" content={`${company}, copyright notice, user agreement`} />
         <meta name="author" content={company} />
+        <link rel="canonical" href={`https://www.mypal-inc.com/copyright-notice`} />
     </Helmet>
     <ServicesHeader />
     <div

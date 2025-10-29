@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import FooterSection from '../assets/components/home-components/FooterSection';
 import { Commet } from "react-loading-indicators";
@@ -69,6 +69,11 @@ export default function BlogPost() {
         <meta name="description" content="Detailed blog post on MyPal covering various topics to help you enhance your business and lifestyle." />
         <meta name="keywords" content="MyPal, Blog, Business Tips, Lifestyle, Hospitality, Travel, Accommodation, Mobility, Outdoor Activities" />
         <meta name="author" content="MyPal Team" />
+        <meta property="og:title" content={post.title || post.name} />
+        <meta property="og:description" content={post.excerpt || post.meta_description || 'Read this detailed blog post on MyPal.'} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={postUrl} />
+        <meta property="og:image" content={post.featured_image_url || blogplaceholder} />
     </Helmet>
     <ServicesHeader />
     <div className="min-h-screen bg-white py-8 px-4 mb-10">

@@ -7,7 +7,7 @@ import ServicesDetailHero from './ServicesDetailHero';
 import ServiceDetailDescription from './ServiceDetailDescription';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import { Commet } from "react-loading-indicators";
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 function ServiceDetails() {
   const { businessId } = useParams();

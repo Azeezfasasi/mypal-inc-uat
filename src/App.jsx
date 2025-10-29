@@ -52,6 +52,7 @@ import CookiePolicyPage from "./other-pages/CookiePolicyPage";
 import TermsAndConditions from "./other-pages/TermsAndConditions";
 import PrivacyPolicy from "./other-pages/PrivacyPolicy";
 import CopyrightNotice from "./assets/components/home-components/CopyrightNotice";
+import NotFound from "./other-pages/NotFound";
 import BlogDetails from "./blog/BlogDetails";
 import BlogApiCheck from "./ForCheckReview/BlogApiCheck";
 import BlogList from "./blog/BlogList";
@@ -115,6 +116,9 @@ function App() {
         <Route path="/blog-lists" element={<HomeBlogList />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/blog-api-check" element={<BlogApiCheck />} />
+
+        {/* 404 - Catch all */}
+        <Route path="*" element={<NotFound />} />
 
         {/* For testing purposes */}
         <Route path="/apireview" element={<ApiReview />} />

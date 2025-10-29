@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import FooterSection from '../assets/components/home-components/FooterSection';
 import { Commet } from 'react-loading-indicators';
@@ -72,6 +72,9 @@ export default function HomeBlogList() {
     <>
       <Helmet>
         <title>Blog Posts | MyPal</title>
+        <meta name="description" content="Explore our blog posts for the latest industry news, interviews, technologies, and resources." />
+        <meta name="keywords" content="blog, articles, industry news, interviews, technologies, resources" />
+        <link rel="canonical" href="https://www.mypal-inc.com/blog-lists" />
       </Helmet>
 
       <ServicesHeader />

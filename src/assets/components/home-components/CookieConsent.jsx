@@ -56,7 +56,7 @@ const CookieConsent = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-5 md:bottom-10 md:bottom-5 left-5 md:left-5 smax-w-sm w-[90%] md:w-[30%] bg-white shadow-lg rounded-lg p-4 border border-gray-200 animate-fadeIn z-[99999]">
+    <div className="fixed bottom-5 md:bottom-10 left-5 md:left-5 smax-w-sm w-[90%] md:w-[30%] bg-white shadow-lg rounded-lg p-4 border border-gray-200 animate-fadeIn z-[99999]">
       {!customizeOpen && (
         <>
           <h3 className="font-semibold text-gray-800 mb-2">

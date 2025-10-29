@@ -8,16 +8,17 @@ import BusinessHowItWorks from './assets/components/business-components/Business
 import VideoImage from './assets/components/business-components/VideoImage'
 import BusinessBlog from './assets/components/business-components/BusinessBlog'
 import FooterSection from './assets/components/home-components/FooterSection'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import VideoPlayCard from './assets/components/business-components/VideoPlayCard'
 
 function Business() {
   return (
     <>
     <Helmet>
-      <title>For Business | MyPal</title>
+      <title>MyPal Business | MyPal</title>
       <meta name="description" content="Join MyPal to elevate your business presence. Connect with customers, showcase your services, and grow your brand with our comprehensive business solutions." />
-      <link rel="canonical" href="https://www.mypal.ng/for-business" />
+      <meta name="keywords" content="MyPal, business solutions, customer connection, service showcase, brand growth" />
+      <link rel="canonical" href="https://www.mypal-inc.com/forbusiness" />
     </Helmet>
     <BusinessHeroSection />
     <TrustedBy />

@@ -2,15 +2,16 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import SalonAndSpaHero from '../assets/components/category-components/salon-and-spa-component/SalonAndSpaHero'
 import SalonList from '../assets/components/category-components/salon-and-spa-component/SalonList'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 export default function SalonAndSpa() {
   return (
     <>
       <Helmet>
-        <title>Salon and Spa Services in Lagos | MyPal</title>
+        <title>Spa and Skin Care | MyPal</title>
         <meta name="description" content="Discover top-rated salon and spa services in Lagos with MyPal. Book appointments, read reviews, and pamper yourself with the best beauty and wellness experiences." />
-        <link rel="canonical" href="https://www.mypal.ng/beauty-and-health/salon-and-spa" />
+        <meta name="keywords" content="MyPal, salon services, spa services, Lagos, beauty, wellness" />
+        <link rel="canonical" href="https://www.mypal-inc.com/beautyhealth/spa&skincare" />
       </Helmet>
       <SalonAndSpaHero />
       <SalonList />
