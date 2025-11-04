@@ -11,6 +11,18 @@ import HomeBlog from './assets/components/home-components/HomeBlog'
 function Home() {
   const location = useLocation();
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MyPal Inc",
+    "url": "https://www.mypal-inc.com",
+    "logo": "https://mypal.com/mypallrmbg.png",
+    "sameAs": [
+      "https://www.facebook.com/mypal",
+      "https://www.linkedin.com/company/mypal"
+    ]
+  };
+
   useEffect(() => {
     // If navigation requested a scroll target, try to scroll to it after mount
     const targetId = location?.state?.scrollTo;
@@ -49,6 +61,9 @@ function Home() {
         <meta name="keywords" content="MyPal, local services, experiences, dining, nightlife, outdoor activities, beauty, health, accommodation, mobility" />
         <link rel="canonical" href="https://www.mypal-inc.com" />
         <meta name="author" content="MyPal" />
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
       </Helmet>
       <HeroSection />
       <ExploreCategory />

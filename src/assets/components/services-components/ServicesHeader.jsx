@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 // import mypaltrans2 from '../../images/mypaltrans2.png';
 import mypallogo from '../../images/mypallogo.svg'
+import ClaimYourBusiness from '../home-components/ClaimYourBusiness.jsx';
 
 // Using inline SVG for the chevron-down icon.
 const ChevronDownIcon = ({ className }) => (
@@ -88,11 +89,19 @@ export default function ServicesHeader() {
 
     // state to control the mobile category list independently
     const [isMobileCategoryListOpen, setIsMobileCategoryListOpen] = useState(false);
+
     // modal state for Download App (coming soon)
     const [showDownloadModal, setShowDownloadModal] = useState(false);
 
     const dropdownRef = useRef(null);
+    // For Business dropdown (desktop)
+    const forBusinessRef = useRef(null);
+    const [isForBusinessOpen, setIsForBusinessOpen] = useState(false);
+    // Mobile "For Business" submenu state
+    const [isMobileForBusinessOpen, setIsMobileForBusinessOpen] = useState(false);
     const [activeLink, setActiveLink] = useState('');
+    // Claim modal state
+    const [showClaimModal, setShowClaimModal] = useState(false);
 
     useEffect(() => {
         // Set the active link based on the current URL path
@@ -109,18 +118,21 @@ export default function ServicesHeader() {
         return () => document.removeEventListener('keydown', onKey);
     }, []);
 
-    // This effect handles closing the desktop dropdown when a click occurs outside of it
+    // This effect handles closing the desktop dropdowns when a click occurs outside of them
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsCategoryDropdownOpen(false);
+            }
+            if (forBusinessRef.current && !forBusinessRef.current.contains(event.target)) {
+                setIsForBusinessOpen(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [dropdownRef]);
+    }, [dropdownRef, forBusinessRef]);
 
 
     const toggleCategoryDropdown = () => {
@@ -221,14 +233,25 @@ export default function ServicesHeader() {
                             )}
                         </div>
                         
-                        {/* For Business Link */}
-                        <Link
-                            to="/forbusiness"
-                            onClick={() => setActiveLink('For Business')}
-                            className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'For Business' ? 'bg-white text-black rounded-[50.45px]' : 'text-black'}`}
-                        >
-                            For Business
-                        </Link>
+                        {/* For Business Dropdown (Desktop) */}
+                        <div className="relative" ref={forBusinessRef}>
+                            <button
+                                onClick={() => { setIsForBusinessOpen(!isForBusinessOpen); setActiveLink('For Business'); }}
+                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-gray-800'}`}
+                            >
+                                <span>For Business</span>
+                                <ChevronDownIcon className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${isForBusinessOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {isForBusinessOpen && (
+                                <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50">
+                                    <Link to="/forbusiness/add" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Add a Business</Link>
+                                    <button onClick={() => { setIsForBusinessOpen(false); setShowClaimModal(true); }} className="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Claim your business</button>
+                                    <a href='https://business.mypal-inc.com/login' target='_blank' onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
+                                    <Link to="/forbusiness" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Explore for Business</Link>
+                                </div>
+                            )}
+                        </div>
                     </nav>
 
                     {/* Download App Button */}
@@ -343,13 +366,22 @@ export default function ServicesHeader() {
                         )}
                     </div>
                     
-                    <Link
-                    to="/forbusiness"
-                    onClick={toggleMobileMenu}
-                    className="text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
-                    >
-                    For Business
-                    </Link>
+                    <div>
+                        <button onClick={() => setIsMobileForBusinessOpen(!isMobileForBusinessOpen)}
+                        className="w-full text-left text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between">
+                            <span>For Business</span>
+                            <ChevronDownIcon className={`w-6 h-6 ml-2 transform transition-transform duration-300 ${isMobileForBusinessOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {isMobileForBusinessOpen && (
+                            <div className="mt-3 ml-4 flex flex-col space-y-2 text-base text-gray-700">
+                                <Link to="/forbusiness/add" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Add a Business</Link>
+                                <button onClick={() => { toggleMobileMenu(); setShowClaimModal(true); }} className="hover:text-gray-800 text-left">Claim your business</button>
+                                <a href='https://business.mypal-inc.com/login' target='_blank' onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Log in to Business Account</a>
+                                <Link to="/forbusiness" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Explore for Business</Link>
+                            </div>
+                        )}
+                    </div>
 
                     <button
                     onClick={() => { toggleMobileMenu(); setShowDownloadModal(true); }}
@@ -372,6 +404,17 @@ export default function ServicesHeader() {
                         <div className="flex justify-end">
                             <button onClick={() => setShowDownloadModal(false)} className="px-4 py-2 text-white bg-[#DB3A06] rounded hover:bg-red-700 cursor-pointer">Close</button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Claim Business Modal */}
+            {showClaimModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black opacity-70" onClick={() => setShowClaimModal(false)} />
+                    <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 z-60 mx-4">
+                        <button onClick={() => setShowClaimModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">✕</button>
+                        <ClaimYourBusiness onClose={() => setShowClaimModal(false)} />
                     </div>
                 </div>
             )}
