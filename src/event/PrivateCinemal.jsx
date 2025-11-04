@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import PrivateCinemalHero from '../assets/components/category-components/event-ticketing-components/PrivateCinemalHero'
 import PrivateCinemaList from '../assets/components/category-components/event-ticketing-components/PrivateCinemalList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function PrivateCinemal() {
   return (

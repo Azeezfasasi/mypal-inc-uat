@@ -4,7 +4,7 @@ import ExploreCategory from './assets/components/home-components/ExploreCategory
 import FeaturedExperiences from './assets/components/home-components/FeaturedExperiences'
 import Faq from './assets/components/home-components/Faq'
 import FooterSection from './assets/components/home-components/FooterSection'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 import { useLocation } from 'react-router-dom'
 import HomeBlog from './assets/components/home-components/HomeBlog'
 

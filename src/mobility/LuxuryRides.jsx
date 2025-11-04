@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import LuxuryHero from '../assets/components/category-components/mobility-components/LuxuryHero'
 import LuxuryLists from '../assets/components/category-components/mobility-components/LuxuryLists'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function LuxuryRides() {
   return (

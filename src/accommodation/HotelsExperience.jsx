@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import HostelExperienceHero from '../assets/components/category-components/accommodation-component/HotelExperienceHero'
 import HotelExperienceLists from '../assets/components/category-components/accommodation-component/HotelExperienceList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function HotelExperience() {
   return (

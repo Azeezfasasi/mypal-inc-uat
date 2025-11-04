@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import SkincareHero from '../assets/components/category-components/salon-and-spa-component/SkinCareHero'
 import SkincareList from '../assets/components/category-components/salon-and-spa-component/SkinCareList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function SkinCare() {
   return (

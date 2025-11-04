@@ -3,7 +3,7 @@ import FineDiningHero from '../assets/components/category-components/restaurant-
 import FooterSection from '../assets/components/home-components/FooterSection'
 import FineDiningLists from '../assets/components/category-components/restaurant-components/FineDiningLists'
 // import { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function FineDining() {
   // const [filter, setFilter] = useState('All');

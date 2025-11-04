@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import NailsAndHaircareHero from '../assets/components/category-components/salon-and-spa-component/NailsAndHaircareHero'
 import NailsAndHaircareList from '../assets/components/category-components/salon-and-spa-component/NailsAndHaircareList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function NailsAndHairCare() {
   return (

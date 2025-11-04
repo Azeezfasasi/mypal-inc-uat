@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import FoodAndDrinkHero from '../assets/components/category-components/nightlife-components/FoodAndDrinkHero'
 import FoodAndDrinkList from '../assets/components/category-components/nightlife-components/FoodAndDrinkList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function FoodAndDrink() {
   return (

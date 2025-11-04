@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import BoatYatchHero from '../assets/components/category-components/outdoor-components/BoatYatchHero'
 import BoatLists from '../assets/components/category-components/outdoor-components/BoatLists'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function BoatsYatch() {
   return (

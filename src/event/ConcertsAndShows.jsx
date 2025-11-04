@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import ConcertAndShowsHero from '../assets/components/category-components/event-ticketing-components/ConcertAndShowHero'
 import ConcertAndShowsList from '../assets/components/category-components/event-ticketing-components/ConcertAndShowsList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function ConcertAndShows() {
   return (

@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import AccommodationHero from '../assets/components/category-components/accommodation-component/AccommodationHero'
 import AccommodationCategory from '../assets/components/category-components/accommodation-component/AccommodationCategory'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function Accommodation() {
   return (

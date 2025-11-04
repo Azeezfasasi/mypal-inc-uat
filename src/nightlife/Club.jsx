@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import ClubList from '../assets/components/category-components/nightlife-components/ClubList'
 import ClubHero from '../assets/components/category-components/nightlife-components/ClubHero'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function Club() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import PrivacyPolicyComponent from '../assets/components/home-components/PrivacyPolicyComponent'
 import ServicesHeader from '../assets/components/services-components/ServicesHeader'

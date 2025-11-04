@@ -1,6 +1,6 @@
 import React from "react";
 import FooterSection from "./FooterSection";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import ServicesHeader from "../services-components/ServicesHeader";
 
 export default function CopyrightNotice({

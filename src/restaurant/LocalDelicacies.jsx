@@ -1,7 +1,7 @@
 import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import DelicaciesHero from '../assets/components/category-components/restaurant-components/DelicaciesHero'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 import IconicLists from '../assets/components/category-components/restaurant-components/IconicList'
 
 function LocalDelicacies() {

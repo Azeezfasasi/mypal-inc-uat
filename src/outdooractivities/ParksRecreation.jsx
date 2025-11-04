@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import ParkHero from '../assets/components/category-components/outdoor-components/ParkHero'
 import PacksRecreationLists from '../assets/components/category-components/outdoor-components/ParksRecreationLists'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function ParksRecreation() {
   return (

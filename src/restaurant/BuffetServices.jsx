@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import BuffetHero from '../assets/components/category-components/restaurant-components/BuffetHero'
 import BuffetLists from '../assets/components/category-components/restaurant-components/BuffetList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function BuffetServices() {
   return (

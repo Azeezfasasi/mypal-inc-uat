@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import FestivalAndCorporateHero from '../assets/components/category-components/event-ticketing-components/FestivaAndCorporateHero'
 import FestivalAndCorporateList from '../assets/components/category-components/event-ticketing-components/FestivaAndCorporateList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function FestivalAndCorporatePromotion() {
   return (

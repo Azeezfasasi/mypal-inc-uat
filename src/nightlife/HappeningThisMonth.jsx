@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import HappeningHero from '../assets/components/category-components/nightlife-components/HappeningHero'
 import HappeningList from '../assets/components/category-components/nightlife-components/HappeningList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function HappeningThisMonth() {
   return (

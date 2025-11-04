@@ -3,7 +3,7 @@ import FooterSection from '../assets/components/home-components/FooterSection'
 import FoodAndDrinkList from '../assets/components/category-components/nightlife-components/FoodAndDrinkList'
 import BarsAndLaungesHero from '../assets/components/category-components/nightlife-components/BarsAndLaungesHero'
 import BarsAndLoungesList from '../assets/components/category-components/nightlife-components/BarsAndLoungesList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function BarsAndLaunge() {
   return (

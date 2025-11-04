@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import BeautyHealthHero from '../assets/components/category-components/accommodation-component/BeautyHealthHero'
 import BeautyHealthCategory from '../assets/components/category-components/accommodation-component/BeautyHealthCategory'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function BeautyHealth() {
   return (

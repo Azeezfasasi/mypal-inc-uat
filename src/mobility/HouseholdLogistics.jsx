@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import HouseholdHero from '../assets/components/category-components/mobility-components/HouseholdHero'
 import HouseholdLists from '../assets/components/category-components/mobility-components/HouseholdLists'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function HouseholdLogistics() {
   return (

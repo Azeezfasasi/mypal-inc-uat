@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import EventHero from '../assets/components/category-components/event-ticketing-components/EventHero'
 import EventTicketCategory from '../assets/components/category-components/event-ticketing-components/EventTicketingCategory'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 function EventTicketing() {
   return (

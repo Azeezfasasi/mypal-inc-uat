@@ -3,7 +3,7 @@ import FooterSection from '../assets/components/home-components/FooterSection'
 import MainstreamHero from '../assets/components/category-components/restaurant-components/MainStreamHero'
 import MainstreamFilter from '../assets/components/category-components/restaurant-components/MainstreamFilter'
 import MainstreamLists from '../assets/components/category-components/restaurant-components/MainstreamList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 export default function MainStream() {
   return (

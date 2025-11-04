@@ -2,7 +2,7 @@ import React from 'react'
 import FooterSection from '../assets/components/home-components/FooterSection'
 import BeachesResortAccommodationHero from '../assets/components/category-components/accommodation-component/BeachesResortAccomHero'
 import BeachesAndResortAccomList from '../assets/components/category-components/accommodation-component/BeachesAndResortAccomList'
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet'
 
 
 export default function BeachesResortAccommodation() {
