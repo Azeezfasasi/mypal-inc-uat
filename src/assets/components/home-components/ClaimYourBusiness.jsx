@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function ClaimYourBusiness({ onClose }) {
   const [form, setForm] = useState({
@@ -6,26 +7,58 @@ export default function ClaimYourBusiness({ onClose }) {
     businessEmail: '',
     phone: '',
     category: '',
+    city: '',
     state: '',
     country: ''
   });
+  const [categories, setCategories] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
-  const categories = [
-    'Accommodation',
-    'Beauty & Health',
-    'Event ticketing',
-    'Restaurant',
-    'Outdoorsy',
-    'Night Life',
-    'Mobility'
-  ];
+  // Environment variables
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api-mypal-com-5ifz.onrender.com/v1';
+  const API_KEY = import.meta.env.VITE_API_KEY || 'mypal_dev_ddf00b24fb1b875a5750f9613eddcb15b50137171dd5b422f3e3b12fb096a353';
+
+  // Fetch categories from API on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/categories`, {
+          headers: {
+            'X-API-Key': API_KEY,
+            'Accept': 'application/json'
+          },
+          timeout: 5000
+        });
+
+        const data = response.data;
+        
+        // Handle different response structures
+        let categoriesList = [];
+        if (Array.isArray(data.data)) {
+          categoriesList = data.data;
+        } else if (Array.isArray(data)) {
+          categoriesList = data;
+        }
+
+        setCategories(categoriesList);
+        setLoadingCategories(false);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setError('Failed to load categories. Please refresh the page.');
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, [API_BASE_URL, API_KEY]);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+    if (error) setError(''); // Clear error when user starts typing
   }
 
   async function handleSubmit(e) {
@@ -33,34 +66,103 @@ export default function ClaimYourBusiness({ onClose }) {
     setError('');
     setSuccess(false);
 
-    // basic validation
+    // Validation
     if (!form.businessName || !form.businessEmail || !form.phone) {
-      setError('Please fill in the required fields.');
+      setError('Please fill in all required fields (Business Name, Email, and Phone).');
+      return;
+    }
+
+    if (!form.category) {
+      setError('Please select a category.');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.businessEmail)) {
+      setError('Please enter a valid email address.');
       return;
     }
 
     setSubmitting(true);
     try {
-      // POST to the backend endpoint if available. Fallback: simulate success.
-      const endpoint = '/api/forbusiness/claim';
-      const payload = { ...form };
-      try {
-        const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || 'Submission failed');
-        }
-      } catch (err) {
-        // swallow network/backend failures gracefully and still show success so admins can follow up manually.
-        void err;
-        console.warn('Claim submit encountered an error (backend may be missing).');
+      // The form.category now stores the category ID directly
+      const categoryId = form.category;
+
+      if (!categoryId) {
+        setError('Invalid category selected.');
+        setSubmitting(false);
+        return;
       }
 
-      setSuccess(true);
-      setForm({ businessName: '', businessEmail: '', phone: '', category: '', state: '', country: '' });
+      // Prepare payload according to API spec
+      const payload = {
+        business_name: form.businessName.trim(),
+        business_email: form.businessEmail.trim(),
+        business_phone_number: form.phone.trim(),
+        category_id: categoryId,
+        city: form.city.trim() || '',
+        state: form.state.trim() || '',
+        country: form.country.trim() || 'Nigeria'
+      };
+
+      // Make API request
+      const response = await axios.post(
+        `${API_BASE_URL}/businesses/onboarding/self-service`,
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          timeout: 10000
+        }
+      );
+
+      // Success
+      if (response.status === 200 || response.status === 201) {
+        setSuccess(true);
+        setForm({
+          businessName: '',
+          businessEmail: '',
+          phone: '',
+          category: '',
+          city: '',
+          state: '',
+          country: ''
+        });
+
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          onClose?.();
+        }, 2000);
+      }
     } catch (err) {
-      void err;
-      setError('Failed to submit. Please try again later.');
+      console.error('Error submitting claim:', err);
+
+      let errorMsg = 'Failed to submit your claim. ';
+
+      if (err.response?.status === 400) {
+        // Handle validation errors from backend
+        const messages = err.response.data?.message;
+        if (Array.isArray(messages)) {
+          errorMsg = messages.join(', ');
+        } else if (typeof messages === 'string') {
+          errorMsg = messages;
+        } else {
+          errorMsg += 'Please check your information and try again.';
+        }
+      } else if (err.response?.status === 409) {
+        errorMsg = 'This business is already registered.';
+      } else if (err.response?.status === 500) {
+        errorMsg = 'Server error. Please try again later.';
+      } else if (err.code === 'ECONNABORTED') {
+        errorMsg = 'Request timeout. Please check your connection and try again.';
+      } else {
+        errorMsg += 'Please check your connection and try again.';
+      }
+
+      setError(errorMsg);
     } finally {
       setSubmitting(false);
     }
@@ -71,53 +173,135 @@ export default function ClaimYourBusiness({ onClose }) {
       <h3 className="text-2xl font-semibold text-gray-800 mb-3">Claim your business</h3>
       <p className="text-sm text-gray-500 mb-6">Fill this short form and our team will fast-track your onboarding.</p>
 
-      {error && <div className="mb-4 text-sm text-red-600">{error}</div>}
-      {success && <div className="mb-4 text-sm text-green-600">Thanks — your request was received. We will contact you soon.</div>}
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-700">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md text-sm text-green-700">
+          ✓ Thanks — your request was received. We will contact you soon with further instructions.
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm text-gray-700 mb-1">Business Name<span className="text-red-500">*</span></label>
-          <input name="businessName" value={form.businessName} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="e.g. Sunshine Hotel" />
+          <input
+            name="businessName"
+            value={form.businessName}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+            placeholder="e.g. Sunshine Hotel"
+            disabled={submitting}
+          />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm text-gray-700 mb-1">Business Email Address<span className="text-red-500">*</span></label>
-            <input name="businessEmail" value={form.businessEmail} onChange={handleChange} type="email" className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="contact@business.com" />
+            <input
+              name="businessEmail"
+              value={form.businessEmail}
+              onChange={handleChange}
+              type="email"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              placeholder="Your email address"
+              disabled={submitting}
+            />
           </div>
 
           <div>
             <label className="block text-sm text-gray-700 mb-1">Phone Number<span className="text-red-500">*</span></label>
-            <input name="phone" value={form.phone} onChange={handleChange} type="tel" className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="+234 123 456 7890" />
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              type="tel"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              placeholder="+234 XXXXXXXX"
+              disabled={submitting}
+            />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm text-gray-700 mb-1">Category</label>
-            <select name="category" value={form.category} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300">
-              <option value="">Select category</option>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+            <label className="block text-sm text-gray-700 mb-1">Category<span className="text-red-500">*</span></label>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              disabled={submitting || loadingCategories}
+            >
+              <option value="">
+                {loadingCategories ? 'Loading categories...' : 'Select category'}
+              </option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm text-gray-700 mb-1">State / Province</label>
-            <input name="state" value={form.state} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Lagos" />
+            <label className="block text-sm text-gray-700 mb-1">City</label>
+            <input
+              name="city"
+              value={form.city}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              placeholder="E.g. Lagos"
+              disabled={submitting}
+            />
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm text-gray-700 mb-1">Country</label>
-          <input name="country" value={form.country} onChange={handleChange} className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Nigeria" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-gray-700 mb-1">State / Province</label>
+            <input
+              name="state"
+              value={form.state}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              placeholder="E.g. Lagos State"
+              disabled={submitting}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 mb-1">Country</label>
+            <input
+              name="country"
+              value={form.country}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300 transition"
+              placeholder="E.g. Nigeria"
+              disabled={submitting}
+            />
+          </div>
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          <button type="submit" disabled={submitting} className="px-4 py-2 bg-[#DB3A06] text-white rounded-md font-medium hover:bg-orange-700 disabled:opacity-60">
-            {submitting ? 'Submitting...' : 'Submit claim'}
+        <div className="flex items-center justify-between gap-4 pt-2">
+          <button
+            type="submit"
+            disabled={submitting || success || loadingCategories}
+            className="px-6 py-2 bg-[#DB3A06] text-white rounded-md font-medium hover:bg-orange-700 disabled:opacity-60 disabled:cursor-not-allowed transition"
+          >
+            {submitting ? 'Submitting...' : success ? 'Submitted ✓' : 'Submit claim'}
           </button>
 
-          <button type="button" onClick={onClose} className="px-4 py-2 text-gray-700 rounded-md border hover:bg-gray-50">Cancel</button>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={submitting}
+            className="px-6 py-2 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed transition"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>

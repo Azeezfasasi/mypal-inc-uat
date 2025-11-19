@@ -60,6 +60,7 @@ import BlogPost from "./blog/BlogPost";
 import EventNights from "./nightlife/EventNights";
 import AccessibilityStatement from "./other-pages/AccessibilityStatement";
 import HomeBlogList from "./blog/HomeBlogList";
+import BusinessMessage from "./ForCheckReview/BusinessMessage";
 
 function App() {
   return (
@@ -127,6 +128,7 @@ function App() {
         <Route path="/business/:businessId" element={<BusinessDetails />} />
         <Route path="/business/categorycheckwithbusinesses" element={<CategoryApiCheckWithBusinesses />} />
         <Route path="/business/finediningapi" element={<FineDiningAPIViewer />} />
+        <Route path="/business-message" element={<BusinessMessage />} />
       </Routes>
     </>
   )
