@@ -18,8 +18,8 @@ export default function ClaimYourBusiness({ onClose }) {
   const [loadingCategories, setLoadingCategories] = useState(true);
 
   // Environment variables
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api-mypal-com-5ifz.onrender.com/v1';
-  const API_KEY = import.meta.env.VITE_API_KEY || 'mypal_dev_ddf00b24fb1b875a5750f9613eddcb15b50137171dd5b422f3e3b12fb096a353';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_KEY = import.meta.env.VITE_API_KEY;
 
   // Fetch categories from API on component mount
   useEffect(() => {
