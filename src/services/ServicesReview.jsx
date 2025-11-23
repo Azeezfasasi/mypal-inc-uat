@@ -7,22 +7,6 @@ import star1 from '../assets/images/star1.svg'
 import useful2 from '../assets/images/useful2.svg'
 import comment from '../assets/images/comment.svg'
 
-// Accept reviews from API via props
-const defaultReviewsData = [
-    {
-        author: 'Abel Shola',
-        title: 'Business Owner',
-        date: 'Dec 1, 2025',
-        rating: 4,
-        reviewText: 'Our passion for driver construction stems from a genuine desire to foster safer communities. We understand that new drivers are challenging, but we have a team of experts.Our passion for driver construction stems from a genuine desire to foster safer communities. We understand that new drivers are challenging, but we have a team of experts.',
-        useful: 6,
-        notUseful: 3,
-        useful3: 9,
-        message: 6,
-        avatar: 'https://placehold.co/40x40/E5E7EB/9CA3AF?text=A'
-    }
-];
-
 // Helper component for the progress bars in the rating breakdown
 const RatingBar = ({ stars, percentage }) => {
     return (
@@ -100,10 +84,10 @@ const ReviewCard = ({ review }) => {
 };
 
 export default function ServicesReview({ reviews, totalReviews, averageRating }) {
-    // Use API reviews if provided, else fallback
-    const reviewsData = Array.isArray(reviews) && reviews.length > 0 ? reviews : defaultReviewsData;
+    // Use only backend reviews
+    const reviewsData = reviews || [];
     const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
-    const avgRating = typeof averageRating === 'number' ? averageRating : 4.0;
+    const avgRating = typeof averageRating === 'number' ? averageRating : 0;
 
     // Star rating breakdown
     const starCounts = [0, 0, 0, 0, 0];

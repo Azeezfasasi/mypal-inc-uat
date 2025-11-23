@@ -63,7 +63,7 @@ export default function ServicesDetailHero({ business }) {
           <img
             src={mainImage}
             alt={business.business_name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill md:object-cover"
           />
           {/* Overlay content */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6 md:p-8">

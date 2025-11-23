@@ -7,16 +7,6 @@ import ServicesReview from './ServicesReview';
 import ServicesRightSide from './ServicesRightSide';
 import ShareButton from '../assets/components/services-components/ShareButton';
 
-const serviceFeatures = [
-    'Michelin Star',
-    'Valet Parking',
-    'Serene Environment',
-    'Private Dining',
-    'Wine Cellar',
-    'Efficient Workers',
-    'City Views',
-];
-
 const businessHours = [
     { day: 'Monday', time: 'N/A' },
     { day: 'Tuesday', time: 'N/A' },
@@ -111,12 +101,16 @@ export default function ServiceDetailDescription({ business }) {
                                 Service Offered
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {(apiServices || serviceFeatures).map((service, index) => (
-                                    <div key={index} className="flex items-center space-x-2 text-gray-700">
-                                        <img src={margicstar} alt="star" />
-                                        <span className="text-[#000000] text-[14px] md:text-base font-normal">{service}</span>
-                                    </div>
-                                ))}
+                                {apiServices && apiServices.length > 0 ? (
+                                    apiServices.map((service, index) => (
+                                        <div key={index} className="flex items-center space-x-2 text-gray-700">
+                                            <img src={margicstar} alt="star" />
+                                            <span className="text-[#000000] text-[14px] md:text-base font-normal">{service}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500">No services offered information available.</p>
+                                )}
                             </div>
                         </div>
                         <div className='block md:hidden mb-6'>
