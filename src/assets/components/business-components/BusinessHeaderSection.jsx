@@ -238,9 +238,9 @@ export default function BusinessHeaderSection() {
 
                             {isForBusinessOpen && (
                                 <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50">
-                                    <Link to="/forbusiness" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Add a Business</Link>
+                                    <a href="https://business.mypal-inc.com/login" target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Add a Business</a>
                                     <button onClick={() => { setIsForBusinessOpen(false); setShowClaimModal(true); }} className="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Claim your business</button>
-                                    <a href='https://business.mypal-inc.com/login' target='_blank' onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
+                                    <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
                                     <Link to="/forbusiness" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Explore for Business</Link>
                                 </div>
                             )}
@@ -377,9 +377,9 @@ export default function BusinessHeaderSection() {
 
                         {isMobileForBusinessOpen && (
                             <div className="mt-3 ml-4 flex flex-col space-y-2 text-base text-gray-700">
-                                <Link to="/forbusiness/add" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Add a Business</Link>
+                                <a href="https://business.mypal-inc.com/login" target='_blank' rel="noopener noreferrer" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Add a Business</a>
                                 <button onClick={() => { toggleMobileMenu(); setShowClaimModal(true); }} className="hover:text-gray-800 text-left">Claim your business</button>
-                                <a href='https://business.mypal-inc.com/login' target='_blank' onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Log in to Business Account</a>
+                                <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Log in to Business Account</a>
                                 <Link to="/forbusiness" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Explore for Business</Link>
                             </div>
                         )}
