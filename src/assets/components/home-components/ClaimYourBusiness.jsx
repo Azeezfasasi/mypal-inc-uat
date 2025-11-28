@@ -113,7 +113,8 @@ export default function ClaimYourBusiness({ onClose }) {
         {
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'X-API-Key': API_KEY
           },
           timeout: 10000
         }
