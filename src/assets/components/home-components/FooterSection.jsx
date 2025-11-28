@@ -67,10 +67,10 @@ const FooterSection = () => {
                     
                     {/* Social icons */}
                     <div className="flex items-center space-x-4 mb-4">
-                        <a href="https://x.com/mypaldeals" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"><img src={x} alt="twitter X" /></a>
+                        <a href="https://x.com/MyPalTrybe?t=3wwVive1XcaIrtS7tanlgw&s=09" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"><img src={x} alt="twitter X" /></a>
                         <a href="https://www.tiktok.com/@mypaldeals?_t=ZS-90fKirE87CC&_r=1" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"><img src={tiktok} alt="tiktok" className='w-6 h-6' /></a>
                         <a href="https://www.linkedin.com/company/mypal-inc/" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"> <img src={indeed} alt="linkedin" /></a>
-                        <a href="https://www.instagram.com/mypaldeals/" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"> <img src={instagram} alt="instagram" /></a>
+                        <a href="https://www.instagram.com/mypaltrybe?igsh=ZmZudnhsZ3V3NmR1" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"> <img src={instagram} alt="instagram" /></a>
                         <a href="https://www.facebook.com/share/1C7HaVGQ9D/" target='_blank' className="text-white hover:text-gray-400 transition-colors duration-200"> <img src={fb} alt="instagram" /></a>
                     </div>
                     
