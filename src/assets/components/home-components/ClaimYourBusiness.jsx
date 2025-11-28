@@ -195,7 +195,7 @@ export default function ClaimYourBusiness({ onClose }) {
             placeholder="e.g. Sunshine Hotel"
             disabled={submitting}
           />
-        </div>
+        </div> 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
