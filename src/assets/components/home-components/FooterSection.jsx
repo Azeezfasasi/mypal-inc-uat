@@ -168,7 +168,6 @@ const FooterSection = () => {
                                     placeholder="e.g. +2349055557535"
                                 />
                                 {errors.phone && <p className="text-sm text-red-500 mt-1">{errors.phone}</p>} */}
-
                             </div>
 
                             <div className="col-span-1 md:col-span-1">
