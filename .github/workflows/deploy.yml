@@ -41,10 +41,12 @@ jobs:
       - name: Prepare Deployment Package
         run: |
           mkdir -p deploy-package
+          # Vite puts files in 'dist'
           cp -r dist/* deploy-package/
-          if [ -d "public" ]; then cp -r public/* deploy-package/ 2>/dev/null || true; fi
+          # Ensure public files are included if needed
+          if [ -d "public" ] && [ "$(ls -A public)" ]; then cp -r public/* deploy-package/ 2>/dev/null || true; fi
 
-      - name: Setup SSH
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
@@ -55,16 +57,19 @@ jobs:
         run: |
           # Use the commit hash for a unique folder name
           REL_DIR="deploy_${{ github.sha }}"
+          TARGET_PATH="/var/www/mypal/frontend/mypalsite/${REL_DIR}"
           
           # Create the release folder first
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no deployer@${{ secrets.SERVER_HOST }} "mkdir -p /var/www/mypal/frontend/mypalsite/${REL_DIR}"
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no deployer@${{ secrets.SERVER_HOST }} "mkdir -p ${TARGET_PATH}"
 
           # Sync files directly to that folder
           rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" \
             deploy-package/ \
-            deployer@${{ secrets.SERVER_HOST }}:/var/www/mypal/frontend/mypalsite/${REL_DIR}/
+            deployer@${{ secrets.SERVER_HOST }}:${TARGET_PATH}/
+          
+          rm ~/.ssh/id_rsa
 
-      - name: Finalize on Server
+      - name: Atomic Switch & Reload
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -75,12 +80,12 @@ jobs:
             BASE_PATH="/var/www/mypal/frontend/mypalsite"
             NEW_REL="${BASE_PATH}/deploy_${{ github.sha }}"
             
-            # Atomic Switch: point 'current' to the new version
+            # Atomic Switch: point 'current' symlink to the new version
             ln -sfn ${NEW_REL} ${BASE_PATH}/current
             
-            # Cleanup: Keep last 3 deployments
+            # Cleanup: Keep only last 3 deployments to save space
             cd ${BASE_PATH} && ls -dt deploy_* | tail -n +4 | xargs -r rm -rf || true
             
-            # Use the sudo right we gave deployer to reload Nginx
+            # Reload Nginx using the NOPASSWD rule we added
             sudo systemctl reload nginx
             echo "🎉 MyPal Site is Live!"
