@@ -20,23 +20,15 @@ jobs:
       (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy')
     runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.deploy-status.outputs.status }}
-      commit-hash: ${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Get commit hash
-        id: get-commit
-        run: echo "commit=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 1. Install & Build on GitHub
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
 
@@ -44,86 +36,51 @@ jobs:
         run: npm run build
         env:
           VITE_API_BASE_URL: https://api.mypal-inc.com/v1
-          VITE_API_KEY: mpk_live_cdd468e3e1a988b45aaa865511fb9701d104e45bfe2a69f119b562b92c108ce1
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
 
-      # 2. Prepare files (No Compression to avoid OOM)
       - name: Prepare Deployment Package
         run: |
-          echo "📦 Organizing files..."
           mkdir -p deploy-package
-          
-          # Copy built files
           cp -r dist/* deploy-package/
-          
-          # Copy public assets if they exist
-          if [ -d "public" ]; then cp -r public deploy-package/; fi
-          
-          echo "✅ Package ready for Rsync"
+          if [ -d "public" ]; then cp -r public/* deploy-package/ 2>/dev/null || true; fi
 
-      # 3. Deploy via Rsync (Safe for 4GB Server)
-      - name: Deploy via Rsync
+      - name: Setup SSH
         run: |
-          # Setup SSH
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-          # Ensure temp directory exists
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@${{ secrets.SERVER_HOST }} "mkdir -p /var/www/mypal/deploy_temp/"
-
-          # Transfer files
-          echo "🚀 Syncing files to server..."
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" deploy-package/ root@${{ secrets.SERVER_HOST }}:/var/www/mypal/deploy_temp/
+      - name: Deploy via Rsync
+        run: |
+          # Use the commit hash for a unique folder name
+          REL_DIR="deploy_${{ github.sha }}"
           
-          # Cleanup key
-          rm ~/.ssh/id_rsa
+          # Create the release folder first
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no deployer@${{ secrets.SERVER_HOST }} "mkdir -p /var/www/mypal/frontend/mypalsite/${REL_DIR}"
 
-      # 4. Finalize on Server
+          # Sync files directly to that folder
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" \
+            deploy-package/ \
+            deployer@${{ secrets.SERVER_HOST }}:/var/www/mypal/frontend/mypalsite/${REL_DIR}/
+
       - name: Finalize on Server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: root
+          username: deployer
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             set -e
-            cd /var/www/mypal
-
-            # Create unique deployment directory
-            DEPLOY_DIR="deploy_$(date +%Y%m%d_%H%M%S)_${{ github.sha }}"
+            BASE_PATH="/var/www/mypal/frontend/mypalsite"
+            NEW_REL="${BASE_PATH}/deploy_${{ github.sha }}"
             
-            # Move uploaded files
-            mv deploy_temp $DEPLOY_DIR
+            # Atomic Switch: point 'current' to the new version
+            ln -sfn ${NEW_REL} ${BASE_PATH}/current
             
-            # Backup current live site
-            if [ -d "mypalsite" ]; then
-               BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)"
-               cp -r mypalsite $BACKUP_DIR
-               echo "$BACKUP_DIR" > .last_successful_backup
-            fi
-
-            echo "🚀 Updating live site..."
+            # Cleanup: Keep last 3 deployments
+            cd ${BASE_PATH} && ls -dt deploy_* | tail -n +4 | xargs -r rm -rf || true
             
-            # Create site directory if missing
-            mkdir -p mypalsite
-            
-            # Sync new files to live directory
-            rsync -a $DEPLOY_DIR/ mypalsite/
-            
-            # Set permissions
-            chown -R www-data:www-data mypalsite/
-
-            # Reload Nginx (Updates content immediately)
-            echo "🔄 Reloading Nginx..."
-            nginx -s reload
-
-            # Cleanup old deployments (Keep last 2)
-            ls -dt deploy_* | tail -n +3 | xargs -r rm -rf || true
-            ls -dt backup_* | tail -n +2 | xargs -r rm -rf || true
-            echo "✅ Deployment Complete."
-
-      - name: Set deployment status output
-        id: deploy-status
-        if: success()
-        run: echo "status=success" >> $GITHUB_OUTPUT
+            # Use the sudo right we gave deployer to reload Nginx
+            sudo systemctl reload nginx
+            echo "🎉 MyPal Site is Live!"
