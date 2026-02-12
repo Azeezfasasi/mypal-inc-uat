@@ -61,7 +61,7 @@ export default function ExploreCategory() {
                 // Ensure we only send the allowed header name. Some servers only allow 'x-api-key' in CORS.
                 if (API_KEY) headers['x-api-key'] = API_KEY;
 
-                const res = await axios.get(endpoint, { headers, withCredentials: true });
+                const res = await axios.get(endpoint, { headers });
                 if (cancelled) return;
 
                 const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
