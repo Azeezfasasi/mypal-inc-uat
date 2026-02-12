@@ -14,7 +14,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-contain bg-amber-100 rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
