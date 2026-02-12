@@ -61,31 +61,10 @@ export default function FeaturedExperiences() {
 
         const base = API_BASE.replace(/\/+$/g, '');
 
-        // Primary strategy: fetch categories, then fetch businesses per category until we gather enough
-        const catsResp = await axios.get(`${base}/categories/all`, { headers: API_KEY ? { 'x-api-key': API_KEY } : {} });
-        const allCats = catsResp.data?.data ?? catsResp.data ?? [];
-
-        const agg = [];
-        for (const mainCat of allCats) {
-          const slug = mainCat.slug || (mainCat.name || '').toLowerCase().replace(/\s+/g, '-');
-          if (!slug) continue;
-          try {
-            const resp = await axios.get(`${base}/categories/${slug}/businesses?page=1&limit=100`, { headers: API_KEY ? { 'x-api-key': API_KEY } : {} });
-            let arr = resp.data?.data ?? resp.data;
-            if (arr && arr.data) arr = arr.data;
-            if (!Array.isArray(arr) && typeof arr === 'object') arr = Object.values(arr);
-            if (Array.isArray(arr) && arr.length) {
-              agg.push(...arr);
-            }
-          } catch (e) {
-            // ignore per-category failures and continue
-            // keep minimal logging to avoid noise
-            console.debug && console.debug('Failed to fetch businesses for category', slug, e.response?.status ?? '', e.response?.data?.message ?? e.message);
-          }
-          if (agg.length >= 8) break;
-        }
-
-        let dataArr = Array.isArray(agg) ? agg : [];
+        // Fetch all businesses directly
+        const resp = await axios.get(`${base}/businesses/all`, { headers: API_KEY ? { 'x-api-key': API_KEY } : {} });
+        let dataArr = resp.data?.data ?? resp.data ?? [];
+        if (!Array.isArray(dataArr) && typeof dataArr === 'object') dataArr = Object.values(dataArr);
 
         // Shuffle and pick 8 random businesses each page load
         const shuffled = dataArr.sort(() => Math.random() - 0.5).slice(0, 8);
