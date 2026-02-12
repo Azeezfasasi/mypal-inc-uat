@@ -21,7 +21,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
 
       <div className="p-4 sm:p-6">
         <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1">{title}</Link>
-        <p className="text-[15px] text-gray-500 mb-2">{description}</p>
+        <p className="text-[15px] text-gray-500 mb-2">{description.split(" ").slice(0, 20).join(" ")}</p>
         <div className="w-full flex justify-between items-center gap-1 text-sm text-gray-500 mb-4">
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
