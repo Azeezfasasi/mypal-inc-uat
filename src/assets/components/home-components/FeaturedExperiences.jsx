@@ -65,7 +65,7 @@ export default function FeaturedExperiences() {
         const resp = await axios.get(`${base}/businesses/all`, { 
           params: {
             page: 1,
-            limit: 100,
+            limit: 20, // fetch more to have a better sample for randomness
             sort: 'createdAt',
             order: 'DESC'
           },
