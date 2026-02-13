@@ -26,6 +26,38 @@ function ServicesRightSide({ business }) {
         }))
         : businessHours;
 
+const getDownloadButtonText = (category) => {
+  if (!category) return "Download the app to make reservation";
+
+  let categoryText = "";
+
+  if (typeof category === "object" && category !== null) {
+    // Use the actual category name
+    categoryText = category.name || category.business_type || category.title || "";
+  }
+
+  if (!categoryText) return "Download the app to make reservation";
+
+  const normalized = categoryText.toLowerCase();
+
+  if (normalized.includes("fine dining"))
+    return "Download the app to make reservation";
+  if (normalized.includes("buffet") || normalized.includes("iconic delicacies"))
+    return "Download the app to place orders";
+  if (normalized.includes("beaches & resorts"))
+    return "Download the app to buy tickets";
+  if (
+    normalized.includes("boat and yachts cruises") ||
+    normalized.includes("cruise") ||
+    normalized.includes("salons and spa") ||
+    normalized.includes("short-let homes") ||
+    normalized.includes("club") 
+  )
+    return "Download the app to make reservations";
+
+  return "Download the app to make reservation";
+};
+
 
   return (
       <>
@@ -65,7 +97,7 @@ function ServicesRightSide({ business }) {
                 {/* Download Button */}
                 <div className="mt-8">
                     <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px]">
-                        Download App to Book Service
+                        {getDownloadButtonText(business?.category)}
                     </button>
                 </div>
             </div>

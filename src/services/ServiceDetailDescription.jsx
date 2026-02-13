@@ -47,8 +47,6 @@ const getDownloadButtonText = (category) => {
   return "Download the app to make reservation";
 };
 
-
-
 export default function ServiceDetailDescription({ business }) {
     // modal state for Download App (coming soon)
                 const [showDownloadModal, setShowDownloadModal] = useState(false);

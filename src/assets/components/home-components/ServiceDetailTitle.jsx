@@ -19,7 +19,7 @@ export default function ServiceDetailTitle({ business }) {
 
                     {/* Business Description */}
                     <div className="md:w-1/2 flex justify-center md:justify-start">
-                        <p className="text-base sm:text-2xl font-medium text-gray-700 text-center md:text-left max-w-lg">
+                        <p className="text-base sm:text-2xl font-medium text-gray-700 text-left md:text-left max-w-lg">
                             {description}
                         </p>
                     </div>

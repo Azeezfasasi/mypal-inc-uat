@@ -59,7 +59,7 @@ export default function ServicesDetailHero({ business }) {
     <div className="w-[95%] bg-white py-3 md:py-6 font-sans antialiased mx-auto">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Image Section */}
-        <div className="relative w-full h-[434px] rounded-3xl overflow-hidden shadow-xl mb-6">
+        <div className="relative w-full h-[300px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl mb-6 ">
           <img
             src={mainImage}
             alt={business.business_name}
