@@ -71,11 +71,11 @@ export default function BuffetLists({ subcategorySlug = 'Buffet services' }) {
           return;
         }
 
-        // Use the parent slug and filter client-side by business type
+        // Use the parent slug and filter client-side by category ID
         const parentSlug = subcategory._parentSlug || 'restaurants';
-        const filterType = subcategory.type; // e.g., "Buffet services"
+        const filterCategoryId = subcategory.id; // Use ID instead of type for more reliable matching
         
-        console.log('🔍 Buffet filterType:', filterType);
+        console.log('🔍 Buffet filterCategoryId:', filterCategoryId);
         console.log('🔍 Buffet subcategory:', subcategory);
 
         // Fetch all businesses from the parent category
@@ -92,12 +92,12 @@ export default function BuffetLists({ subcategorySlug = 'Buffet services' }) {
           else dataArr = [];
         }
 
-        // Filter by business type to match the subcategory
+        // Filter by business category ID to match the subcategory
         const filtered = dataArr.filter((biz) => {
-          const bizType = biz.category?.type;
-          const match = bizType === filterType;
+          const bizCategoryId = biz.category?.id;
+          const match = bizCategoryId === filterCategoryId;
           if (!match && dataArr.indexOf(biz) < 2) {
-            console.log(`🔍 Business "${biz.business_name}": type="${bizType}" vs filterType="${filterType}" = ${match}`);
+            console.log(`🔍 Business "${biz.business_name}": categoryId="${bizCategoryId}" vs filterCategoryId="${filterCategoryId}" = ${match}`);
           }
           return match;
         });
