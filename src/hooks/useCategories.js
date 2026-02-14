@@ -63,7 +63,7 @@ export default function useCategories() {
           slugify(cName) === slugInput
         );
       });
-      if (top) return top;
+      if (top) return Object.assign({}, top, { _matchedSlug: top.slug || slugInput });
 
       // search nested categories: same matching rules
       for (const main of categories) {
@@ -78,7 +78,10 @@ export default function useCategories() {
               slugify(sName) === slugInput
             );
           });
-          if (found) return Object.assign({}, found, { _parentSlug: main.slug || (main.name && slugify(main.name)) || null });
+          if (found) return Object.assign({}, found, { 
+            _parentSlug: main.slug || (main.name && slugify(main.name)) || null,
+            _matchedSlug: found.slug || slugInput
+          });
         }
       }
 

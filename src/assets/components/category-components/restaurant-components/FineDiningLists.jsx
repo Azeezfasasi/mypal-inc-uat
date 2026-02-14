@@ -71,12 +71,20 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           return;
         }
 
-        const parentSlug = subcategory._parentSlug || subcategory.slug;
+        // Use the business-categories endpoint with the subcategory ID
+        const categoryId = subcategory.id;
+        
+        // DEBUG: Log what we're searching for
+        console.log('🔍 FineDining: Looking for subcategory slug:', subcategorySlug);
+        console.log('✅ FineDining: Found subcategory:', subcategory.name, '| ID:', categoryId);
+        console.log('🔗 FineDining: API URL:', `${API_BASE}/business-categories/${categoryId}/businesses`);
 
-        // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+        // Call the business-categories endpoint using the subcategory ID
+        const resp = await axios.get(`${API_BASE}/business-categories/${categoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 FineDining: API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
