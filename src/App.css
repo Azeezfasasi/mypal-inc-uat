@@ -1,7 +1,5 @@
-@import "tailwindcss";
-
-/* Load Bebas Neue font from Google Fonts - AFTER Tailwind */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import "tailwindcss";
 
 .bebas-title-font {
   font-family: 'Bebas Neue', sans-serif !important;
