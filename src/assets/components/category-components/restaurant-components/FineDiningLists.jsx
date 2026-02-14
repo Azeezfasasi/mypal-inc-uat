@@ -71,20 +71,21 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           return;
         }
 
-        // Use the business-categories endpoint with the subcategory ID
-        const categoryId = subcategory.id;
+        // Use the parent slug and filter client-side by business type
+        const parentSlug = subcategory._parentSlug || 'restaurants';
+        const filterType = subcategory.type; // e.g., "Fine Dining"
         
         // DEBUG: Log what we're searching for
         console.log('🔍 FineDining: Looking for subcategory slug:', subcategorySlug);
-        console.log('✅ FineDining: Found subcategory:', subcategory.name, '| ID:', categoryId);
-        console.log('🔗 FineDining: API URL:', `${API_BASE}/business-categories/${categoryId}/businesses`);
+        console.log('✅ FineDining: Found subcategory:', subcategory.name, '| Type:', filterType);
+        console.log('🔗 FineDining: API URL:', `${API_BASE}/categories/${parentSlug}/businesses`);
 
-        // Call the business-categories endpoint using the subcategory ID
-        const resp = await axios.get(`${API_BASE}/business-categories/${categoryId}/businesses`, {
+        // Fetch all businesses from the parent category
+        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
         
-        console.log('📦 FineDining: API Response:', resp.data);
+        console.log('📦 FineDining: API Response (unfiltered):', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -95,7 +96,16 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           else dataArr = [];
         }
 
-        const mappedData = dataArr.map((biz) => ({
+        // Filter by business type to match the subcategory
+        const filtered = dataArr.filter((biz) => 
+          biz.business_category === filterType || 
+          biz.category === filterType || 
+          biz.type === filterType
+        );
+        
+        console.log(`🔍 FineDining: Filtered ${filtered.length} of ${dataArr.length} businesses matching type "${filterType}"`);
+
+        const mappedData = filtered.map((biz) => ({
           id: biz.id,
           title: biz.business_name || biz.name || 'Unnamed Business',
           description: biz.description || 'No description available',
