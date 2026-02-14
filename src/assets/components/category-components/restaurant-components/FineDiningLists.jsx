@@ -71,17 +71,18 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           return;
         }
 
-        // Use the parent slug and filter client-side by category ID
-        const parentSlug = subcategory._parentSlug || 'restaurants';
-        const filterCategoryId = subcategory.id; // Use ID instead of type for more reliable matching
+        // Use the business-categories endpoint which filters by the specific category ID
+        const filterCategoryId = subcategory.id;
         
         console.log('🔍 FineDining filterCategoryId:', filterCategoryId);
         console.log('🔍 FineDining subcategory:', subcategory);
 
-        // Fetch all businesses from the parent category
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses`, {
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 FineDining API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -92,17 +93,9 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           else dataArr = [];
         }
 
-        // Filter by business category ID to match the subcategory
-        const filtered = dataArr.filter((biz) => {
-          const bizCategoryId = biz.category?.id;
-          const match = bizCategoryId === filterCategoryId;
-          if (!match && dataArr.indexOf(biz) < 2) {
-            console.log(`🔍 Business "${biz.business_name}": categoryId="${bizCategoryId}" vs filterCategoryId="${filterCategoryId}" = ${match}`);
-          }
-          return match;
-        });
+        console.log(`📋 FineDining: Got ${dataArr.length} businesses`);
 
-        const mappedData = filtered.map((biz) => ({
+        const mappedData = dataArr.map((biz) => ({
           id: biz.id,
           title: biz.business_name || biz.name || 'Unnamed Business',
           description: biz.description || 'No description available',
