@@ -16,7 +16,7 @@ export default function MainStream() {
       </Helmet>
       <MainstreamHero />
       <MainstreamFilter />
-      <MainstreamLists />
+      <MainstreamLists subcategorySlug="restaurants" />
       <FooterSection />
     </>
   )

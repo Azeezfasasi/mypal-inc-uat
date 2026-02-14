@@ -118,8 +118,8 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
         <div className="bg-gray-50 rounded-[10px] border border-solid border-gray-300 font-sans antialiased mb-6">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <h2 className="text-[17px] md:text-2xl font-semibold text-[#000000] mb-2">
-                    Recommended Reviews <span className='font-normal'>({total})</span>
+                <h2 className="text-[17px] md:text-2xl font-semibold text-[#000000] mb-2 bebas-sub-title-font">
+                    Recommended Reviews <span className='font-normal bebas-font'>({total})</span>
                 </h2>
 
                 {/* Overall Rating Section */}
@@ -131,21 +131,21 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                             <div className="flex md:flex-col justify-center gap-3 md:gap-0 w-full md:w-[32%] text-left space-y-0 md:space-y-3 mb-4 md:mb-0">
                                 {/* Tripadvisor placeholder logo */}
                                 <div className="mt-1 bg-[#E0F7FF] p-2 flex flex-col items-start justify-start">
-                                    <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal">8.4/10</p>
-                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium">(Very Good, 8,950 Reviews)</p>
+                                    <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal bebas-font">8.4/10</p>
+                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, 8,950 Reviews)</p>
                                     <img src={tripadvisor} alt="tripadvisor" className='mt-1' />
                                 </div>
                                 {/* Google Maps placeholder logo */}
                                 <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
-                                    <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal">8.4/10</p>
-                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium">(Very Good, 8,950 Reviews)</p>
+                                    <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">8.4/10</p>
+                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, 8,950 Reviews)</p>
                                     <img src={googlemaps} alt="google maps" className='mt-1'/>
                                 </div>
                             </div>
 
                             {/* Overall Rating Section */}
                             <div className=" text-center">
-                                <h3 className="text-xl text-left font-medium text-gray-800 ">Overall Rating</h3>
+                                <h3 className="text-xl text-left font-medium text-gray-800 bebas-sub-title-font">Overall Rating</h3>
                                 <div className="flex flex-col space-x-1 justify-center mb-0">
                                     <div className="flex flex-row gap-3 items-center justify-start self-stretch shrink-0 relative">
                                         <div className="flex flex-row gap-[11px] items-center justify-start shrink-0 w-[157px] relative">
@@ -161,12 +161,12 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                                                 ))}
                                                 <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">{avgRating.toFixed(1)}</span>
                                                 <span className="_4-0-128-span2" />
-                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">({total})</span>
+                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal bebas-font">({total})</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-col items-start justify-start'>
+                                    <div className='flex flex-col items-start justify-start bebas-font'>
                                         <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-semibold">{percentRecommended}%</p>
                                         <p className="text-sm md:text-xl font-semibold text-[#DB3A06]">Recommended</p>
                                     </div>
@@ -195,7 +195,7 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                         <div className="flex justify-center mt-4 mb-4">
                             <button
                                 onClick={handleToggleReviews}
-                                className="px-6 py-3 rounded-lg bg-[#DB3A06] text-white font-semibold hover:bg-orange-700 transition-colors"
+                                className="px-6 py-3 rounded-lg bg-[#DB3A06] text-white font-semibold hover:bg-orange-700 transition-colors bebas-font"
                             >
                                 {isShowingAll ? 'Show Less Reviews' : 'Show More Reviews'}
                             </button>

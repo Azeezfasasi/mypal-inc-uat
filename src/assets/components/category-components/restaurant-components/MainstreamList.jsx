@@ -4,6 +4,7 @@ import { Star, MapPin } from "lucide-react";
 import star from '../../../images/star.svg';
 import { Link } from "react-router-dom";
 import { Commet } from "react-loading-indicators";
+import useCategories from '../../../../hooks/useCategories';
 
 // Reusable card component
 const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, location }) => {
@@ -46,37 +47,73 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
   );
 };
 
-// Main component to fetch Buffet Services
-export default function MainstreamLists() {
-  const [buffets, setBuffets] = useState([]);
+// Main component to fetch Mainstream Restaurants (all restaurants from parent category)
+export default function MainstreamLists({ subcategorySlug = 'restaurants' }) {
+  const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const CATEGORY_ID = "4f91910b-fc28-4413-88ba-482ade3e59b3"; // Mainstream Services
+  const { loading: catsLoading, error: catsError, findBySlug } = useCategories();
 
   useEffect(() => {
-    async function fetchBuffets() {
+    async function fetchBusinesses() {
       try {
-        const response = await axios.get(`${API_BASE}/business-categories/${CATEGORY_ID}/businesses`, {
+        // Find the category by slug - this will get the parent "Restaurants" category
+        const category = findBySlug(subcategorySlug);
+
+        if (!category) {
+          setBusinesses([]);
+          setLoading(false);
+          return;
+        }
+
+        // For "restaurants" parent category, fetch all businesses
+        const resp = await axios.get(`${API_BASE}/categories/${category.slug}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
 
-        const data = response.data.data?.data ?? [];
-        setBuffets(data);
-        console.log("Buffet Services Data:", data);
+        // Normalize response
+        let dataArr = resp.data?.data ?? resp.data;
+        if (dataArr && dataArr.data) dataArr = dataArr.data;
+        if (!Array.isArray(dataArr)) {
+          if (dataArr == null) dataArr = [];
+          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
+          else dataArr = [];
+        }
+
+        const mappedData = dataArr.map((biz) => ({
+          id: biz.id,
+          title: biz.business_name || biz.name || 'Unnamed Business',
+          description: biz.description || 'No description available',
+          rating: biz.average_rating || 0,
+          reviews: biz.total_reviews || biz.reviews || 0,
+          location: biz.address || biz.city || 'Not specified',
+          imageSrc: biz.image_url || '/images/default.svg',
+        }));
+
+        setBusinesses(mappedData);
+        console.log("Mainstream Restaurants Data (All Restaurants):", mappedData);
       } catch (err) {
         setError(err.response ? err.response.data : err.message);
+        console.error("Error fetching mainstream restaurants:", err);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchBuffets();
-  }, [API_BASE, API_KEY, CATEGORY_ID]);
+    // Wait until categories have loaded before attempting to fetch
+    if (catsLoading) return;
+    if (catsError) {
+      setError(catsError);
+      setLoading(false);
+      return;
+    }
 
-  // if (loading) return <div>Loading restaurant categories…</div>;
+    fetchBusinesses();
+  }, [API_BASE, API_KEY, subcategorySlug, catsLoading, catsError, findBySlug]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center py-20">
@@ -89,22 +126,22 @@ export default function MainstreamLists() {
   return (
     <div className="bg-gray-50 py-6 md:py-12 font-sans antialiased">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {buffets.length === 0 ? (
+        {businesses.length === 0 ? (
           <div className="text-center text-gray-500 py-12 text-lg font-semibold">
             No businesses available at the moment.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 cursor-pointer">
-            {buffets.map((buffet) => (
+            {businesses.map((business) => (
               <ExperienceCard
-                key={buffet.id}
-                id={buffet.id}
-                title={buffet.business_name}
-                description={buffet.description || "No description available"}
-                rating={buffet.averageRating || buffet.average_rating || 0}
-                reviews={buffet.totalReviews || buffet.total_reviews || 0}
-                location={buffet.address || "Location not specified"}
-                imageSrc={buffet.image_url || "https://via.placeholder.com/150"}
+                key={business.id}
+                id={business.id}
+                title={business.title}
+                description={business.description}
+                rating={business.rating}
+                reviews={business.reviews}
+                location={business.location}
+                imageSrc={business.imageSrc}
               />
             ))}
           </div>

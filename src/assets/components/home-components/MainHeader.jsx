@@ -162,7 +162,7 @@ export default function MainHeader() {
     };
 
     return (
-        <div className="bg-transparent font-sans antialiased relative z-50">
+        <div className="bg-transparent font-sans antialiased relative z-50 bebas-font">
             {/* Header Section */}
             <header className="bg-transparent px-2 md:px-6 py-4">
                 <div className="w-[95%] mx-auto flex justify-between items-center">
@@ -187,7 +187,7 @@ export default function MainHeader() {
                         <Link
                             to="/"
                             onClick={() => setActiveLink('Home')}
-                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Home' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Home' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                         >
                             Home
                         </Link>
@@ -196,7 +196,7 @@ export default function MainHeader() {
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={toggleCategoryDropdown}
-                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                             >
                                 <span>Category</span>
                                 <ChevronDownIcon className={`w-4 h-4 transform transition-transform duration-300 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -237,15 +237,14 @@ export default function MainHeader() {
                         <div className="relative" ref={forBusinessRef}>
                             <button
                                 onClick={() => { setIsForBusinessOpen(!isForBusinessOpen); setActiveLink('For Business'); }}
-                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                             >
                                 <span>For Business</span>
                                 <ChevronDownIcon className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${isForBusinessOpen ? 'rotate-180' : ''}`} />
                             </button>
 
                             {isForBusinessOpen && (
-                                <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50">
-                                    {/* <a href="https://business.mypal-inc.com/login" target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Add a Business</a> */}
+                                <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50 bebas-font">
                                     <button onClick={() => { setIsForBusinessOpen(false); setShowClaimModal(true); }} className="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded cursor-pointer">Claim your business</button>
                                     <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
                                     <Link to="/forbusiness" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Explore for Business</Link>

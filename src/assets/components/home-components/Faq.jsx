@@ -47,7 +47,7 @@ export default function Faq() {
     };
 
     return (
-        <div className="bg-white py-12 md:py-20 font-sans antialiased">
+        <div className="bg-white py-12 md:py-20 font-sans antialiased babas-font">
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section header */}
                 <div className="w-full flex flex-row gap-[40px] items-center justify-start relative mb-8">
@@ -58,7 +58,7 @@ export default function Faq() {
                     ></div>
 
                     {/* Title */}
-                    <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
+                    <div className="text-[#000000] text-center md:text-left text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto bebas-font">
                         FAQ'S
                     </div>
 
@@ -72,13 +72,13 @@ export default function Faq() {
                     {faqData.map((item, index) => (
                         <div
                             key={index}
-                            className="w-full rounded-2xl p-0 sm:p-2 transition-all duration-300"
+                            className="w-full rounded-2xl p-0 sm:p-2 transition-all duration-300 bebas-font"
                         >
                             <button
                                 onClick={() => toggleAccordion(index)}
                                 className="w-full flex justify-between items-center text-left focus:outline-none"
                             >
-                                <div className="w-[80%] text-[#000000] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-2xl font-medium relative cursor-pointer" style={{letterSpacing: '-0.0506em'}}>
+                                <div className="w-[80%] text-[#000000] text-left text-2xl font-medium relative cursor-pointer" style={{letterSpacing: '-0.0506em babas-font'}}>
                                     {item.question}
                                 </div>
                                 {/* Icon for toggling */}
@@ -92,7 +92,7 @@ export default function Faq() {
                             </button>
                             {/* Answer content, conditionally rendered */}
                             {openIndex === index && (
-                                <p className="mt-4 text-gray-600 animate-fadeIn w-[80%] text-left font-['Poppins-Regular',_sans-serif] text-lg font-normal" dangerouslySetInnerHTML={{ __html: item.answer }} />
+                                <p className="mt-4 text-gray-600 animate-fadeIn w-[80%] text-left text-lg font-normal" dangerouslySetInnerHTML={{ __html: item.answer }} />
                             )}
                             <div
                             className="border-solid border-[rgba(0,0,0,0.22)] border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative mt-[15px] md:mt-[20px]"

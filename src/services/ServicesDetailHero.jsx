@@ -74,7 +74,7 @@ export default function ServicesDetailHero({ business }) {
               <span className="font-semibold text-[32px] ml-2">
                 {rounded.toFixed(1)}
               </span>
-              <span className="text-gray-300 text-[32px]">
+              <span className="text-gray-300 text-[32px] bebas-font">
                 ({business.total_reviews || reviews.length || 0})
               </span>
             </div>
@@ -82,13 +82,13 @@ export default function ServicesDetailHero({ business }) {
             {/* 📍 Location */}
             <div className="flex items-center space-x-2 text-white text-xl font-normal mb-2">
               <MapPin className="w-5 h-5 text-white" />
-              <span>{business.address || "Location not specified"}</span>
+              <span className='bebas-font'>{business.address || "Location not specified"}</span>
             </div>
 
             {/* 🕒 Opening Hours */}
             {business.opening_hours && (
               <p className="text-white text-xl">
-                <span className="text-[#23EE7F]">Open</span> {business.opening_hours}
+                <span className="text-[#23EE7F] bebas-font">Open</span> {business.opening_hours}
               </p>
             )}
           </div>

@@ -91,7 +91,7 @@ export default function ExploreCategory() {
 
     return (
         <div className="bg-white py-12 md:py-24 font-sans antialiased">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bebas-font">
                 {/* Section Title */}
                 <div className="w-full flex flex-row gap-[40px] items-center justify-start relative mb-8">
                     {/* Left Gradient Line */}
@@ -100,7 +100,7 @@ export default function ExploreCategory() {
                     ></div>
 
                     {/* Title */}
-                    <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
+                    <div className="text-[#000000] text-center md:text-left text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto bebas-font">
                         Explore By Category
                     </div>
 
@@ -126,7 +126,7 @@ export default function ExploreCategory() {
                             <Link
                                 key={category.id || index}
                                 to={category.link}
-                                className="text-center transition-transform duration-300 hover:scale-105 bg-[#ffffff] rounded-[20px] border-solid border-gray-300 border pt-10 pr-5 pb-10 pl-5 flex flex-col gap-1 items-center justify-center shrink-0 relative overflow-hidden"
+                                className="text-center transition-transform duration-300 hover:scale-105 bg-[#ffffff] rounded-[20px] border-solid border-gray-300 border pt-10 pr-5 pb-10 pl-5 flex flex-col gap-1 items-center justify-center shrink-0 relative overflow-hidden bebas-font"
                             >
                                 {/* Icon */}
                                 <div className="w-16 h-16 flex items-center justify-center rounded-full bg-[#FAE1DA] border-2 border-orange-100">
@@ -138,7 +138,7 @@ export default function ExploreCategory() {
                                 </div>
 
                                 {/* Category Name */}
-                                <h3 className="mt-2 font-semibold text-[#000000] text-center font-['AvenirNextRoundedStd-Demi',_sans-serif] text-[24px] md:text-[24px] lg:text-[32px] relative self-stretch">
+                                <h3 className="mt-2 font-semibold text-[#000000] text-center text-[24px] md:text-[24px] lg:text-[32px] relative self-stretch bebas-font">
                                     {category.name}
                                 </h3>
 

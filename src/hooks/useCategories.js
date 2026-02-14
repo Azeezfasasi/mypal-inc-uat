@@ -23,6 +23,23 @@ export default function useCategories() {
     retry: 1,
   });
 
+  // Debug: log all available categories
+  useMemo(() => {
+    if (data && Array.isArray(data)) {
+      console.log('📦 All Categories from API:', data);
+      const allNames = data.map(c => c.name).join(', ');
+      console.log('Available category names:', allNames);
+      
+      // Also log nested categories
+      data.forEach(cat => {
+        if (Array.isArray(cat.categories)) {
+          const nestedNames = cat.categories.map(nc => nc.name).join(', ');
+          console.log(`Nested under "${cat.name}": ${nestedNames}`);
+        }
+      });
+    }
+  }, [data]);
+
   const findBySlug = useMemo(() => {
     const categories = data || [];
 

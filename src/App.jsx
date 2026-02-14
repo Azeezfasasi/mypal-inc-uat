@@ -1,5 +1,6 @@
 import React from "react"
 import { Route, Routes } from "react-router-dom"
+import './App.css'
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import Home from "./Home"
 import ServiceDetails from "./services/ServiceDetails"

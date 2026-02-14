@@ -67,7 +67,7 @@ const getDownloadButtonText = (category) => {
                 {/* Address */}
                 <div className="flex items-start space-x-3">
                     <img src={servicelocation} alt="location" className='mt-1' />
-                    <p className="text-sm md:text-base">
+                    <p className="text-sm md:text-base bebas-font">
                         {address}
                     </p>
                 </div>
@@ -83,20 +83,20 @@ const getDownloadButtonText = (category) => {
                 <hr className="border-t border-gray-200 my-4" />
 
                 {/* Location and Hours */}
-                <h4 className="text-[15px] font-normal text-gray-800 mb-4">Location and Hours</h4>
+                <h4 className="text-[15px] font-normal text-gray-800 mb-4 bebas-font">Location and Hours</h4>
                 <div className="space-y-3">
                     
                     {operatingDays.map((item, index) => (
                         <div key={index} className="flex justify-between text-[#000000] text-[14px] md:text-[15px]">
-                            <span className="font-normal">{item.day}</span>
-                            <span>{item.time}</span>
+                            <span className="font-normal bebas-font">{item.day}</span>
+                            <span className='bebas-font'>{item.time}</span>
                         </div>
                     ))}
                 </div>
 
                 {/* Download Button */}
                 <div className="mt-8">
-                    <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px]">
+                    <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px] bebas-font">
                         {getDownloadButtonText(business?.category)}
                     </button>
                 </div>

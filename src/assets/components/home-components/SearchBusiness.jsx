@@ -144,7 +144,7 @@ export default function SearchBusiness({ onSearchResults }) {
   };
 
   return (
-    <div className="relative w-full md:w-[95%] p-4 md:p-6 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/30 flex flex-row justify-center items-center">
+    <div className="relative w-full md:w-[95%] p-4 md:p-6 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/30 flex flex-row justify-center items-center bebas-font">
       {/* Error Message */}
       {error && (
         <div className="absolute -bottom-10 left-0 right-0 text-center text-sm text-red-600 font-medium">
