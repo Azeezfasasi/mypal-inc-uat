@@ -74,18 +74,11 @@ export default function BuffetLists({ subcategorySlug = 'Buffet services' }) {
         // Use the parent slug and filter client-side by business type
         const parentSlug = subcategory._parentSlug || 'restaurants';
         const filterType = subcategory.type; // e.g., "Buffet services"
-        
-        // DEBUG: Log what we're searching for
-        console.log('🔍 Buffet: Looking for subcategory slug:', subcategorySlug);
-        console.log('✅ Buffet: Found subcategory:', subcategory.name, '| Type:', filterType);
-        console.log('🔗 Buffet: API URL:', `${API_BASE}/categories/${parentSlug}/businesses`);
 
         // Fetch all businesses from the parent category
         const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
-        
-        console.log('📦 Buffet: API Response (unfiltered):', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -96,20 +89,10 @@ export default function BuffetLists({ subcategorySlug = 'Buffet services' }) {
           else dataArr = [];
         }
 
-        // Log first business to see what fields it has
-        if (dataArr.length > 0) {
-          console.log('📋 Buffet: First business object fields:', Object.keys(dataArr[0]));
-          console.log('📋 Buffet: First business full object:', dataArr[0]);
-        }
-
         // Filter by business type to match the subcategory
         const filtered = dataArr.filter((biz) => 
-          biz.business_category === filterType || 
-          biz.category === filterType || 
-          biz.type === filterType
+          biz.category?.type === filterType
         );
-        
-        console.log(`🔍 Buffet: Filtered ${filtered.length} of ${dataArr.length} businesses matching type "${filterType}"`);
 
         const mappedData = filtered.map((biz) => ({
           id: biz.id,
