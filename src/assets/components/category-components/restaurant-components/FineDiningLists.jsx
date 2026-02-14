@@ -96,6 +96,12 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           else dataArr = [];
         }
 
+        // Log first business to see what fields it has
+        if (dataArr.length > 0) {
+          console.log('📋 FineDining: First business object fields:', Object.keys(dataArr[0]));
+          console.log('📋 FineDining: First business full object:', dataArr[0]);
+        }
+
         // Filter by business type to match the subcategory
         const filtered = dataArr.filter((biz) => 
           biz.business_category === filterType || 
