@@ -74,6 +74,9 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
         // Use the parent slug and filter client-side by business type
         const parentSlug = subcategory._parentSlug || 'restaurants';
         const filterType = subcategory.type; // e.g., "Fine Dining"
+        
+        console.log('🔍 FineDining filterType:', filterType);
+        console.log('🔍 FineDining subcategory:', subcategory);
 
         // Fetch all businesses from the parent category
         const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses`, {
@@ -90,9 +93,14 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
         }
 
         // Filter by business type to match the subcategory
-        const filtered = dataArr.filter((biz) => 
-          biz.category?.type === filterType
-        );
+        const filtered = dataArr.filter((biz) => {
+          const bizType = biz.category?.type;
+          const match = bizType === filterType;
+          if (!match && dataArr.indexOf(biz) < 2) {
+            console.log(`🔍 Business "${biz.business_name}": type="${bizType}" vs filterType="${filterType}" = ${match}`);
+          }
+          return match;
+        });
 
         const mappedData = filtered.map((biz) => ({
           id: biz.id,
