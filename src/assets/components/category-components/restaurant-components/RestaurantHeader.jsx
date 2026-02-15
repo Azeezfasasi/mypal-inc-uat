@@ -180,7 +180,7 @@ export default function RestaurantHeader() {
                         <Link
                             to="/"
                             onClick={() => setActiveLink('Home')}
-                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Home' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left text-[18.92px] bebas-font font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Home' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                         >
                             Home
                         </Link>
@@ -189,7 +189,7 @@ export default function RestaurantHeader() {
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={toggleCategoryDropdown}
-                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-[18.92px] bebas-font font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                             >
                                 <span>Category</span>
                                 <ChevronDownIcon className={`w-4 h-4 transform transition-transform duration-300 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -197,7 +197,7 @@ export default function RestaurantHeader() {
 
                             {/* Dropdown Menu (Desktop) */}
                             {isCategoryDropdownOpen && (
-                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
+                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50 bebas-font">
                                     {/* Left Column: Main Categories */}
                                     <div className="flex flex-col space-y-2 bg-white rounded-xl shadow-lg w-[225px] h-fit py-2">
                                         {categories.map((category) => (
@@ -230,14 +230,14 @@ export default function RestaurantHeader() {
                         <div className="relative" ref={forBusinessRef}>
                             <button
                                 onClick={() => { setIsForBusinessOpen(!isForBusinessOpen); setActiveLink('For Business'); }}
-                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-lg font-medium relative transition-colors duration-300 cursor-pointer bebas-font bebas-font ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
                             >
                                 <span>For Business</span>
                                 <ChevronDownIcon className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${isForBusinessOpen ? 'rotate-180' : ''}`} />
                             </button>
 
                             {isForBusinessOpen && (
-                                <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50">
+                                <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50 bebas-font">
                                     {/* <a href="https://business.mypal-inc.com/login" target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Add a Business</a> */}
                                     <button onClick={() => { setIsForBusinessOpen(false); setShowClaimModal(true); }} className="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded cursor-pointer">Claim your business</button>
                                     <a href="https://business.mypal-inc.com/login" target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
@@ -248,12 +248,12 @@ export default function RestaurantHeader() {
                     </nav>
 
                     {/*CTA Button */}
-                    <div className="hidden lg:flex flex-row gap-[18px] items-center justify-start relative">
-                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#ffffff] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                    <div className="hidden lg:flex flex-row gap-[18px] items-center justify-start relative bebas-font">
+                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#ffffff] text-left text-lg font-medium relative flex items-center justify-start">
                             Login
                         </a>
                         <a href="https://business.mypal-inc.com/signup" target='_blank' className="bg-[#DB3A06] rounded-[40px] p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 relative">
-                            <div className="text-[#FBEBE6] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                            <div className="text-[#FBEBE6] text-left text-lg font-medium relative flex items-center justify-start">
                             Sign Up
                             </div>
                         </a>
@@ -298,7 +298,7 @@ export default function RestaurantHeader() {
                     <Link
                     to="/"
                     onClick={toggleMobileMenu}
-                    className="text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                    className="text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors bebas-font"
                     >
                     Home
                     </Link>
@@ -308,7 +308,7 @@ export default function RestaurantHeader() {
                         <button
                             // FIX: Use the new state and toggle function for the mobile category list
                             onClick={() => setIsMobileCategoryListOpen(!isMobileCategoryListOpen)}
-                            className="w-full flex justify-between items-center text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                            className="w-full flex justify-between items-center text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors bebas-font"
                         >
                             Category
                             <ChevronDownIcon
@@ -321,7 +321,7 @@ export default function RestaurantHeader() {
 
                         {/* FIX: Conditional rendering based on the new state */}
                         {isMobileCategoryListOpen && (
-                            <div className="mt-4 flex flex-col space-y-4 pl-0">
+                            <div className="mt-4 flex flex-col space-y-4 pl-0 bebas-font">
                                 {categories.map((category) => (
                                     <div key={category.name}>
                                         {/* Main category link/button */}
@@ -371,28 +371,28 @@ export default function RestaurantHeader() {
                     
                     <div>
                         <button onClick={() => setIsMobileForBusinessOpen(!isMobileForBusinessOpen)}
-                        className="w-full text-left text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between">
+                        className="w-full text-left text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between bebas-font">
                             <span>For Business</span>
                             <ChevronDownIcon className={`w-6 h-6 ml-2 transform transition-transform duration-300 ${isMobileForBusinessOpen ? 'rotate-180' : ''}`} />
                         </button>
 
                         {isMobileForBusinessOpen && (
-                            <div className="mt-3 ml-4 flex flex-col space-y-2 text-base text-gray-700">
-                                <button onClick={() => { toggleMobileMenu(); setShowClaimModal(true); }} className="hover:text-gray-800 text-left cursor-pointer">Claim your business</button>
-                                <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Log in to Business Account</a>
-                                <Link to="/forbusiness" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Explore for Business</Link>
+                            <div className="mt-3 ml-4 flex flex-col space-y-2 text-base text-gray-700 babas-font">
+                                <button onClick={() => { toggleMobileMenu(); setShowClaimModal(true); }} className="hover:text-gray-800 text-left cursor-pointer bebas-font">Claim your business</button>
+                                <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800 bebas-font">Log in to Business Account</a>
+                                <Link to="/forbusiness" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800 bebas-font">Explore for Business</Link>
                             </div>
                         )}
                     </div>
                     
 
                     {/*CTA Button */}
-                    <div className="flex flex-col gap-[18px] items-center justify-center relative mt-6">
-                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                    <div className="flex flex-col gap-[18px] items-center justify-center relative mt-6 bebas-font">
+                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left text-lg font-medium relative flex items-center justify-start bebas-font">
                             Login
                         </a>
                         <a href="https://business.mypal-inc.com/signup" target='_blank' className="bg-[#DB3A06] rounded-[40px] px-10 py-5 flex flex-row gap-2.5 items-center justify-center shrink-0 relative">
-                            <div className="text-[#FBEBE6] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                            <div className="text-[#FBEBE6] text-left text-lg font-medium relative flex items-center justify-start bebas-font">
                             Sign Up
                             </div>
                         </a>

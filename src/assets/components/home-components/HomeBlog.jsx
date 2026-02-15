@@ -76,7 +76,7 @@ const HomeBlog = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">Our Blog</h2> */}
-            <p className="mt-2 text-gray-600 max-w-xl bebas-font">Tools and strategies modern teams need to help their companies grow.</p>
+            <p className="mt-2 text-gray-600 max-w-xl mont-normal-font">Tools and strategies modern teams need to help their companies grow.</p>
           </div>
           <div className="hidden md:block">
             <Link to="/blog-lists" className="inline-flex items-center px-4 py-2 bg-[#ce4015] text-white rounded-md hover:opacity-95 bebas-font">See All</Link>
@@ -97,7 +97,7 @@ const HomeBlog = () => {
           ))}
 
           {!loading && blogPosts.length === 0 && (
-            <div className="col-span-full text-center py-12 text-gray-500 bebas-font">No blog posts available.</div>
+            <div className="col-span-full text-center py-12 text-gray-500 mont-normal-font">No blog posts available.</div>
           )}
 
           {!loading && blogPosts.slice(0, 3).map((post, index) => (
@@ -111,10 +111,10 @@ const HomeBlog = () => {
                 />
               </div>
               <div className="p-5 md:p-6">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg md:text-xl text-gray-900 mb-2">
                   <Link to={post.link} className="hover:text-[#ce4015] bebas-font">{post.title.split(' ').slice(0, 12).join(' ')}{post.title.split(' ').length > 12 ? '…' : ''}</Link>
                 </h3>
-                <p className="text-sm text-gray-600 mb-4 bebas-font">{post.description.split(' ').slice(0, 20).join(' ')}{post.description.split(' ').length > 20 ? '…' : ''}</p>
+                <p className="text-sm text-gray-600 mb-4 mont-normal-font">{post.description.split(' ').slice(0, 20).join(' ')}{post.description.split(' ').length > 20 ? '…' : ''}</p>
                 <div className="flex items-center justify-between">
                   <Link to={post.link} className="text-[#ce4015] font-medium bebas-font">Read More</Link>
                   <span className="text-xs text-gray-400">{/* placeholder for date or tag */}</span>
@@ -137,7 +137,7 @@ const HomeBlog = () => {
         )}
 
         {error && (
-          <div className="mt-6 text-center text-sm text-red-600 bebas-font">Failed to load posts</div>
+          <div className="mt-6 text-center text-sm text-red-600 mont-normal-font">Failed to load posts</div>
         )}
       </div>
     </section>

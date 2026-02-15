@@ -22,7 +22,7 @@ const JoinMyPal = () => {
         ></div>
 
         {/* Title */}
-        <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
+        <div className="text-[#000000] text-center md:text-left text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto bebas-font">
             Why Join MyPal
         </div>
 
@@ -54,7 +54,7 @@ const JoinMyPal = () => {
                         {/* Star Icon */}
                         <img src={itemstar} alt="star" />
                     </div>
-                    <span className="text-xl sm:text-2xl font-light text-gray-800">
+                    <span className="text-xl sm:text-2xl font-light text-gray-800 bebas-font">
                         {benefit}
                     </span>
                     </li>

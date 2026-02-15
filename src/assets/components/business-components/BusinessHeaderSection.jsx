@@ -155,7 +155,7 @@ export default function BusinessHeaderSection() {
     };
 
     return (
-        <div className="bg-transparent font-sans antialiased relative z-50">
+        <div className="bg-transparent font-sans antialiased relative z-50 bebas-font">
             {/* Header Section */}
             <header className="bg-transparent px-2 md:px-6 py-4">
                 <div className="w-[95%] mx-auto flex justify-between items-center">
@@ -180,7 +180,7 @@ export default function BusinessHeaderSection() {
                         <Link
                             to="/"
                             onClick={() => setActiveLink('Home')}
-                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Home' ? 'bg-white text-[#4D1402] rounded-[50.45px]' : 'text-[#4D1402]'}`}
+                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer bebas-font ${activeLink === 'Home' ? 'bg-white text-[#4D1402] rounded-[50.45px]' : 'text-[#4D1402]'}`}
                         >
                             Home
                         </Link>
@@ -189,7 +189,7 @@ export default function BusinessHeaderSection() {
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={toggleCategoryDropdown}
-                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-[#4D1402] rounded-[50.45px]' : 'text-[#4D1402]'}`}
+                                className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-[#4D1402] rounded-[50.45px]' : 'text-[#4D1402]'}`}
                             >
                                 <span>Category</span>
                                 <ChevronDownIcon className={`w-4 h-4 transform transition-transform duration-300 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -230,7 +230,7 @@ export default function BusinessHeaderSection() {
                         <div className="relative" ref={forBusinessRef}>
                             <button
                                 onClick={() => { setIsForBusinessOpen(!isForBusinessOpen); setActiveLink('For Business'); }}
-                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-gray-800'}`}
+                                className={`flex items-center justify-start pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-lg font-medium relative transition-colors duration-300 cursor-pointer ${isForBusinessOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-gray-800'}`}
                             >
                                 <span>For Business</span>
                                 <ChevronDownIcon className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${isForBusinessOpen ? 'rotate-180' : ''}`} />
@@ -249,11 +249,11 @@ export default function BusinessHeaderSection() {
 
                     {/*CTA Button */}
                     <div className="hidden lg:flex flex-row gap-[18px] items-center justify-start relative">
-                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left text-lg font-medium relative flex items-center justify-start">
                             Login
                         </a>
                         <a href="https://business.mypal-inc.com/signup" target='_blank' className="bg-[#DB3A06] rounded-[40px] p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 relative">
-                            <div className="text-[#FBEBE6] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                            <div className="text-[#FBEBE6] text-left text-lg font-medium relative flex items-center justify-start">
                             Sign Up
                             </div>
                         </a>
@@ -297,7 +297,7 @@ export default function BusinessHeaderSection() {
                     <Link
                     to="/"
                     onClick={toggleMobileMenu}
-                    className="text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                    className="text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors"
                     >
                     Home
                     </Link>
@@ -307,7 +307,7 @@ export default function BusinessHeaderSection() {
                         <button
                             // FIX: Use the new state and toggle function for the mobile category list
                             onClick={() => setIsMobileCategoryListOpen(!isMobileCategoryListOpen)}
-                            className="w-full flex justify-between items-center text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                            className="w-full flex justify-between items-center text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors"
                         >
                             Category
                             <ChevronDownIcon
@@ -370,7 +370,7 @@ export default function BusinessHeaderSection() {
                     
                     <div>
                         <button onClick={() => setIsMobileForBusinessOpen(!isMobileForBusinessOpen)}
-                        className="w-full text-left text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between">
+                        className="w-full text-left text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between">
                             <span>For Business</span>
                             <ChevronDownIcon className={`w-6 h-6 ml-2 transform transition-transform duration-300 ${isMobileForBusinessOpen ? 'rotate-180' : ''}`} />
                         </button>
@@ -386,11 +386,11 @@ export default function BusinessHeaderSection() {
 
                     {/*CTA Button */}
                     <div className="flex flex-col gap-[18px] items-center justify-center relative mt-6">
-                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                        <a href="https://business.mypal-inc.com/login" target='_blank' className="text-[#4D1402] text-left text-lg font-medium relative flex items-center justify-start">
                             Login
                         </a>
                         <a href="https://business.mypal-inc.com/signup" target='_blank' className="bg-[#DB3A06] rounded-[40px] px-10 py-5 flex flex-row gap-2.5 items-center justify-center shrink-0 relative">
-                            <div className="text-[#FBEBE6] text-left font-['AvenirNextRoundedStd-Medium',_sans-serif] text-lg font-medium relative flex items-center justify-start">
+                            <div className="text-[#FBEBE6] text-left text-lg font-medium relative flex items-center justify-start">
                             Sign Up
                             </div>
                         </a>

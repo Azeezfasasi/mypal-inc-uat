@@ -45,8 +45,8 @@ const ReviewCard = ({ review }) => {
                 <div className="flex items-center space-x-3">
                     <img src={avatar} alt={author} className="w-10 h-10 rounded-full" />
                     <div>
-                        <h4 className="text-[#000000] text-lg font-medium">{author}</h4>
-                        <p className="text-sm font-normal text-gray-500">{title}</p>
+                        <h4 className="text-[#000000] text-lg font-medium mont-normal-font">{author}</h4>
+                        <p className="text-sm font-normal text-gray-500 mont-normal-font">{title}</p>
                     </div>
                 </div>
                 {/* <button>
@@ -118,8 +118,8 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
         <div className="bg-gray-50 rounded-[10px] border border-solid border-gray-300 font-sans antialiased mb-6">
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <h2 className="text-[17px] md:text-2xl font-semibold text-[#000000] mb-2 bebas-sub-title-font">
-                    Recommended Reviews <span className='font-normal bebas-font'>({total})</span>
+                <h2 className="text-[17px] md:text-2xl font-medium text-[#000000] mb-2 mont-font">
+                    Recommended Reviews <span className='font-normal mont-normal-font'>({total})</span>
                 </h2>
 
                 {/* Overall Rating Section */}
@@ -166,9 +166,9 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                                         </div>
                                     </div>
 
-                                    <div className='flex flex-col items-start justify-start bebas-font'>
-                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-semibold">{percentRecommended}%</p>
-                                        <p className="text-sm md:text-xl font-semibold text-[#DB3A06]">Recommended</p>
+                                    <div className='flex flex-row gap-2 items-center justify-start bebas-font'>
+                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-normal">{percentRecommended}%</p>
+                                        <p className="text-sm md:text-xl font-normal text-[#DB3A06]">Recommended</p>
                                     </div>
                                 </div>
                             </div>

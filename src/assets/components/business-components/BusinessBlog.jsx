@@ -65,7 +65,7 @@ const BusinessBlog = () => {
             ></div>
 
             {/* Title */}
-            <div className="text-[#000000] text-center md:text-left font-['DrukCyr-Medium',_sans-serif] text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto">
+            <div className="text-[#000000] text-center md:text-left text-[28px] md:text-[34px] lg:text-[54px] font-bold relative flex items-center justify-center md:justify-start mx-auto bebas-font">
                 Business Blog
             </div>
 
@@ -78,16 +78,16 @@ const BusinessBlog = () => {
         <div className='w-[90%] flex flex-col md:flex-row justify-between items-start mb-10'>
           <div className="flex flex-col gap-5 items-start justify-start relative">
             <div className="flex flex-col gap-3 items-start justify-start self-stretch shrink-0 relative">
-              <div className="text-[#181d27] text-left text-[30px] md:text-[36px] font-semibold leading-[38px] md:leading-[44px] relative self-stretch"
+              <div className="text-[#181d27] text-left text-[30px] md:text-[36px] font-semibold leading-[38px] md:leading-[44px] relative self-stretch bebas-font mont-normal-font"
                 style={{ letterSpacing: 'var(--display-md-semibold-letter-spacing, -0.02em)' }}>
                 Latest blog posts for businesses
               </div>
             </div>
-            <div className="text-[#535862] text-left text-[18px] md:text-[20px] font-normal leading-[28px] md:leading-[30px] relative">
+            <div className="text-[#535862] text-left text-[18px] md:text-[20px] font-normal leading-[28px] md:leading-[30px] relative mont-normal-font">
               Tool and strategies modern teams need to help their companies grow.
             </div>
           </div>
-          <div className="h-fit hidden md:flex justify-end">
+          <div className="h-fit hidden md:flex justify-end bebas-font">
             <Link to="/blogs" className="px-4 py-2 bg-[#ce4015] text-white rounded-lg">View All Posts</Link>
           </div>
         </div>
@@ -114,15 +114,15 @@ const BusinessBlog = () => {
               </div>
               {/* Post Content */}
               <div className="p-4 sm:p-6">
-                <Link to={post.link} className="text-[20px] md:text-2xl font-medium text-[#000000] mb-3">
+                <Link to={post.link} className="text-[20px] md:text-2xl font-medium text-[#000000] mb-3 bebas-font">
                   {post.title.split(" ").slice(0, 10).join(" ")}...
                 </Link>
-                <p className="text-gray-600 mb-4 text-sm font-normal">
+                <p className="text-gray-600 mb-4 text-sm font-normal mont-normal-font">
                   {post.description.split(" ").slice(0, 15).join(" ")}...
                 </p>
                 <Link
                   to={post.link}
-                  className="text-[#4D1402] text-xl font-normal underline"
+                  className="text-[#4D1402] text-xl font-normal underline bebas-font"
                 >
                   Read More
                 </Link>

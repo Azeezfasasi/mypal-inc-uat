@@ -65,9 +65,9 @@ const getDownloadButtonText = (category) => {
         <div className="lg:w-1/3">
             <div className="bg-white rounded-[10px] p-6 md:p-8 border border-solid border-gray-300">
                 {/* Address */}
-                <div className="flex items-start space-x-3">
+                <div className="flex items-center space-x-3">
                     <img src={servicelocation} alt="location" className='mt-1' />
-                    <p className="text-sm md:text-base bebas-font">
+                    <p className="text-sm md:text-base mont-normal-font">
                         {address}
                     </p>
                 </div>
@@ -88,15 +88,15 @@ const getDownloadButtonText = (category) => {
                     
                     {operatingDays.map((item, index) => (
                         <div key={index} className="flex justify-between text-[#000000] text-[14px] md:text-[15px]">
-                            <span className="font-normal bebas-font">{item.day}</span>
-                            <span className='bebas-font'>{item.time}</span>
+                            <span className="font-normal mont-normal-font">{item.day}</span>
+                            <span className='mont-normal-font'>{item.time}</span>
                         </div>
                     ))}
                 </div>
 
                 {/* Download Button */}
                 <div className="mt-8">
-                    <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px] bebas-font">
+                    <button className="w-full p-3 md:p-5 rounded-[10px] bg-[#DB3A06] text-[#FBEBE6] text-base font-semibold hover:bg-orange-700 transition-colors duration-200 flex flex-row gap-2.5 items-center justify-center cursor-pointer text-[14px] md:text-[16px] mont-normal-font">
                         {getDownloadButtonText(business?.category)}
                     </button>
                 </div>

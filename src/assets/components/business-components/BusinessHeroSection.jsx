@@ -37,14 +37,14 @@ export default function BusinessHeroSection() {
                     </div>
 
                     <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 w-[340px] md:w-[340px] h-[55px] md:h-[53px] relative flex justify-center items-center overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
-                        <div className="text-[#000000] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-between px-2 md:px-0">
+                        <div className="text-[#000000] text-center text-sm font-normal flex items-center justify-between px-2 md:px-0 bebas-font">
                         <span>Trusted by over 500+ business</span> <img src={businessheroicon} alt="" className='ml-[5px]' />
                         </div>
                     </div>
-                    <div className="text-[#4D1402] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
+                    <div className="text-[#4D1402] text-center text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center bebas-font">
                         Put Your Business on the Map
                     </div>
-                    <div className="w-full md:w-[70%] text-[#000000] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-2xl font-normal relative self-stretch flex items-center justify-center mx-auto">
+                    <div className="w-full md:w-[70%] text-[#000000] text-center text-[17px] md:text-2xl font-normal relative self-stretch flex items-center justify-center mx-auto mont-normal-font">
                         Join thousands of businesses using MyPal to build trust, boost visibility, and turn everyday visitors into loyal customers.
                     </div>
 
@@ -67,7 +67,7 @@ export default function BusinessHeroSection() {
                         </div>
                     </div>
 
-                    <a href='https://business.mypal-inc.com/signup' target='_blank' className="w-full flex flex-row justify-center items-center md:w-[40%] lg:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer text-2xl font-medium mt-6">
+                    <a href='https://business.mypal-inc.com/signup' target='_blank' className="w-full flex flex-row justify-center items-center md:w-[40%] lg:w-[20%] px-10 py-3 md:py-4 bg-[#DB3A06] hover:bg-orange-700 text-white rounded-[10px] transition-colors duration-300 shadow-lg cursor-pointer text-2xl font-medium mt-6 bebas-font">
                         Get Started
                     </a>
                 </div>

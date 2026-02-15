@@ -38,14 +38,14 @@ export default function BeautyHealthHero() {
                 {/* Text Content */}
                 <div className="w-full md:w-[95%] flex flex-col gap-4 items-center justify-start relative mt-[-120px] md:mt-[-160px] mb-10 md:mb-16">
                     <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 px-4 h-[55px] md:h-[33px] relative flex justify-center items-center overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
-                        <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-center px-2 md:px-0">
+                        <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal flex items-center justify-center px-2 md:px-0 bebas-font">
                         Beauty & Wellness Experiences
                         </div>
                     </div>
-                    <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
+                    <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center bebas-font">
                         Beauty & Health
                     </div>
-                    <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex flex-col items-center justify-center mx-auto">
+                    <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex flex-col items-center justify-center mx-auto mont-normal-font">
                         <span className='italic'>Glow. Relax. Rejuvenate.</span>
                         Bring out your best self with curated experiences that cater to your inner and outer wellbeing — from spa indulgence and salon pampering to healthy lifestyle options.
 

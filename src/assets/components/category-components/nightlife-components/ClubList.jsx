@@ -21,23 +21,23 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
       </div>
 
       <div className="p-4 sm:p-6">
-        <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1">{title}</Link>
-        <p className="text-[15px] text-gray-500 mb-2">{description.split(" ").slice(0, 20).join(" ")}</p>
+        <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1 bebas-font">{title}</Link>
+        <p className="text-[15px] text-gray-500 mb-2 mont-normal-font">{description.split(" ").slice(0, 20).join(" ")}</p>
         <div className="w-full flex justify-between items-center text-sm text-gray-500 mb-4">
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
-            <span className="font-semibold text-[14.5px] text-gray-700 mr-0">{rating}</span>
-            <span className="text-[14.5px] mr-0">({reviews})</span>
+            <span className="font-semibold text-[14.5px] text-gray-700 mr-0 bebas-font">{rating}</span>
+            <span className="text-[14.5px] mr-0 bebas-font">({reviews})</span>
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-            <span className='text-[14.5px]'>
+            <span className='text-[14.5px] mont-normal-font'>
               {location?.length > 10 ? location.slice(0, 12) + "…" : location}
             </span>
           </div>
         </div>
         <Link to={`/services/servicedetails/${id}`} className="flex justify-center">
-          <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-black text-center font-sans">
+          <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-black text-center font-sans bebas-font">
             View Details
           </button>
         </Link>

@@ -138,7 +138,7 @@ export default function ExploreCategory() {
                                 </div>
 
                                 {/* Category Name */}
-                                <h3 className="mt-2 font-semibold text-[#000000] text-center text-[24px] md:text-[24px] lg:text-[32px] relative self-stretch bebas-font">
+                                <h3 className="mt-2 font-bold text-[#000000] text-center text-[24px] md:text-[24px] lg:text-[32px] relative self-stretch mont-category-font">
                                     {category.name}
                                 </h3>
 

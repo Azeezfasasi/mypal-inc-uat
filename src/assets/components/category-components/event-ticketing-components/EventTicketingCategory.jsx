@@ -75,7 +75,7 @@ export default function EventTicketCategory() {
 
               {/* Text overlay */}
               <div className="absolute inset-0 flex items-center justify-center p-4">
-                <h2 className="text-white text-3xl sm:text-4xl font-extrabold text-center tracking-wide leading-tight drop-shadow-lg">
+                <h2 className="text-white text-3xl sm:text-4xl font-extrabold text-center tracking-wide leading-tight drop-shadow-lg bebas-font">
                   {category.name}
                 </h2>
               </div>

@@ -30,13 +30,13 @@ export default function ServiceDetailTitle({ business }) {
                     {/* Business Description */}
                     <div className="md:w-1/2 flex flex-col justify-center md:justify-start">
                         <p 
-                            className="text-base sm:text-2xl text-gray-700 text-left md:text-left max-w-lg tracking-tight bebas-font font-semibold">
+                            className="text-base sm:text-2xl text-gray-700 text-left md:text-left max-w-lg tracking-tights mont-normal-font">
                             {displayDescription}
                         </p>
                         {shouldShowButton && (
                             <button
                                 onClick={() => setIsExpanded(!isExpanded)}
-                                className="mt-3 text-[#4D1402] font-semibold hover:underline text-base sm:text-lg focus:outline-none cursor-pointer bebas-font"
+                                className="mt-3 text-[#4D1402] hover:underline text-base sm:text-lg focus:outline-none cursor-pointer mont-normal-font"
                             >
                                 {isExpanded ? 'Show Less' : 'Show More'}
                             </button>

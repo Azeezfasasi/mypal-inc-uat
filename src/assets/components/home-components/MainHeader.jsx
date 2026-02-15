@@ -296,7 +296,7 @@ export default function MainHeader() {
                     <Link
                     to="/"
                     onClick={toggleMobileMenu}
-                    className="text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                    className="text-2xl font-medium text-gray-800 hover:text-[#DB3A06] transition-colors"
                     >
                     Home
                     </Link>
@@ -306,7 +306,7 @@ export default function MainHeader() {
                         <button
                             // FIX: Use the new state and toggle function for the mobile category list
                             onClick={() => setIsMobileCategoryListOpen(!isMobileCategoryListOpen)}
-                            className="w-full flex justify-between items-center text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors"
+                            className="w-full flex justify-between items-center text-2xl font-medium text-gray-800 hover:text-[#DB3A06] transition-colors"
                         >
                             Category
                             <ChevronDownIcon
@@ -370,7 +370,7 @@ export default function MainHeader() {
                     <div>
                         <button
                         onClick={() => setIsMobileForBusinessOpen(!isMobileForBusinessOpen)}
-                        className="w-full text-left text-2xl font-semibold text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between"
+                        className="w-full text-left text-2xl font-medium text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between"
                         >
                         <span>For Business</span>
                         <ChevronDownIcon className={`w-6 h-6 ml-2 transform transition-transform duration-300 ${isMobileForBusinessOpen ? 'rotate-180' : ''}`} />

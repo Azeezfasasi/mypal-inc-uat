@@ -8,7 +8,7 @@ const TrustedBy = () => {
   return (
     <div className="w-full bg-white md:py-0 px-4 md:px-8 flex flex-col items-center justify-center">
       {/* Title */}
-      <h2 className="text-xl sm:text-[25px] text-center text-[#999999] font-normal mb-6 sm:mb-12">
+      <h2 className="text-xl sm:text-[25px] text-center text-[#999999] font-normal mb-6 sm:mb-12 mont-normal-font">
         Trusted by people using this companies
       </h2>
 

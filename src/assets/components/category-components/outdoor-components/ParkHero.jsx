@@ -38,14 +38,14 @@ export default function ParkHero() {
                 {/* Text Content */}
                 <div className="w-full md:w-[95%] flex flex-col gap-4 items-center justify-start relative mt-[-120px] md:mt-[-160px] mb-16">
                     <div className="bg-[rgba(255,255,255,0.34)] rounded-[50px] border-solid border-[rgba(255,255,255,0.41)] border shrink-0 w-[273px] h-[33px] relative overflow-hidden" style={{ backdropFilter: "blur(8.7px)" }}>
-                        <div className="text-[#ffffff] text-center font-['AvenirNextRoundedStd-Regular',_sans-serif] text-sm font-normal absolute left-1 md:left-3 top-1.5 flex items-center justify-center px-2 md:px-0">
+                        <div className="text-[#ffffff] text-center text-sm font-normal absolute left-1 md:left-3 top-1.5 flex items-center justify-center px-2 md:px-0 bebas-font">
                         Nature, play, and everything in between.
                         </div>
                     </div>
-                    <div className="text-[#ffffff] text-center font-['DrukCyr-Medium',_sans-serif] text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center">
+                    <div className="text-[#ffffff] text-center text-[50px] md:text-[80px] font-bold relative self-stretch flex items-center justify-center bebas-font">
                         PARKS & RECREATION
                     </div>
-                    <div className="w-full md:w-[70%] text-[#ffffff] text-center font-['AvenirNextRoundedStd-Medium',_sans-serif] text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto">
+                    <div className="w-full md:w-[70%] text-[#ffffff] text-center text-[17px] md:text-xl font-medium relative self-stretch flex items-center justify-center mx-auto mont-normal-font">
                         Unplug and enjoy the great outdoors. From serene nature parks to recreational spaces for families and fitness lovers, explore places where you can relax, play, or simply breathe fresh air.
                     </div>
                 </div>
