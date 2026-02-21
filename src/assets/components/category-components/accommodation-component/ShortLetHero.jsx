@@ -50,7 +50,6 @@ export default function ShortLetHero() {
 
 
                 {/* Search Bar Section */}
-                {/* Search Bar Section */}
                 <SearchBusiness onSearchResults={handleSearchResults} />
                 {/* Modal for search results */}
                 <SearchResultsModal open={modalOpen} onClose={handleCloseModal} results={results} />

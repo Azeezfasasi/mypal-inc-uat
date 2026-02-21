@@ -32,24 +32,11 @@ export default function SearchBusiness({ onSearchResults }) {
 
     setLoading(true);
     try {
-      // Build query parameters
-      const params = {};
-      
-      if (query && query.trim()) {
-        params.businessName = query.trim();
-      }
-      
-      if (location && location.trim()) {
-        // Note: The API doesn't have a direct location filter, but we can filter client-side
-        params.location = location.trim();
-      }
-
-      
-      // Call the new simplified endpoint
-      const response = await axios.get(`${API_BASE_URL}/search/businesses`, {
+      // Fetch all businesses with pagination
+      const response = await axios.get(`${API_BASE_URL}/businesses/all`, {
         params: {
-          businessName: query.trim() || undefined,
-          // cuisineCategoryName: location.trim() || undefined, // Optional: use location as cuisine filter
+          page: 1,
+          limit: 100, // API maximum limit is 100
         },
         headers: {
           'X-API-Key': API_KEY,
@@ -60,35 +47,48 @@ export default function SearchBusiness({ onSearchResults }) {
 
       const responseData = response.data;
 
-      // Validate response structure
-      if (!responseData || responseData.statusCode !== 200) {
-        setError('No results found or API error. Please try again.');
+      // Normalize response - handle various possible structures
+      let businesses = [];
+      
+      // Handle paginated response structure
+      if (responseData.data) {
+        if (Array.isArray(responseData.data)) {
+          businesses = responseData.data;
+        } else if (responseData.data.businesses && Array.isArray(responseData.data.businesses)) {
+          businesses = responseData.data.businesses;
+        } else if (responseData.data.data && Array.isArray(responseData.data.data)) {
+          businesses = responseData.data.data;
+        }
+      }
+      // Handle direct array response
+      else if (Array.isArray(responseData)) {
+        businesses = responseData;
+      }
+
+      if (!Array.isArray(businesses) || businesses.length === 0) {
+        setError('No businesses found. Please try again later.');
         onSearchResults && onSearchResults([]);
         setLoading(false);
         return;
       }
 
-      let businesses = responseData.data?.businesses || [];
+      // Client-side filtering based on search query and location
+      let filteredBusinesses = businesses.filter(b => {
+        const nameMatch = !query || (b.business_name || b.name || '')
+          .toLowerCase()
+          .includes(query.toLowerCase());
 
-      // Client-side filtering if location is provided (since API doesn't have location param)
-      if (location && location.trim()) {
-        const locationLower = location.trim().toLowerCase();
-        businesses = businesses.filter(b => {
-          const address = (b.address || '').toLowerCase();
-          const city = (b.city || '').toLowerCase();
-          const state = (b.state || '').toLowerCase();
-          const country = (b.country || '').toLowerCase();
-          
-          return (
-            address.includes(locationLower) ||
-            city.includes(locationLower) ||
-            state.includes(locationLower) ||
-            country.includes(locationLower)
-          );
-        });
-      }
+        const locationMatch = !location || (
+          (b.address || '').toLowerCase().includes(location.toLowerCase()) ||
+          (b.city || '').toLowerCase().includes(location.toLowerCase()) ||
+          (b.state || '').toLowerCase().includes(location.toLowerCase()) ||
+          (b.country || '').toLowerCase().includes(location.toLowerCase())
+        );
 
-      if (!businesses.length) {
+        return nameMatch && locationMatch;
+      });
+
+      if (!filteredBusinesses.length) {
         setError(`No businesses found for "${query}${location ? ' in ' + location : ''}". Try a different search.`);
         onSearchResults && onSearchResults([]);
         setLoading(false);
@@ -96,11 +96,11 @@ export default function SearchBusiness({ onSearchResults }) {
       }
 
       // Transform API response to match expected format
-      const transformedResults = businesses.map(b => ({
+      const transformedResults = filteredBusinesses.map(b => ({
         id: b.id,
-        name: b.name,
-        business_name: b.name,
-        description: b.description,
+        name: b.name || b.business_name || 'Unnamed Business',
+        business_name: b.business_name || b.name || 'Unnamed Business',
+        description: b.description || '',
         image: b.image_url,
         image_url: b.image_url,
         address: b.address,
@@ -117,12 +117,13 @@ export default function SearchBusiness({ onSearchResults }) {
       setLoading(false);
     } catch (err) {
       console.error('Error fetching search results:', err);
+      console.error('Error details:', err.response?.data || err.message);
       
       let errorMsg = 'Failed to fetch search results. ';
       if (err.response?.status === 401 || err.response?.status === 403) {
         errorMsg += 'API authentication failed.';
       } else if (err.response?.status === 404) {
-        errorMsg += 'No businesses found.';
+        errorMsg += 'Endpoint not found. Please try again later.';
       } else if (err.code === 'ECONNABORTED') {
         errorMsg += 'Request timeout. Please try again.';
       } else {
@@ -147,7 +148,7 @@ export default function SearchBusiness({ onSearchResults }) {
     <div className="relative w-full md:w-[95%] p-4 md:p-6 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/30 flex flex-row justify-center items-center mont-normal-font">
       {/* Error Message */}
       {error && (
-        <div className="absolute -bottom-10 left-0 right-0 text-center text-sm text-red-600 font-medium">
+        <div className="absolute -bottom-10 left-0 right-0 text-center text-sm text-white font-medium">
           {error}
         </div>
       )}

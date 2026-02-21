@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import search from '../../../images/search.svg'
-// import location from '../../../images/location.svg'
 import finediningheroimg from '../../../images/finediningheroimg.svg'
 import RestaurantHeader from './RestaurantHeader';
 import SearchBusiness from '../../home-components/SearchBusiness';
