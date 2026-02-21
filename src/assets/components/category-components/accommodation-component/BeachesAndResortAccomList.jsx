@@ -15,14 +15,14 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-fill rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
 
       <div className="p-4 sm:p-6">
         <Link to={`/services/servicedetails/${id}`} className="text-lg font-bold text-gray-800 mb-1 bebas-font">{title}</Link>
-        <p className="text-[15px] text-gray-500 mb-2 mont-normal-font">{description}</p>
+        <p className="text-[15px] text-gray-500 mb-2 mont-normal-font">{description.split(" ").slice(0, 20).join(" ")}</p>
         <div className="w-full flex justify-between items-center text-sm text-gray-500 mb-4">
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
@@ -71,12 +71,18 @@ export default function BeachesAndResortAccomList({ subcategorySlug = 'Beach Res
           return;
         }
 
-        const parentSlug = subcategory._parentSlug || subcategory.slug;
+        // Use the business-categories endpoint which filters by the specific category ID
+        const filterCategoryId = subcategory.id;
+        
+        console.log('🔍 FineDining filterCategoryId:', filterCategoryId);
+        console.log('🔍 FineDining subcategory:', subcategory);
 
-        // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 Beaches & Resort Lists API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -86,6 +92,8 @@ export default function BeachesAndResortAccomList({ subcategorySlug = 'Beach Res
           else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
           else dataArr = [];
         }
+
+        console.log(`📋 Beaches & Resort Lists: Got ${dataArr.length} businesses`);
 
         const mappedData = dataArr.map((biz) => ({
           id: biz.id,

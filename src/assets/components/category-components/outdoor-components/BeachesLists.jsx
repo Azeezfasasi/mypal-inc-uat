@@ -71,12 +71,18 @@ export default function BeachesLists({ subcategorySlug = 'Beaches & Resorts' }) 
           return;
         }
 
-        const parentSlug = subcategory._parentSlug || subcategory.slug;
+        // Use the business-categories endpoint which filters by the specific category ID
+        const filterCategoryId = subcategory.id;
+        
+        console.log('🔍 Beaches & Resorts filterCategoryId:', filterCategoryId);
+        console.log('🔍 Beaches & Resorts subcategory:', subcategory);
 
-        // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 Beaches & Resorts API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -86,6 +92,8 @@ export default function BeachesLists({ subcategorySlug = 'Beaches & Resorts' }) 
           else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
           else dataArr = [];
         }
+
+        console.log(`📋 Beaches & Resorts: Got ${dataArr.length} businesses`);
 
         const mappedData = dataArr.map((biz) => ({
           id: biz.id,

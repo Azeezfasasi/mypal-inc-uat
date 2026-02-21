@@ -15,7 +15,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-fill rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
@@ -27,18 +27,18 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
             <span className="font-semibold text-[14.5px] text-gray-700 mr-0 bebas-font">{rating}</span>
-            <span className="text-[14.5px] mr-0 mont-normal-font">({reviews})</span>
+            <span className="text-[14.5px] mr-0 bebas-font">({reviews})</span>
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-            <span className='text-[14.5px] mont-normal-font mont-normal-font'>
+            <span className='text-[14.5px] mont-normal-font'>
               {location?.length > 10 ? location.slice(0, 12) + "…" : location}
             </span>
           </div>
         </div>
         <Link to={`/services/servicedetails/${id}`} className="flex justify-center">
           <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-black text-center font-sans bebas-font">
-            View Details
+            View Detailsbb
           </button>
         </Link>
       </div>
@@ -71,12 +71,18 @@ export default function IconicLists({ subcategorySlug = 'Iconic Delicacies' }) {
           return;
         }
 
-        const parentSlug = subcategory._parentSlug || subcategory.slug;
+        // Use the business-categories endpoint which filters by the specific category ID
+        const filterCategoryId = subcategory.id;
+        
+        console.log('🔍 IconicList filterCategoryId:', filterCategoryId);
+        console.log('🔍 IconicList subcategory:', subcategory);
 
-        // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 IconicList API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -86,6 +92,8 @@ export default function IconicLists({ subcategorySlug = 'Iconic Delicacies' }) {
           else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
           else dataArr = [];
         }
+
+        console.log(`📋 IconicList: Got ${dataArr.length} businesses`);
 
         const mappedData = dataArr.map((biz) => ({
           id: biz.id,

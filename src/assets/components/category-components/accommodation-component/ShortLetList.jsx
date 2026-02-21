@@ -15,7 +15,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <img
             src={imageSrc}
             alt={title}
-            className="w-full h-[252px] object-cover rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-[252px] object-fill rounded-t-3xl transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
       </div>
@@ -27,7 +27,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           <div className='flex flex-row justify-start items-center'>
             <img src={star} alt="star" />
             <span className="font-semibold text-[14.5px] text-gray-700 mr-0 bebas-font">{rating}</span>
-            <span className="text-[14.5px] mr-0 mont-normal-font">({reviews})</span>
+            <span className="text-[14.5px] mr-0 bebas-font">({reviews})</span>
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
@@ -71,12 +71,18 @@ export default function ShortLetList({ subcategorySlug = 'Short-let Homes & Beac
           return;
         }
 
-        const parentSlug = subcategory._parentSlug || subcategory.slug;
+        // Use the business-categories endpoint which filters by the specific category ID
+        const filterCategoryId = subcategory.id;
+        
+        console.log('🔍 FineDining filterCategoryId:', filterCategoryId);
+        console.log('🔍 FineDining subcategory:', subcategory);
 
-        // Call the businesses endpoint using the parent slug and categoryId query param
-        const resp = await axios.get(`${API_BASE}/categories/${parentSlug}/businesses?categoryId=${subcategory.id}`, {
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
           headers: { "x-api-key": API_KEY },
         });
+        
+        console.log('📦 ShortLetList API Response:', resp.data);
 
         // Normalize response: some endpoints return data.data.data, some return data.data or plain array
         let dataArr = resp.data?.data ?? resp.data;
@@ -86,6 +92,8 @@ export default function ShortLetList({ subcategorySlug = 'Short-let Homes & Beac
           else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
           else dataArr = [];
         }
+
+        console.log(`📋 ShortLetList: Got ${dataArr.length} businesses`);
 
         const mappedData = dataArr.map((biz) => ({
           id: biz.id,
