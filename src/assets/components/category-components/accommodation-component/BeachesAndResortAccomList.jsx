@@ -132,7 +132,8 @@ export default function BeachesAndResortAccomList({ subcategorySlug = 'Beach Res
     </div>
   );
 }
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
+  // if (error) return <div>Error: {JSON.stringify(error)}</div>;
+  if (error) return <div>Error: Business details could not be loaded.</div>;
 
   return (
     <div className="bg-gray-50 py-6 font-sans antialiased">
