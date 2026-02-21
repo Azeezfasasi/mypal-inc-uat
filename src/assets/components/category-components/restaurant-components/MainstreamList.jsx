@@ -121,7 +121,12 @@ export default function MainstreamLists({ subcategorySlug = 'restaurants' }) {
       </div>
     );
   }
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
+  
+  if (error) return (
+    <div className="text-center text-red-500 py-10 text-lg bebas-font">
+      No businesses are available for this category. Check back later or explore other categories!
+    </div>
+  );
 
   return (
     <div className="bg-gray-50 py-6 md:py-12 font-sans antialiased">

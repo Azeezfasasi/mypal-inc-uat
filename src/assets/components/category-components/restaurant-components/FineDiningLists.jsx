@@ -132,7 +132,12 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
     </div>
   );
 }
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
+  
+  if (error) return (
+    <div className="text-center text-red-500 py-10 text-lg bebas-font">
+      No businesses are available for this category. Check back later or explore other categories!
+    </div>
+  );
 
   return (
     <div className="bg-gray-50 py-6 font-sans antialiased">

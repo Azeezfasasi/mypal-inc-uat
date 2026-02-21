@@ -132,8 +132,12 @@ export default function LuxuryNightList({ subcategorySlug = 'Luxury Nightlife' }
     </div>
   );
 }
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
-
+  if (error) return (
+    <div className="text-center text-red-500 py-10 text-lg bebas-font">
+      No businesses are available for this category. Check back later or explore other categories!
+    </div>
+  );
+  
   return (
     <div className="bg-gray-50 py-6 font-sans antialiased">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
