@@ -20,17 +20,14 @@ const getCategoryCode = (categoryName) => {
   
   const normalized = categoryName.toLowerCase().trim();
   
-  // Mapping from category names to attraction codes
-  // Only SHORTLET, HOTELEXPERIENCE, and BEACHESRESORTS have data in the API
+  // Mapping from category names to attraction type codes (lowercase for matching)
+  // Aligned with BusinessCategoryType enum from business admin
+  // API data availability: SHORTLET, HOTELEXPERIENCE, and BEACHESRESORTS
   const mappings = {
     'short-let homes': 'SHORTLET',
-    'short-let homes & beach houses': 'SHORTLET',
-    'shortlet': 'SHORTLET',
     'hotel experience': 'HOTELEXPERIENCE',
-    'hotelexperience': 'HOTELEXPERIENCE',
     'beaches & resorts': 'BEACHESRESORTS',
-    'beaches & resort accommodation': 'BEACHESRESORTS',
-    'beach resort accommodation': 'BEACHESRESORTS',
+    'beaches & resort accommodation': 'BEACHESRESORTACCOMMODATION',
   };
   
   return mappings[normalized] || null;
