@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Share2, MapPin, Phone, Star } from 'lucide-react';
-import margicstar from '../assets/images/margicstar.svg';
+// import margicstar from '../assets/images/margicstar.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
 // import servicephone from '../assets/images/servicephone.svg';
 import ServicesReview from './ServicesReview';
 import ServicesRightSide from './ServicesRightSide';
 import ShareButton from '../assets/components/services-components/ShareButton';
+import ServiceAttractions from './ServiceAttractions';
 
 const businessHours = [
     { day: 'Monday', time: 'N/A' },
@@ -70,9 +71,9 @@ export default function ServiceDetailDescription({ business }) {
         : businessHours;
 
     // Services Offered: use fine_dining_menus if available
-    const apiServices = Array.isArray(business?.fine_dining_menus) && business.fine_dining_menus.length > 0
-        ? business.fine_dining_menus.map(menu => menu.name)
-        : null;
+    // const apiServices = Array.isArray(business?.fine_dining_menus) && business.fine_dining_menus.length > 0
+    //     ? business.fine_dining_menus.map(menu => menu.name)
+    //     : null;
 
     return (
         <div className="w-[95%] bg-gray-50 py-0 md:py-0 font-sans antialiased mx-auto">
@@ -94,7 +95,7 @@ export default function ServiceDetailDescription({ business }) {
                         ></div>
 
                         {/* Service Offered Section */}
-                        <div className="bg-white rounded-[10px] p-6 md:p-8 shadow-xl border border-solid border-gray-300 mb-8">
+                        {/* <div className="bg-white rounded-[10px] p-6 md:p-8 shadow-xl border border-solid border-gray-300 mb-8">
                             <h3 className="text-xl md:text-2xl text-[#000000] mb-6 bebas-sub-title-font">
                                 Service Offered
                             </h3>
@@ -110,6 +111,11 @@ export default function ServiceDetailDescription({ business }) {
                                     <p className="text-gray-500 mont-normal-font">No services offered information available.</p>
                                 )}
                             </div>
+                        </div> */}
+
+                        {/* Services  Attractions */}
+                        <div>
+                            <ServiceAttractions business={business} />
                         </div>
                         <div className='block md:hidden mb-6'>
                             <ServicesRightSide business={business} />

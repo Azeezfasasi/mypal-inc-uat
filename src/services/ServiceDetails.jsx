@@ -8,6 +8,7 @@ import ServiceDetailDescription from './ServiceDetailDescription';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import { Commet } from "react-loading-indicators";
 import { Helmet } from 'react-helmet';
+import ServiceAttractions from './ServiceAttractions';
 
 function ServiceDetails() {
   const { businessId } = useParams();
@@ -65,6 +66,7 @@ function ServiceDetails() {
       <ServiceDetailTitle business={business} />
       <ServicesDetailHero business={business} />
       <ServiceDetailDescription business={business} />
+      {/* <ServiceAttractions business={business} /> */}
       <FooterSection />
     </>
   );
