@@ -12,61 +12,30 @@ const API_KEY = import.meta.env.VITE_API_KEY;
  * @returns {Promise<Array>} - Array of attraction objects
  */
 /**
- * Maps category names to attraction type codes
- * Based on category business_type field
+ * Fetches attractions/filters for a given business
+ * @param {string} businessId - The ID of the business
+ * @returns {Promise<Object>} - Object containing attractions array and metadata
  */
-const getCategoryCode = (categoryName) => {
-  if (!categoryName) return null;
-  
-  const normalized = categoryName.toLowerCase().trim();
-  
-  // Mapping from category names to attraction type codes (lowercase for matching)
-  // Aligned with BusinessCategoryType enum from business admin
-  // API data availability: SHORTLET, HOTELEXPERIENCE, and BEACHESRESORTS
-  const mappings = {
-    'short-let homes': 'SHORTLET',
-    'hotel experience': 'HOTELEXPERIENCE',
-    'beaches & resorts': 'BEACHESRESORTS',
-    'beaches & resort accommodation': 'BEACHESRESORTACCOMMODATION',
-  };
-  
-  return mappings[normalized] || null;
-};
-
-/**
- * Fetches default attractions for a given business type
- * @param {string} businessType - The type of business (category name)
- * @returns {Promise<Array>} - Array of attraction objects
- */
-export const fetchDefaultAttractions = async (businessType) => {
+export const fetchDefaultAttractions = async (businessId) => {
   try {
-    const url = new URL(`${API_BASE_URL}/public/default-attractions`);
-    
-    // Try to map the category name to an attraction code
-    const categoryCode = getCategoryCode(businessType);
-    let isMapped = false;
-    
-    if (categoryCode) {
-      url.searchParams.append('business_accommodation_type', categoryCode);
-      isMapped = true;
-      console.log(`Mapped category "${businessType}" to code: "${categoryCode}"`);
-    } else {
-      console.log(`No specific mapping found for category "${businessType}", returning empty attractions`);
+    if (!businessId) {
+      console.log('No business ID provided, returning empty attractions');
       return {
         attractions: [],
         isMapped: false,
-        categoryType: businessType
       };
     }
 
+    const url = `${API_BASE_URL}/filters/business/${businessId}`;
+    
     const headers = {
       'X-API-Key': API_KEY,
       'Content-Type': 'application/json',
     };
     
-    console.log('Fetching attractions from:', url.toString());
+    console.log('Fetching attractions from:', url);
 
-    const response = await fetch(url.toString(), {
+    const response = await fetch(url, {
       method: 'GET',
       headers: headers,
     });
@@ -78,20 +47,19 @@ export const fetchDefaultAttractions = async (businessType) => {
     const data = await response.json();
     console.log('Attractions API Response:', data);
     
-    const attractions = data?.data || data || [];
+    // Navigate through nested data structure: data.data.data
+    const attractions = data?.data?.data || [];
     console.log('Total attractions retrieved:', attractions.length);
     
     return {
       attractions: attractions,
-      isMapped: isMapped,
-      categoryType: businessType
+      isMapped: attractions.length > 0,
     };
   } catch (error) {
-    console.error('Error fetching default attractions:', error);
+    console.error('Error fetching attractions:', error);
     return {
       attractions: [],
       isMapped: false,
-      categoryType: businessType
     };
   }
 };
