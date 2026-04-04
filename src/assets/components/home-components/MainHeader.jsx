@@ -245,7 +245,7 @@ export default function MainHeader() {
 
                             {isForBusinessOpen && (
                                 <div className="absolute right-0 mt-4 w-64 bg-white rounded-xl shadow-lg p-2 z-50 bebas-font">
-                                    <button onClick={() => { setIsForBusinessOpen(false); setShowClaimModal(true); }} className="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded cursor-pointer">Claim your business</button>
+                                    <Link to='/claim-business' onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Claim Your Business</Link>
                                     <a href='https://business.mypal-inc.com/login' target='_blank' rel="noopener noreferrer" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Log in to Business Account</a>
                                     <Link to="/forbusiness" onClick={() => setIsForBusinessOpen(false)} className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded">Explore for Business</Link>
                                 </div>
@@ -254,9 +254,9 @@ export default function MainHeader() {
                     </nav>
 
                     <div className="hidden lg:flex items-center space-x-4">
-                        {/* Link your business Button */}
+                        {/* Link to claim your business Button */}
                         <Link to="/claim-business" className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
-                            Link your business
+                            List your business
                         </Link>
 
                         {/* Download App Button */}
@@ -385,7 +385,7 @@ export default function MainHeader() {
 
                         {isMobileForBusinessOpen && (
                             <div className="mt-3 ml-4 flex flex-col space-y-2 text-base text-gray-700">
-                                <button onClick={() => { toggleMobileMenu(); setShowClaimModal(true); }} className="hover:text-gray-800 text-left cursor-pointer">Claim your business</button>
+                                <Link to="/claim-business" className="hover:text-gray-800">Claim your business</Link>
                                 <a href='https://business.mypal-inc.com/login' target='_blank' onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Log in to Business Account</a>
                                 <Link to="/forbusiness" onClick={() => { toggleMobileMenu(); }} className="hover:text-gray-800">Explore for Business</Link>
                             </div>

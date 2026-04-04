@@ -130,7 +130,7 @@ export default function ClaimBusinessHeroSection() {
             </div>
 
             {/* Search Bar and Categories Container */}
-            <div className="w-full max-w-[60%] mx-auto" ref={searchContainerRef}>
+            <div className="w-full md:max-w-[60%] mx-auto" ref={searchContainerRef}>
               {/* Search Bar */}
               <form onSubmit={handleSearchBusinesses} className="mb-6">
                 <div className="flex gap-3 bg-white rounded-lg p-1 md:p-2 shadow-lg">
