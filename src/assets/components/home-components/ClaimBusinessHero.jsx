@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import MainHeader from './MainHeader';
 import MultiStepClaimBusinessModal from './MultiStepClaimBusinessModal';
 import heroimagedeem from '../../images/heroimagedeem.svg';
@@ -16,6 +16,7 @@ export default function ClaimBusinessHeroSection() {
   const [selectedBusiness, setSelectedBusiness] = useState(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const searchContainerRef = useRef(null);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
@@ -36,6 +37,20 @@ export default function ClaimBusinessHeroSection() {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setShowResults(false);
+      }
+    };
+
+    if (showResults) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showResults]);
 
   const handleSearchBusinesses = async (e) => {
     e.preventDefault();
@@ -115,14 +130,14 @@ export default function ClaimBusinessHeroSection() {
             </div>
 
             {/* Search Bar and Categories Container */}
-            <div className="w-full max-w-[60%] mx-auto">
+            <div className="w-full max-w-[60%] mx-auto" ref={searchContainerRef}>
               {/* Search Bar */}
               <form onSubmit={handleSearchBusinesses} className="mb-6">
                 <div className="flex gap-3 bg-white rounded-lg p-1 md:p-2 shadow-lg">
                   <div className="flex-1 flex items-center px-3">
                     <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
                     <input
-                      type="text"
+                      type="search"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search for your business..."
