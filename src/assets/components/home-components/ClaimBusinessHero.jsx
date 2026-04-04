@@ -88,10 +88,11 @@ export default function ClaimBusinessHeroSection() {
   return (
     <>
       <div className="relative w-full">
-        <MainHeader />
+        {/* <MainHeader /> */}
 
         {/* Hero Section */}
         <div className="relative w-full min-h-[600px] md:min-h-[700px]">
+            <MainHeader />
           {/* Background Image with Overlay */}
           <div
             className="absolute inset-0 bg-cover bg-center"
@@ -203,18 +204,18 @@ export default function ClaimBusinessHeroSection() {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Bottom Section - Call to Action */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-12 text-center">
+          
+          {/* Bottom Section - Call to Action */}
+        <div className="relative text-white py-12 text-center">
           <p className="text-lg md:text-xl font-medium">
             Already listed? <button 
-              onClick={() => setIsModalOpen(true)}
-              className="text-[#DB3A06] hover:text-orange-400 font-bold transition"
+            //   onClick={() => setIsModalOpen(true)}
+              className="text-white font-bold transition"
             >
               Claim your business in seconds.
             </button>
           </p>
+        </div>
         </div>
       </div>
 
