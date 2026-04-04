@@ -115,7 +115,7 @@ export default function ClaimBusinessHeroSection() {
             </div>
 
             {/* Search Bar and Categories Container */}
-            <div className="w-full max-w-2xl mx-auto">
+            <div className="w-full max-w-[60%] mx-auto">
               {/* Search Bar */}
               <form onSubmit={handleSearchBusinesses} className="mb-6">
                 <div className="flex gap-3 bg-white rounded-lg p-1 md:p-2 shadow-lg">
@@ -162,7 +162,7 @@ export default function ClaimBusinessHeroSection() {
                       {searchResults.map((result) => (
                         <div
                           key={result.google_place_id}
-                          className="p-4 hover:bg-gray-50 cursor-pointer transition flex flex-col md:flex-row gap-4"
+                          className="p-4 hover:bg-orange-50 cursor-pointer transition flex flex-col md:flex-row gap-4"
                           onClick={() => handleBusinessClick(result)}
                         >
                           <div className="flex-1 min-w-0">
@@ -174,7 +174,7 @@ export default function ClaimBusinessHeroSection() {
                           </div>
                           <button
                             type="button"
-                            className="w-fit px-4 py-2 border-2 border-[#DB3A06] text-[#DB3A06] rounded-md font-medium hover:bg-orange-50 transition text-sm whitespace-nowrap flex-shrink-0"
+                            className="w-fit px-4 py-2 border-2 border-[#DB3A06] text-[#DB3A06] rounded-md font-medium hover:bg-orange-50 transition text-sm whitespace-nowrap flex-shrink-0 cursor-pointer"
                           >
                             Claim Business
                           </button>
@@ -195,7 +195,7 @@ export default function ClaimBusinessHeroSection() {
                         setSearchQuery('');
                         setSearchResults([]);
                       }}
-                      className="w-full text-center text-sm text-gray-600 hover:text-gray-900"
+                      className="w-full text-center text-sm text-[#DB3A07] font-semibold hover:text-orange-800 transition cursor-pointer"
                     >
                       Clear search
                     </button>

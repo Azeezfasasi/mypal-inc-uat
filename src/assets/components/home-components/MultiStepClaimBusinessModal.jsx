@@ -28,6 +28,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     phone: "",
   });
   const [verificationError, setVerificationError] = useState("");
+  const [businessCoordinates, setBusinessCoordinates] = useState(null);
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpLoading, setOtpLoading] = useState(false);
@@ -58,6 +59,20 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     }
   }, []);
 
+  const geocodeAddress = useCallback(async (address) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`
+      );
+      if (response.data && response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        setBusinessCoordinates({ lat: parseFloat(lat), lng: parseFloat(lon) });
+      }
+    } catch (error) {
+      console.error("Geocoding error:", error);
+    }
+  }, []);
+
   const fetchCategories = useCallback(async () => {
     if (!API_BASE_URL || !API_KEY) return;
     try {
@@ -78,11 +93,18 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       if (business) {
         setStep(0);
         setSelectedBusiness(business);
+        geocodeAddress(business.formatted_address);
       } else {
         setStep(1);
       }
     }
-  }, [isOpen, fetchCategories, getUserLocation, business]);
+  }, [isOpen, fetchCategories, getUserLocation, geocodeAddress, business]);
+
+  useEffect(() => {
+    if (step === 0 && selectedBusiness?.formatted_address) {
+      geocodeAddress(selectedBusiness.formatted_address);
+    }
+  }, [step, selectedBusiness, geocodeAddress]);
 
   const handleSearchBusinesses = async (e) => {
     e.preventDefault();
@@ -269,8 +291,8 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
             <h2 className="text-2xl font-bold text-gray-900">
               {/* {step === 0 && "Claim Your Business"} */}
               {step === 1 && "Find Your Business"}
-              {step === 2 && "Verify Your Business"}
-              {step === 3 && "Verify Your Email"}
+              {/* {step === 2 && "Verify Your Business"} */}
+              {/* {step === 3 && "Verify Your Email"} */}
               {step === 4 && "Create Your Account"}
             </h2>
             {selectedBusiness && (
@@ -332,17 +354,20 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                 {/* Location Map section */}
                 <div className="w-[45%] md:w-1/2 h-48 rounded-lg overflow-hidden border border-gray-300">
                   <MapContainer
-                    center={[userLocation.lat, userLocation.lng]}
+                    center={businessCoordinates ? [businessCoordinates.lat, businessCoordinates.lng] : [userLocation.lat, userLocation.lng]}
                     zoom={15}
                     style={{ height: "100%", width: "100%" }}
+                    key={businessCoordinates ? `${businessCoordinates.lat}-${businessCoordinates.lng}` : "default"}
                   >
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[userLocation.lat, userLocation.lng]}>
-                      <Popup>{selectedBusiness.business_name}</Popup>
-                    </Marker>
+                    {businessCoordinates && (
+                      <Marker position={[businessCoordinates.lat, businessCoordinates.lng]}>
+                        <Popup>{selectedBusiness.business_name}</Popup>
+                      </Marker>
+                    )}
                   </MapContainer>
                 </div>
                 {/* Contact section */}
@@ -356,7 +381,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                   <div>
                     <h4 className="font-semibold text-[14px] md:text-[16px] leading-[100%] text-[#363C44] mb-2">Contact</h4>
                     <p className="text-[10px] md:text-sm text-gray-600">
-                        <Phone className="w-4 h-4 inline-block mr-1" />
+                        <Phone className="w-4 h-4 inline-block mr-1 mb-2" />
                         {selectedBusiness.formatted_phone || "+234 815 123 4567"}
                     </p>
                     <p className="text-[10px] md:text-sm text-gray-600">
