@@ -106,10 +106,10 @@ export default function ClaimBusinessHeroSection() {
           <div className="relative z-10 flex flex-col items-center justify-center min-h-[600px] md:min-h-[700px] text-white px-4 md:px-8 py-12">
             {/* Text Content */}
             <div className="w-full max-w-4xl text-center mb-8 md:mb-10 flex flex-col items-center">
-              <h1 className="text-3xl md:text-5xl lg:text-6xl leading-tight font-bold drop-shadow-lg mb-4">
+              <h1 className="text-[32px] md:text-[48px] lg:text-[48px] leading-tight font-bold drop-shadow-lg mb-4 bebas-font">
                 Find and claim your business on Mypal
               </h1>
-              <p className="text-base md:text-lg text-gray-100 drop-shadow-md max-w-2xl">
+              <p className="text-[14px] md:text-[24px] text-gray-100 drop-shadow-md max-w-2xl">
                 Search and claim your business to manage events, deals and experiences in one place.
               </p>
             </div>
@@ -126,13 +126,13 @@ export default function ClaimBusinessHeroSection() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search for your business..."
-                      className="flex-1 ml-2 outline-none text-gray-700 placeholder-gray-500"
+                      className="flex-1 ml-2 text-[12px] md:text-[20px] leading-[145%] font-semibold outline-none text-[#667185] placeholder-gray-500"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-3 md:px-8 py-2 bg-[#DB3A06] text-white rounded-md font-semibold hover:bg-orange-700 transition disabled:opacity-70"
+                    className="px-3 md:px-8 py-2 bg-[#DB3A06] text-white rounded-md text-[15.92px] leading-[145%] font-bold hover:bg-orange-700 transition disabled:opacity-70"
                   >
                     {loading ? 'Searching...' : 'Search'}
                   </button>
@@ -146,7 +146,7 @@ export default function ClaimBusinessHeroSection() {
                     <button
                       key={category.id}
                       onClick={() => setSearchQuery(category.name)}
-                      className="px-4 py-2 bg-white bg-opacity-90 text-gray-700 rounded-full font-medium hover:bg-opacity-100 transition text-sm"
+                      className="px-[12px] py-[8px] bg-[#FEF2EE] bg-opacity-90 text-[14px] text-[#68798A] rounded-[6px] font-medium hover:bg-opacity-100 transition text-sm"
                     >
                       {category.name}
                     </button>
@@ -207,10 +207,10 @@ export default function ClaimBusinessHeroSection() {
           
           {/* Bottom Section - Call to Action */}
         <div className="relative text-white py-12 text-center">
-          <p className="text-lg md:text-xl font-medium">
+          <p className="text-[14px] mont-normal-font md:text-[24px] font-bold">
             Already listed? <button 
             //   onClick={() => setIsModalOpen(true)}
-              className="text-white font-bold transition"
+              className="text-white"
             >
               Claim your business in seconds.
             </button>
