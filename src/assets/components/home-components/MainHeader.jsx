@@ -253,10 +253,17 @@ export default function MainHeader() {
                         </div>
                     </nav>
 
-                    {/* Download App Button */}
-                    <button onClick={() => setShowDownloadModal(true)} className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
-                        Download App
-                    </button>
+                    <div className="hidden lg:flex items-center space-x-4">
+                        {/* Link your business Button */}
+                        <Link to="/claim-business" className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
+                            Link your business
+                        </Link>
+
+                        {/* Download App Button */}
+                        <button onClick={() => setShowDownloadModal(true)} className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
+                            Download App
+                        </button>
+                    </div>
                 </div>
             </header>
 
