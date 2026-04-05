@@ -74,10 +74,35 @@ export default function ClaimBusinessHeroSection() {
       console.log('📊 Response status:', response.status);
 
       // API returns results directly in response.data (array)
-      const results = Array.isArray(response.data) ? response.data : (response.data.data || response.data.results || []);
+      let results = Array.isArray(response.data) ? response.data : (response.data.data || response.data.results || []);
       console.log('🎯 Final results:', results, 'Length:', Array.isArray(results) ? results.length : 'Not an array');
 
-      setSearchResults(Array.isArray(results) ? results : []);
+      // Fetch details for all results to get photo URLs
+      if (results && results.length > 0) {
+        console.log('📸 Fetching details for', results.length, 'businesses...');
+        const detailsPromises = results.map((result) =>
+          axios.get(
+            `${API_BASE_URL}/business/claim/${result.google_place_id}/details`,
+            { headers: { 'x-api-key': API_KEY } }
+          )
+            .then((res) => ({
+              ...result,
+              photoUrl: res.data.photos?.[0]?.url,
+              displayName: res.data.displayName?.text || result.business_name,
+            }))
+            .catch((err) => {
+              console.error(`Error fetching details for ${result.google_place_id}:`, err);
+              return result; // Return original result if details fetch fails
+            })
+        );
+
+        const enrichedResults = await Promise.all(detailsPromises);
+        console.log('✅ Enriched results with photos:', enrichedResults);
+        setSearchResults(enrichedResults);
+      } else {
+        setSearchResults(Array.isArray(results) ? results : []);
+      }
+
       setShowResults(true);
       
       if (!results || (Array.isArray(results) && results.length === 0)) {
@@ -95,9 +120,23 @@ export default function ClaimBusinessHeroSection() {
     }
   };
 
-  const handleBusinessClick = (business) => {
-    setSelectedBusiness(business);
-    setIsModalOpen(true);
+  const handleBusinessClick = async (business) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/business/claim/${business.google_place_id}/details`,
+        { headers: { 'x-api-key': API_KEY } }
+      );
+      const fullBusinessDetails = response.data;
+      console.log('Full business details:', fullBusinessDetails);
+      setSelectedBusiness(fullBusinessDetails);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching business details:', error);
+      toast.error('Failed to fetch business details');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -177,22 +216,42 @@ export default function ClaimBusinessHeroSection() {
                       {searchResults.map((result) => (
                         <div
                           key={result.google_place_id}
-                          className="p-4 hover:bg-orange-50 cursor-pointer transition flex flex-col md:flex-row gap-4"
+                          className=" p-2 md:p-4 hover:bg-orange-50 cursor-pointer transition flex items-center gap-4"
                           onClick={() => handleBusinessClick(result)}
                         >
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-gray-900">{result.business_name}</h3>
-                            <div className="flex items-center gap-1 text-sm text-gray-600 mt-2">
-                              <MapPin className="w-4 h-4 flex-shrink-0" />
-                              <span className="truncate">{result.formatted_address}</span>
-                            </div>
+                          {/* Business Image from Details or Placeholder */}
+                          <div className="w-20 md:w-[142px] h-20 md:h-[98px] flex-shrink-0 rounded-md overflow-hidden bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 flex items-center justify-center shadow-sm">
+                            {result.photoUrl ? (
+                              <img
+                                src={result.photoUrl}
+                                alt={result.business_name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="text-center">
+                                <MapPin className="w-8 h-8 text-white opacity-90 mx-auto mb-1" />
+                                <span className="text-xs text-white font-semibold">Image</span>
+                              </div>
+                            )}
                           </div>
-                          <button
-                            type="button"
-                            className="w-fit px-4 py-2 border-2 border-[#DB3A06] text-[#DB3A06] rounded-md font-medium hover:bg-orange-50 transition text-sm whitespace-nowrap flex-shrink-0 cursor-pointer"
-                          >
-                            Claim Business
-                          </button>
+
+                          {/* Business Details */}
+                          <div className='w-full flex flex-col md:flex-row md:justify-between'>
+                            <div className="flex-1 min-w-0 py-1">
+                              <h3 className="font-semibold text-gray-900 text-sm">{result.business_name}</h3>
+                              <div className="flex items-start gap-1 text-xs text-gray-600 mt-2">
+                                <MapPin className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                                <span className="truncate text-wrap">{result.formatted_address}</span>
+                              </div>
+                            </div>
+                            {/* Claim Button */}
+                            <button
+                              type="button"
+                              className="w-fit px-3 py-1.5 border-2 border-[#DB3A06] text-[#DB3A06] rounded-md font-medium hover:bg-orange-50 transition text-xs whitespace-nowrap flex-shrink-0 cursor-pointer"
+                            >
+                              Claim Business
+                            </button>
+                          </div>
                         </div>
                       ))}
                     </div>
