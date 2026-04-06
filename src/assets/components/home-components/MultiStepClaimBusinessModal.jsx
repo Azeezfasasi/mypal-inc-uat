@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { X, MapPin, Mail, Search, AlertCircle, Loader, CheckCircle, Phone } from "lucide-react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -233,6 +233,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     }
   };
 
+  // Handle verification submission with enhanced error handling for 409 Conflict and domain mismatch
   const handleSubmitVerification = async (e) => {
     e.preventDefault();
 
@@ -282,8 +283,14 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       
       const errorData = error.response?.data;
       const errorMessage = errorData?.message || error.message || "Error initiating claim";
+      const statusCode = error.response?.status;
       
-      if (error.response?.status === 409) {
+      if (statusCode === 500) {
+        // 500 Internal Server Error
+        const serverErrorMsg = "A server error occurred while processing your claim. Please try again later or contact support if the problem persists.";
+        setVerificationError(serverErrorMsg);
+        toast.error("Server Error: " + (errorMessage || "Please try again later"));
+      } else if (statusCode === 409) {
         // 409 Conflict - business or email already claimed
         if (errorMessage.toLowerCase().includes("already claimed") || errorMessage.toLowerCase().includes("already")) {
           setVerificationError("This business has already been claimed. If this is your business, please contact support.");
@@ -293,15 +300,15 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
           setVerificationError("This business or email is already in use. " + errorMessage);
         }
         toast.error("409 Conflict: " + errorMessage);
-      } else if (error.response?.status === 400) {
+      } else if (statusCode === 400) {
         setVerificationError(errorMessage || "Invalid information provided. Please check your details.");
         toast.error("Invalid request: " + errorMessage);
       } else if (errorMessage.toLowerCase().includes("domain")) {
         setVerificationError("This email doesn't match the business domain");
         toast.error("Domain mismatch: " + errorMessage);
       } else {
-        setVerificationError(errorMessage);
-        toast.error(errorMessage);
+        setVerificationError(errorMessage || "An unexpected error occurred. Please try again.");
+        toast.error(errorMessage || "An unexpected error occurred");
       }
     } finally {
       setLoading(false);
@@ -909,6 +916,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
           )}
         </div>
       </div>
+      <Toaster position="bottom-right" />
     </div>
   );
 };

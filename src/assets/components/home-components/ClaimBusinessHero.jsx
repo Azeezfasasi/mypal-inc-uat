@@ -26,8 +26,21 @@ export default function ClaimBusinessHeroSection() {
       const response = await axios.get(`${API_BASE_URL}/categories`, {
         headers: { 'x-api-key': API_KEY },
       });
-      // Get first 4 categories for the buttons
-      setCategories(response.data.data?.slice(0, 4) || []);
+      
+      // Filter for specific categories in desired order
+      const allCategories = response.data.data || [];
+      const desiredCategories = [
+        'Hotel Experience',      // Accommodation
+        'Beaches & Resorts',     // Beaches & Resorts
+        'Food & Drinks',         // Restaurants
+        'Fine Dining'            // Fine Dining
+      ];
+      
+      const filteredCategories = desiredCategories
+        .map(name => allCategories.find(cat => cat.name === name))
+        .filter(cat => cat !== undefined);
+      
+      setCategories(filteredCategories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -199,7 +212,6 @@ export default function ClaimBusinessHeroSection() {
                   {categories.map((category) => (
                     <button
                       key={category.id}
-                      onClick={() => setSearchQuery(category.name)}
                       className="px-[12px] py-[8px] bg-[#FEF2EE] bg-opacity-90 text-[14px] text-[#68798A] rounded-[6px] font-medium hover:bg-opacity-100 transition text-sm"
                     >
                       {category.name}
@@ -277,19 +289,15 @@ export default function ClaimBusinessHeroSection() {
                 </div>
               )}
             </div>
+
+            {/* Bottom Section - Call to Action */}
+            <div className="relative text-white py-12 text-center">
+              <p className="text-[14px] mont-normal-font md:text-[24px] font-bold">
+                Already listed? Claim your business in seconds.
+              </p>
+            </div>
           </div>
           
-          {/* Bottom Section - Call to Action */}
-        <div className="relative text-white py-12 text-center">
-          <p className="text-[14px] mont-normal-font md:text-[24px] font-bold">
-            Already listed? <button 
-            //   onClick={() => setIsModalOpen(true)}
-              className="text-white"
-            >
-              Claim your business in seconds.
-            </button>
-          </p>
-        </div>
         </div>
       </div>
 
