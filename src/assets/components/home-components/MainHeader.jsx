@@ -255,9 +255,9 @@ export default function MainHeader() {
 
                     <div className="hidden lg:flex items-center space-x-4">
                         {/* Link to claim your business Button */}
-                        <Link to="/claim-business" className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
+                        {/* <Link to="/claim-business" className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">
                             List your business
-                        </Link>
+                        </Link> */}
 
                         {/* Download App Button */}
                         <button onClick={() => setShowDownloadModal(true)} className="hidden lg:block px-6 py-2 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#DB3A06] cursor-pointer">

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 import MainHeader from './MainHeader';
 import MultiStepClaimBusinessModal from './MultiStepClaimBusinessModal';
 import heroimagedeem from '../../images/heroimagedeem.svg';
@@ -30,10 +32,12 @@ export default function ClaimBusinessHeroSection() {
       // Filter for specific categories in desired order
       const allCategories = response.data.data || [];
       const desiredCategories = [
-        'Hotel Experience',      // Accommodation
-        'Beaches & Resorts',     // Beaches & Resorts
-        'Food & Drinks',         // Restaurants
-        'Fine Dining'            // Fine Dining
+        'Fine Dining',           // Restaurants
+        'Buffet services',         // Restaurants
+        'Iconic Delicacies',         // Restaurants
+        'Short-let Homes & Beach Houses',         // Accommodation
+        'Beach Resort Accommodation',         // Accommodation
+        'Hotel Experience',         // Accommodation
       ];
       
       const filteredCategories = desiredCategories
@@ -292,9 +296,25 @@ export default function ClaimBusinessHeroSection() {
 
             {/* Bottom Section - Call to Action */}
             <div className="relative text-white py-12 text-center">
-              <p className="text-[14px] mont-normal-font md:text-[24px] font-bold">
-                Already listed? Claim your business in seconds.
-              </p>
+              <motion.p className="text-[14px] mont-normal-font md:text-[24px] font-bold">
+                {'Claim your business in seconds.'.split('').map((letter, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: i * 0.05,  // Stagger the animation of each letter
+                      duration: 0.6,
+                      repeat: Infinity,        // Loop forever
+                      repeatType: "loop",   // Options: "reverse", "loop", "mirror", "delay", "none",
+                      repeatDelay: 3, // Delay between each loop
+                    }}
+                    className="inline-block"
+                  >
+                    {letter === ' ' ? '\u00A0' : letter}
+                  </motion.span>
+                ))}
+              </motion.p>
             </div>
           </div>
           
