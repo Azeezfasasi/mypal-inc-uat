@@ -41,6 +41,9 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     instagramHandle: "",
   });
 
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [photos, setPhotos] = useState([]);
+
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -55,6 +58,9 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       lng: location.longitude
     };
     
+    // Extract photos array
+    const photosArray = businessData.photos || [];
+    
     return {
       google_place_id: businessData.google_place_id || businessData.id,
       business_name: businessData.business_name || businessData.displayName?.text || "Business",
@@ -65,6 +71,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       coordinates: coordinates,
       types: businessData.types || [],
       photoUrl: businessData.photoUrl || businessData.photos?.[0]?.url || "",
+      photos: photosArray,
       rating: businessData.rating || null,
       userRatingCount: businessData.userRatingCount || null,
       editorialSummary: businessData.editorialSummary?.text || businessData.editorialSummary || "",
@@ -125,6 +132,8 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
         const normalized = normalizeBusiness(business);
         setStep(0);
         setSelectedBusiness(normalized);
+        setCurrentPhotoIndex(0);
+        setPhotos(normalized.photos || []);
         // Extract and store the business phone number
         if (normalized.formatted_phone) {
           setBusinessPhone(normalized.formatted_phone);
@@ -152,6 +161,16 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       }
     }
   }, [step, selectedBusiness, geocodeAddress]);
+
+  // Auto-rotate photos every 5 seconds when on step 0
+  useEffect(() => {
+    if (step === 0 && photos.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % photos.length);
+      }, 4000); // Change photo every 4 seconds
+      return () => clearInterval(interval);
+    }
+  }, [step, photos]);
 
   const handleSearchBusinesses = async (e) => {
     e.preventDefault();
@@ -207,6 +226,8 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       
       const normalized = normalizeBusiness(fullBusinessDetails);
       setSelectedBusiness(normalized);
+      setCurrentPhotoIndex(0);
+      setPhotos(normalized.photos || []);
       
       // Extract and store the business phone number
       if (normalized.formatted_phone) {
@@ -414,8 +435,55 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
           {/* Step 0: Business Preview */}
           {step === 0 && selectedBusiness && (
             <div className="space-y-4">
-              {/* Business Image */}
-              {selectedBusiness.photoUrl && (
+              {/* Business Image Carousel */}
+              {photos.length > 0 ? (
+                <div className="relative w-full h-[247px] rounded-[5px] overflow-hidden border border-gray-200 bg-gray-100">
+                  {/* Main Image */}
+                  <img
+                    src={photos[currentPhotoIndex]?.url || selectedBusiness.photoUrl}
+                    alt={`${selectedBusiness.business_name} - Photo ${currentPhotoIndex + 1}`}
+                    className="w-full h-full object-cover transition-opacity duration-500"
+                  />
+                  
+                  {/* Navigation Buttons (shown only if multiple photos) */}
+                  {photos.length > 1 && (
+                    <>
+                      <button
+                        onClick={() => setCurrentPhotoIndex((prevIndex) => (prevIndex - 1 + photos.length) % photos.length)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition z-10"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        onClick={() => setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % photos.length)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition z-10"
+                      >
+                        ›
+                      </button>
+                      
+                      {/* Photo Counter */}
+                      <div className="absolute top-3 right-3 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                        {currentPhotoIndex + 1} / {photos.length}
+                      </div>
+                      
+                      {/* Photo Indicators (Dots) */}
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                        {photos.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentPhotoIndex(index)}
+                            className={`w-2 h-2 rounded-full transition ${
+                              index === currentPhotoIndex 
+                                ? 'bg-white w-6' 
+                                : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : selectedBusiness.photoUrl ? (
                 <div className="w-full h-[247px] rounded-[5px] overflow-hidden border border-gray-200">
                   <img
                     src={selectedBusiness.photoUrl}
@@ -423,7 +491,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              )}
+              ) : null}
               
               {/* Business name and claim business button */}
               <div className="flex justify-between items-center gap-4 rounded-[5px] p-1 md:p-4 bg-white border border-gray-200">
