@@ -712,7 +712,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
               <div className="w-full flex flex-col md:flex-row gap-4">
                 <div className="w-full md:w-1/2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Work Email or Phone Number <span className="text-red-500">*</span>
+                    Work Email <span className="text-red-500">*</span>
                     </label>
                     <input
                     type="text"
