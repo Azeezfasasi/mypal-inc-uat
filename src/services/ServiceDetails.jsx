@@ -23,7 +23,7 @@ function ServiceDetails() {
     async function fetchBusinessDetails() {
       try {
         const response = await axios.get(
-          `${API_BASE}/businesses/${businessId}`,
+          `${API_BASE}/businesses/website/${businessId}`,
           { headers: { 'x-api-key': API_KEY } }
         );
         setBusiness(response.data.data);

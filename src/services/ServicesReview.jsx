@@ -85,7 +85,7 @@ const ReviewCard = ({ review }) => {
 
 export default function ServicesReview({ reviews, totalReviews, averageRating }) {
     // Use only backend reviews
-    const reviewsData = reviews || [];
+    const reviewsData = Array.isArray(reviews) ? reviews : [];
     const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
     const avgRating = typeof averageRating === 'number' ? averageRating : 0;
 
