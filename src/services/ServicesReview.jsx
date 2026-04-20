@@ -83,11 +83,17 @@ const ReviewCard = ({ review }) => {
     );
 };
 
-export default function ServicesReview({ reviews, totalReviews, averageRating }) {
+export default function ServicesReview({ reviews, totalReviews, averageRating, tripadvisorRating, googleRating }) {
     // Use only backend reviews
     const reviewsData = Array.isArray(reviews) ? reviews : [];
     const total = typeof totalReviews === 'number' ? totalReviews : reviewsData.length;
     const avgRating = typeof averageRating === 'number' ? averageRating : 0;
+
+    // Extract Tripadvisor and Google ratings
+    const tripadvisorScore = tripadvisorRating?.rating ? parseFloat(tripadvisorRating.rating) : null;
+    const tripadvisorCount = tripadvisorRating?.review_count || 0;
+    const googleScore = googleRating?.rating ? parseFloat(googleRating.rating) : null;
+    const googleCount = googleRating?.review_count || 0;
 
     // Star rating breakdown
     const starCounts = [0, 0, 0, 0, 0];
@@ -130,17 +136,33 @@ export default function ServicesReview({ reviews, totalReviews, averageRating })
                             {/* Tripadvisor and Google Maps logo */}
                             <div className="flex md:flex-col justify-center gap-3 md:gap-0 w-full md:w-[32%] text-left space-y-0 md:space-y-3 mb-4 md:mb-0">
                                 {/* Tripadvisor placeholder logo */}
-                                <div className="mt-1 bg-[#E0F7FF] p-2 flex flex-col items-start justify-start">
-                                    <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal bebas-font">8.4/10</p>
-                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, 8,950 Reviews)</p>
-                                    <img src={tripadvisor} alt="tripadvisor" className='mt-1' />
-                                </div>
+                                {tripadvisorScore !== null ? (
+                                    <div className="mt-1 bg-[#E0F7FF] p-2 flex flex-col items-start justify-start">
+                                        <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal bebas-font">{tripadvisorScore}/{tripadvisorCount}</p>
+                                        <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, {tripadvisorCount} Reviews)</p>
+                                        <img src={tripadvisor} alt="tripadvisor" className='mt-1' />
+                                    </div>
+                                ) : (
+                                    <div className="mt-1 bg-[#E0F7FF] p-2 flex flex-col items-start justify-start">
+                                        <p className="text-[#03aeef] text-[15.188206672668457px] font-bold leading-normal bebas-font">N/A</p>
+                                        <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(No ratings yet)</p>
+                                        <img src={tripadvisor} alt="tripadvisor" className='mt-1' />
+                                    </div>
+                                )}
                                 {/* Google Maps placeholder logo */}
-                                <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
-                                    <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">8.4/10</p>
-                                    <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, 8,950 Reviews)</p>
-                                    <img src={googlemaps} alt="google maps" className='mt-1'/>
-                                </div>
+                                {googleScore !== null ? (
+                                    <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
+                                        <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">{googleScore}/10</p>
+                                        <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, {googleCount} Reviews)</p>
+                                        <img src={googlemaps} alt="google maps" className='mt-1'/>
+                                    </div>
+                                ) : (
+                                    <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
+                                        <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">N/A</p>
+                                        <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(No ratings yet)</p>
+                                        <img src={googlemaps} alt="google maps" className='mt-1'/>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Overall Rating Section */}

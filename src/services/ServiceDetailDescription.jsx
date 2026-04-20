@@ -122,9 +122,11 @@ export default function ServiceDetailDescription({ business }) {
                             <ServicesRightSide business={business} />
                         </div>
                         <ServicesReview 
-                            reviews={business?.reviews}
-                            totalReviews={business?.totalReviews || business?.reviews?.length}
-                            averageRating={business?.averageRating}
+                            reviews={business?.reviews?.internal?.reviews}
+                            totalReviews={business?.reviews?.internal?.total_reviews}
+                            averageRating={business?.reviews?.internal?.average_rating}
+                            tripadvisorRating={business?.reviews?.tripadvisor}
+                            googleRating={business?.reviews?.google}
                         />
                     </div>
 
