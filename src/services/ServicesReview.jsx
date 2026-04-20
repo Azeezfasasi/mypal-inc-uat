@@ -95,18 +95,20 @@ export default function ServicesReview({ reviews, totalReviews, averageRating, t
     const googleScore = googleRating?.rating ? parseFloat(googleRating.rating) : null;
     const googleCount = googleRating?.review_count || 0;
 
+    // Use Google reviews as fallback when internal reviews are empty
+    const displayRating = total > 0 ? avgRating : (googleScore || 0);
+    const displayCount = total > 0 ? total : googleCount;
+    const displayRecommended = total > 0 ? (reviewsData.length > 0 ? Math.round((reviewsData.filter(r => r.rating >= 4).length / total) * 100) : 0) : 0;
+
     // Star rating breakdown
     const starCounts = [0, 0, 0, 0, 0];
-    let recommendedCount = 0;
     reviewsData.forEach((review) => {
         const rating = review.rating || 0;
         if (rating >= 1 && rating <= 5) {
             starCounts[rating - 1] += 1;
-            if (rating >= 4) recommendedCount += 1;
         }
     });
     const percentages = starCounts.map((count) => (total > 0 ? Math.round((count / total) * 100) : 0));
-    const percentRecommended = total > 0 ? Math.round((recommendedCount / total) * 100) : 0;
 
     // Show more / show less state
     const [visibleCount, setVisibleCount] = useState(3);
@@ -125,7 +127,7 @@ export default function ServicesReview({ reviews, totalReviews, averageRating, t
             <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <h2 className="text-[17px] md:text-2xl font-medium text-[#000000] mb-2 mont-font">
-                    Recommended Reviews <span className='font-normal mont-normal-font'>({total})</span>
+                    Recommended Reviews <span className='font-normal mont-normal-font'>({displayCount})</span>
                 </h2>
 
                 {/* Overall Rating Section */}
@@ -178,18 +180,18 @@ export default function ServicesReview({ reviews, totalReviews, averageRating, t
                                                     key={i}
                                                     src={star1}
                                                     alt="star"
-                                                    className={`w-6 h-6 md:w-8 md:h-8 ${i < Math.round(avgRating) ? '' : 'opacity-15'}`}
+                                                    className={`w-6 h-6 md:w-8 md:h-8 ${i < Math.round(displayRating) ? '' : 'opacity-15'}`}
                                                 />
                                                 ))}
-                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">{avgRating.toFixed(1)}</span>
+                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal">{displayRating.toFixed(1)}</span>
                                                 <span className="_4-0-128-span2" />
-                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal bebas-font">({total})</span>
+                                                <span className="font-['-',_sans-serif] text-[22px] md:text-[32px] font-normal bebas-font">({displayCount})</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className='flex flex-row gap-2 items-center justify-start bebas-font'>
-                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-normal">{percentRecommended}%</p>
+                                        <p className="mt-1 text-[24px] md:text-[32px] text-[#000] font-normal">{displayRecommended}%</p>
                                         <p className="text-sm md:text-xl font-normal text-[#DB3A06]">Recommended</p>
                                     </div>
                                 </div>
@@ -209,18 +211,28 @@ export default function ServicesReview({ reviews, totalReviews, averageRating, t
 
                 {/* Individual Reviews Section */}
                 <div className="space-y-6">
-                    {reviewsData.slice(0, visibleCount).map((review, index) => (
-                        <ReviewCard key={index} review={review} />
-                    ))}
+                    {reviewsData.length > 0 ? (
+                        <>
+                            {reviewsData.slice(0, visibleCount).map((review, index) => (
+                                <ReviewCard key={index} review={review} />
+                            ))}
 
-                    {reviewsData.length > 3 && (
-                        <div className="flex justify-center mt-4 mb-4">
-                            <button
-                                onClick={handleToggleReviews}
-                                className="px-6 py-3 rounded-lg bg-[#DB3A06] text-white font-semibold hover:bg-orange-700 transition-colors bebas-font"
-                            >
-                                {isShowingAll ? 'Show Less Reviews' : 'Show More Reviews'}
-                            </button>
+                            {reviewsData.length > 3 && (
+                                <div className="flex justify-center mt-4 mb-4">
+                                    <button
+                                        onClick={handleToggleReviews}
+                                        className="px-6 py-3 rounded-lg bg-[#DB3A06] text-white font-semibold hover:bg-orange-700 transition-colors bebas-font"
+                                    >
+                                        {isShowingAll ? 'Show Less Reviews' : 'Show More Reviews'}
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="bg-white rounded-xl p-6 text-center border border-gray-100">
+                            <p className="text-gray-500 mont-normal-font">
+                                {displayCount > 0 ? `This business has ${displayCount} reviews on Google Maps and Tripadvisor.` : 'No reviews available yet.'}
+                            </p>
                         </div>
                     )}
                 </div>
