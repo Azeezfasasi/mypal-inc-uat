@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Share2, MapPin, Phone, Star } from 'lucide-react';
 // import margicstar from '../assets/images/margicstar.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
-// import servicephone from '../assets/images/servicephone.svg';
+import googleplay from '../assets/images/googleplay.png';
+import appstore from '../assets/images/appstore.png';
 import ServicesReview from './ServicesReview';
 import ServicesRightSide from './ServicesRightSide';
 import ShareButton from '../assets/components/services-components/ShareButton';
@@ -172,12 +173,19 @@ export default function ServiceDetailDescription({ business }) {
             {showDownloadModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div className="absolute inset-0 bg-black opacity-70" onClick={() => setShowDownloadModal(false)} />
-                    <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 z-60">
-                        <h3 className="text-xl font-semibold mb-2">Coming Soon</h3>
-                        <p className="text-gray-600 mb-4">Our mobile app is not yet available. We'll notify you when it launches.</p>
-                        <div className="flex justify-end">
-                            <button onClick={() => setShowDownloadModal(false)} className="px-4 py-2 text-white bg-[#DB3A06] rounded hover:bg-red-600 cursor-pointer">Close</button>
-                        </div>
+                    <div className="relative bg-white rounded-lg shadow-xl max-w-[95%] md:max-w-md w-full p-6 z-60">
+                        <button onClick={() => setShowDownloadModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">✕</button>
+                        <h2 className="text-2xl font-bold mb-4">Download MyPal App</h2>
+                        <p className="mb-6 text-gray-700">Experience the best of MyPal on your mobile device. Our Android app is available now, and the iOS version is coming soon!</p>
+                        {/* add Google plastore image */}
+                        <a href="https://play.google.com/store/apps/details?id=com.mypal.hospitality" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
+                            <img src={googleplay} alt="Get it on Google Play" className="h-6 rounded-lg" />
+                            Download for Android
+                        </a>
+                        <button disabled className="w-full mt-4 flex items-center justify-center gap-4 px-4 py-3 bg-gray-400 text-white font-semibold rounded-full cursor-not-allowed">
+                            <img src={appstore} alt="Get it on App Store" className="h-6 rounded-lg" />
+                            iOS Version Coming Soon
+                        </button>
                     </div>
                 </div>
             )}
