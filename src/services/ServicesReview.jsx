@@ -152,7 +152,7 @@ export default function ServicesReview({ reviews, totalReviews, averageRating, t
                                 {/* Google Maps placeholder logo */}
                                 {googleScore !== null ? (
                                     <div className="mt-1 bg-[#E9FFEF] p-2 flex flex-col items-start justify-start">
-                                        <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">{googleScore}/10</p>
+                                        <p className="text-[#35a853] text-[15.188206672668457px] font-bold leading-normal bebas-font">{googleScore}/{googleCount}</p>
                                         <p className="text-[#1d2a36] text-[6.513221263885498px] leading-normal font-medium bebas-font">(Very Good, {googleCount} Reviews)</p>
                                         <img src={googlemaps} alt="google maps" className='mt-1'/>
                                     </div>
