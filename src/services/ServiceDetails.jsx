@@ -27,6 +27,7 @@ function ServiceDetails() {
           { headers: { 'x-api-key': API_KEY } }
         );
         setBusiness(response.data.data);
+        console.log('Fetched new business details:', response.data.data);
       } catch (err) {
         setError(err.response?.data?.message || err.message || 'Unknown error');
       } finally {
@@ -37,7 +38,6 @@ function ServiceDetails() {
     else setError('Configuration Error: API_BASE, API_KEY, or businessId missing.');
   }, [API_BASE, API_KEY, businessId]);
 
-  // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen py-20">
