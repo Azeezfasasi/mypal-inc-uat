@@ -121,6 +121,9 @@ const FooterSection = () => {
             {/* Copyright Section */}
             <div className="mt-8 pt-8 border-t border-gray-700 text-center md:text-right  text-[rgba(255,255,255,0.48)] text-xl font-medium relative">
                 © MiPal Technologies {new Date().getFullYear()} All Right Reserved
+                <div className="mt-4 text-sm">
+                    <a href='https://www.mi-pal.com' target='_blank' rel="noopener noreferrer" className="mt-2">www.mi-pal.com</a>
+                </div>
             </div>
             {/* Contact Modal (hidden by default) */}
             {showContactModal && (
