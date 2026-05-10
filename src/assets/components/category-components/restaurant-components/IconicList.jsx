@@ -38,7 +38,7 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
         </div>
         <Link to={`/services/servicedetails/${id}`} className="flex justify-center">
           <button className="w-full py-2 px-4 rounded-full text-sm transition-colors duration-300 border border-solid border-gray-300 group-hover:bg-orange-600 group-hover:text-white text-black text-center font-sans bebas-font">
-            View Detailsbb
+            View Details
           </button>
         </Link>
       </div>
