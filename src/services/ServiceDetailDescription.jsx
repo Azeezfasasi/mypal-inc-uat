@@ -10,12 +10,20 @@ import ShareButton from '../assets/components/services-components/ShareButton';
 import ServiceAttractions from './ServiceAttractions';
 
 const businessHours = [
+    { day: 'Sunday', time: 'N/A' },
     { day: 'Monday', time: 'N/A' },
     { day: 'Tuesday', time: 'N/A' },
     { day: 'Wednesday', time: 'N/A' },
     { day: 'Thursday', time: 'N/A' },
     { day: 'Friday', time: 'N/A' },
+    { day: 'Saturday', time: 'N/A' },
 ];
+
+const dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const sortOperatingDays = (days) => {
+    return [...days].sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
+};
 
 const getDownloadButtonText = (category) => {
   if (!category) return "Download the app to make reservation";
@@ -65,10 +73,10 @@ export default function ServiceDetailDescription({ business }) {
     // const phone = business?.business_number || 'No phone number.';
     // Dynamic business hours from API
     const operatingDays = Array.isArray(business?.operating_days) && business.operating_days.length > 0
-        ? business.operating_days.map(dayObj => ({
+        ? sortOperatingDays(business.operating_days.map(dayObj => ({
             day: dayObj.day_of_week,
             time: `${dayObj.opening_time} - ${dayObj.closing_time}`
-        }))
+        })))
         : businessHours;
 
     // Services Offered: use fine_dining_menus if available
