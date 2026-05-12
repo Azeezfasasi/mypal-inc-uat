@@ -19,13 +19,13 @@ function ServicesRightSide({ business }) {
     const address = business?.address || 'No address provided.';
     // const phone = business?.business_number || 'No phone number.';
     // Dynamic business hours from API
-    const operatingDays = Array.isArray(business?.operatingDays) && business.operatingDays.length > 0
-        ? business.operatingDays.map(dayObj => ({
-            day: dayObj.day,
+    const operatingDays = Array.isArray(business?.operating_days) && business.operating_days.length > 0
+        ? business.operating_days.map(dayObj => ({
+            day: dayObj.day_of_week,
             time: `${dayObj.opening_time} - ${dayObj.closing_time}`
         }))
         : businessHours;
-
+        
 const getDownloadButtonText = (category) => {
   if (!category) return "Download the app to make reservation";
 
