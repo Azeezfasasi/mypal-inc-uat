@@ -412,14 +412,16 @@ export default function MainHeader() {
                         <h2 className="text-2xl font-bold mb-4">Download MyPal App</h2>
                         <p className="mb-6 text-gray-700">Experience the best of MyPal on your mobile device. Our Android app is available now, and the iOS version is coming soon!</p>
                         {/* add Google plastore image */}
-                        <a href="https://play.google.com/store/apps/details?id=com.mypal.hospitality" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
+                        <div className="flex flex-col space-y-4">
+                            <a href="https://play.google.com/store/apps/details?id=com.mypal.hospitality" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
                             <img src={googleplay} alt="Get it on Google Play" className="h-6 rounded-lg" />
                             Download for Android
-                        </a>
-                        <button disabled className="w-full mt-4 flex items-center justify-center gap-4 px-4 py-3 bg-gray-400 text-white font-semibold rounded-full cursor-not-allowed">
-                            <img src={appstore} alt="Get it on App Store" className="h-6 rounded-lg" />
-                            iOS Version Coming Soon
-                        </button>
+                            </a>
+                            <a href="https://apps.apple.com/ng/app/mypal-hospitality-lifestyle/id6762733829" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
+                                <img src={appstore} alt="Get it on App Store" className="h-6 rounded-lg" />
+                                Download for iOS
+                            </a>
+                        </div>
                     </div>
                 </div>
             )}
