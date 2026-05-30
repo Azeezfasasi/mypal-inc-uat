@@ -394,14 +394,14 @@ export default function ServicesHeader() {
             </div>
             )}
 
-            {/* Coming Soon Modal for Download App */}
+            {/* Modal for Download App */}
             {showDownloadModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div className="absolute inset-0 bg-black opacity-70" onClick={() => setShowDownloadModal(false)} />
                     <div className="relative bg-white rounded-lg shadow-xl max-w-[95%] md:max-w-md w-full p-6 z-60">
                         <button onClick={() => setShowDownloadModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">✕</button>
                         <h2 className="text-2xl font-bold mb-4">Download MyPal App</h2>
-                        <p className="mb-6 text-gray-700">Experience the best of MyPal on your mobile device. Our Android app is available now, and the iOS version is coming soon!</p>
+                        <p className="mb-6 text-gray-700">Experience the best of MyPal on your mobile device.</p>
                         {/* add Google plastore image */}
                         <div className="flex flex-col space-y-4">
                             <a href="https://play.google.com/store/apps/details?id=com.mypal.hospitality" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">

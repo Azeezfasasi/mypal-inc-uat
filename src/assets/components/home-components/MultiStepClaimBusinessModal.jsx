@@ -259,7 +259,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     e.preventDefault();
 
     if (!verificationData.email) {
-      toast.error("Please enter your work email or phone number");
+      toast.error("Please enter your work email");
       return;
     }
 
@@ -712,7 +712,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
               <div className="w-full flex flex-col md:flex-row gap-4">
                 <div className="w-full md:w-1/2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Work Email <span className="text-red-500">*</span>
+                    Email <span className="text-red-500">*</span>
                     </label>
                     <input
                     type="text"
@@ -721,7 +721,7 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                         setVerificationData({ ...verificationData, email: e.target.value });
                         setVerificationError("");
                     }}
-                    placeholder="Enter work email address or registered phone number"
+                    placeholder="Enter email address associated with the business"
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
                       verificationError ? 'border-red-500' : 'border-gray-300'
                     }`}
