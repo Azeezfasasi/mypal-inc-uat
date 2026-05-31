@@ -76,7 +76,7 @@ export default function MypalDownloadModal({ onClose }) {
           <h2 className="text-xl font-bold text-[#111827] leading-[20px]">Download MyPal</h2>
           <p className="text-xl font-bold text-[#FF4D00] leading-[20px] mt-1 mb-2">For Android or iOS</p>
           <p className="text-sm font-normal text-[#6B7280] mb-4 leading-relaxed ">
-            Discover events, personalized recomendations while experiencing the best your city has to offer.
+            Discover exciting events, experiences and personalized recommendations tailored to your lifestyle.
           </p>
 
           {/* Google PlayStore button */}
