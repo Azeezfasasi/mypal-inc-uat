@@ -67,6 +67,11 @@ export default function MypalDownloadModal({ onClose }) {
           >
             ✕
           </button>
+
+          {/* Star decoration */}
+          <span className="absolute top-2 left-6 -translate-x-1/2 text-white/20 text-7xl font-black select-none">
+            <img src={downloadstar} alt="Star" className="w-10 h-10" />
+          </span>
           
           <div className="relative w-[180px] h-[200px] p-0">
             <img src={downloadleftimg} alt="Phone Mockup" className="absolute inset-0 w-full h-full object-contain" />
