@@ -24,7 +24,7 @@ export default function MypalDownloadModal({ onClose }) {
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white rounded-2xl overflow-hidden flex flex-col lg:flex-row w-full max-w-2xl relative cursor-default"
+        className="bg-white rounded-2xl h-[600px] lg:h-fit overflow-auto lg:overflow-hidden flex flex-col lg:flex-row w-full max-w-2xl relative cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
 
@@ -59,7 +59,7 @@ export default function MypalDownloadModal({ onClose }) {
         </div>
 
         {/* Mobile top section */}
-        <div className="w-full lg:hidden h-[200px] bg-red-600 flex flex-col items-center justify-end p-0 relative overflow-hidden">
+        <div className="w-full lg:hidden h-[200px] bg-red-600 flex flex-col items-center justify-end p-0 relative soverflow-hidden">
           {/* Close button */}
           <button
             onClick={onClose}
