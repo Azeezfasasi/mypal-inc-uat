@@ -24,23 +24,23 @@ export default function MypalDownloadModal({ onClose }) {
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white rounded-2xl overflow-hidden flex w-full max-w-2xl relative cursor-default"
+        className="bg-white rounded-2xl overflow-hidden flex flex-col lg:flex-row w-full max-w-2xl relative cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
 
         {/* LEFT — Red panel */}
-        <div className="w-[54%] hidden lg:flex flex-col items-center justify-end p-0 relative overflow-hidden mt-[-10px]">
+        <div className="w-full lg:w-[54%] hidden lg:flex flex-col items-center justify-end p-0 relative overflow-hidden lg:mt-[-10px]">
             {/* red background image */}
-              <img src={downloadred} alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+              <img src={downloadred} alt="Background" className="lg:absolute inset-0 w-full h-full object-cover" />
 
           {/* Star decoration */}
-          <span className="absolute top-8 left-1/2 -translate-x-1/2 text-white/20 text-7xl font-black select-none">
+          <span className="lg:absolute top-8 left-1/2 -translate-x-1/2 text-white/20 text-7xl font-black select-none">
             <img src={downloadstar} alt="Star" className="w-16 h-16" />
           </span>
 
           {/* Phone mockups */}
-          <div className="relative w-[340px] h-[320px]">
-            <img src={downloadleftimg} alt="Phone Mockup" className="absolute inset-0 w-full h-full object-contain" />
+          <div className="relative lg:w-[340px] lg:h-[320px]">
+            <img src={downloadleftimg} alt="Phone Mockup" className="lg:absolute inset-0 w-full h-full object-contain" />
           </div>
 
           {/* Bottom banner */}
@@ -58,12 +58,27 @@ export default function MypalDownloadModal({ onClose }) {
           </div>
         </div>
 
+        {/* Mobile top section */}
+        <div className="w-full lg:hidden h-[200px] bg-red-600 flex flex-col items-center justify-end p-0 relative overflow-hidden">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 shadow-md transition-colors cursor-pointer text-lg font-bold hover:text-red-600"
+          >
+            ✕
+          </button>
+          
+          <div className="relative w-[180px] h-[200px] p-0">
+            <img src={downloadleftimg} alt="Phone Mockup" className="absolute inset-0 w-full h-full object-contain" />
+          </div>
+        </div>
+
         {/* RIGHT — Content panel */}
         <div className="flex-1 p-4 lg:pr-8  flex flex-col justify-center relative">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 shadow-md transition-colors cursor-pointer text-lg font-bold hover:text-red-600"
+            className="hidden absolute top-3 right-3 w-12 h-12 rounded-full bg-gray-100 lg:flex items-center justify-center text-gray-500 hover:bg-gray-200 shadow-md transition-colors cursor-pointer text-lg font-bold hover:text-red-600"
           >
             ✕
           </button>
