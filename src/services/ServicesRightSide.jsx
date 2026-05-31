@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 // import servicephone from '../assets/images/servicephone.svg';
 import servicelocation from '../assets/images/servicelocation.svg';
-import googleplay from '../assets/images/googleplay.png';
-import appstore from '../assets/images/appstore.png';
+import DownloadApp from '../assets/components/DownloadApp';
 
 const businessHours = [
     { day: 'Sunday', time: 'N/A' },
@@ -120,26 +119,7 @@ const getDownloadButtonText = (category) => {
                 </div>
             </div>
         </div>
-        {showDownloadModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center">
-                <div className="absolute inset-0 bg-black opacity-70" onClick={() => setShowDownloadModal(false)} />
-                <div className="relative bg-white rounded-lg shadow-xl max-w-[95%] md:max-w-md w-full p-6 z-60">
-                    <button onClick={() => setShowDownloadModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">✕</button>
-                    <h2 className="text-2xl font-bold mb-4">Download MyPal App</h2>
-                    <p className="mb-6 text-gray-700">Experience the best of MyPal on your mobile device.</p>
-                    <div className="flex flex-col space-y-4">
-                        <a href="https://play.google.com/store/apps/details?id=com.mypal.hospitality" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
-                        <img src={googleplay} alt="Get it on Google Play" className="h-6 rounded-lg" />
-                        Download for Android
-                        </a>
-                        <a href="https://apps.apple.com/ng/app/mypal-hospitality-lifestyle/id6762733829" target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-4 px-4 py-3 bg-[#DB3A06] text-white font-semibold rounded-full hover:bg-orange-700 transition duration-300 text-center">
-                            <img src={appstore} alt="Get it on App Store" className="h-6 rounded-lg" />
-                            Download for iOS
-                        </a>
-                    </div>
-                </div>
-            </div>
-        )}
+        {showDownloadModal && <DownloadApp onClose={() => setShowDownloadModal(false)} />}
       </>
   )
 }
