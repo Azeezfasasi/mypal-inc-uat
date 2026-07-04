@@ -1,8 +1,8 @@
 import React from 'react';
-import three60 from '../../images/three60.svg';
-import cilantro from '../../images/cilantro.svg';
-import tamberma from '../../images/tamberma.svg';
-import tropicana from '../../images/tropicana.svg';
+import cwc from '../../images/cwc.svg';
+import goldentulip from '../../images/goldentulip.jpg';
+import sfhospitality from '../../images/sfhospitality.png';
+import truckcentral from '../../images/truckcentral.png';
 
 const TrustedBy = () => {
   return (
@@ -15,24 +15,24 @@ const TrustedBy = () => {
       {/* Logos Container */}
       <div className="flex flex-row flex-wrap gap-x-8 gap-y-12 sm:gap-x-16 sm:gap-y-16 items-center justify-center w-full max-w-6xl mx-auto">
 
-        {/* Tech Mahindra Logo */}
+        {/* CWC Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={cilantro} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
+          <img src={cwc} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
 
-        {/* Airbnb Logo */}
+        {/* Golden Tulip Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={three60} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
+          <img src={goldentulip} alt="" className='w-[120px] md:w-[180px] h-[50px] md:h-[120px]' />
         </div>
 
-        {/* Merck Logo */}
+        {/* Sun flower Hospitality Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={tamberma} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
+          <img src={sfhospitality} alt="" className='rounded-full bg-slate-900 w-[100px] md:w-[130px] h-[80px] md:h-[130px] p-0' />
         </div>
 
-        {/* Simon Logo */}
+        {/* Truck Central Logo */}
         <div className="flex justify-center items-center w-36 sm:w-48 opacity-100 hover:opacity-95 transition-opacity duration-300">
-          <img src={tropicana} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
+          <img src={truckcentral} alt="" className='w-[100px] md:w-[150px] h-[80px] md:h-[120px]' />
         </div>
       </div>
     </div>
