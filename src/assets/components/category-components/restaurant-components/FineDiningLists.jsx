@@ -61,41 +61,77 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
   useEffect(() => {
     async function fetchBusinesses() {
       try {
-        // find the subcategory by slug using the hook helper
         const subcategory = findBySlug(subcategorySlug);
 
         if (!subcategory) {
-          // fallback: nothing to show
           setExperiences([]);
           setLoading(false);
           return;
         }
 
-        // Use the business-categories endpoint which filters by the specific category ID
+        if (!API_BASE || !API_KEY) {
+          console.warn('FineDining: missing API_BASE or API_KEY, aborting fetch');
+          setExperiences([]);
+          setLoading(false);
+          return;
+        }
+
         const filterCategoryId = subcategory.id;
-        
         console.log('🔍 FineDining filterCategoryId:', filterCategoryId);
         console.log('🔍 FineDining subcategory:', subcategory);
 
-        // Fetch businesses for this specific category
-        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
-          headers: { "x-api-key": API_KEY },
-        });
-        
-        console.log('📦 FineDining API Response:', resp.data);
+        // Paginate the category endpoint to collect all pages
+        const allBusinesses = [];
+        let page = 1;
+        const limit = 100; // reasonable page size
+        let keepFetching = true;
+        const MAX_CATEGORY_PAGES = 1000; // safety cap
 
-        // Normalize response: some endpoints return data.data.data, some return data.data or plain array
-        let dataArr = resp.data?.data ?? resp.data;
-        if (dataArr && dataArr.data) dataArr = dataArr.data;
-        if (!Array.isArray(dataArr)) {
-          if (dataArr == null) dataArr = [];
-          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
-          else dataArr = [];
+        while (keepFetching && page <= MAX_CATEGORY_PAGES) {
+          const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
+            headers: { 'x-api-key': API_KEY },
+            params: { page, limit },
+          });
+
+          console.log(`📦 FineDining API Response page ${page}:`, resp.data);
+
+          const respBody = resp.data ?? {};
+          const payload = respBody.data ?? respBody;
+
+          // extract items and pagination metadata
+          let items = [];
+          let hasNext = false;
+          let currentPage = page;
+          let totalPages = null;
+
+          if (payload) {
+            if (Array.isArray(payload.data)) items = payload.data;
+            else if (Array.isArray(payload)) items = payload;
+            else if (payload.items && Array.isArray(payload.items)) items = payload.items;
+
+            if (payload.hasNext != null) hasNext = Boolean(payload.hasNext);
+            if (payload.page != null) currentPage = Number(payload.page) || page;
+            if (payload.totalPages != null) totalPages = Number(payload.totalPages);
+          }
+
+          console.log(`📋 FineDining page ${page}: fetched ${items.length} items, hasNext=${hasNext}, totalPages=${totalPages}`);
+
+          if (items.length) allBusinesses.push(...items);
+
+          if (hasNext) {
+            page += 1;
+            continue;
+          }
+
+          if (totalPages != null && currentPage < totalPages) {
+            page = currentPage + 1;
+            continue;
+          }
+
+          keepFetching = false;
         }
 
-        console.log(`📋 FineDining: Got ${dataArr.length} businesses`);
-
-        const mappedData = dataArr.map((biz) => ({
+        const mappedData = allBusinesses.map((biz) => ({
           id: biz.id,
           title: biz.business_name || biz.name || 'Unnamed Business',
           description: biz.description || 'No description available',
@@ -105,15 +141,95 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 
-        setExperiences(mappedData);
+        console.log(`📋 FineDining: Got ${mappedData.length} businesses from category endpoint`);
+
+        // If backend reports more businesses than we fetched, run a global fallback scan
+        const expectedCount = Number(subcategory.total_businesses || 0);
+        let finalData = mappedData;
+
+        if (expectedCount > mappedData.length) {
+          console.warn(`FineDining: expected ${expectedCount} businesses but fetched ${mappedData.length}. Running fallback scan of /businesses/all`);
+
+          const seen = new Map(finalData.map((b) => [b.id, b]));
+          const aggr = [];
+
+          let gPage = 1;
+          const gLimit = 1000;
+          let gKeep = true;
+          const MAX_GLOBAL_PAGES = 1000;
+
+          while (gKeep && gPage <= MAX_GLOBAL_PAGES) {
+            const gres = await axios.get(`${API_BASE}/businesses/all`, {
+              headers: { 'x-api-key': API_KEY },
+              params: { page: gPage, limit: gLimit },
+            });
+
+            const gbody = gres.data ?? {};
+            const gpayload = gbody.data ?? gbody;
+
+            let gitems = [];
+            let gHasNext = false;
+            let gCurrent = gPage;
+            let gTotal = null;
+
+            if (gpayload) {
+              if (Array.isArray(gpayload.data)) gitems = gpayload.data;
+              else if (Array.isArray(gpayload)) gitems = gpayload;
+              else if (gpayload.items && Array.isArray(gpayload.items)) gitems = gpayload.items;
+
+              if (gpayload.hasNext != null) gHasNext = Boolean(gpayload.hasNext);
+              if (gpayload.page != null) gCurrent = Number(gpayload.page) || gPage;
+              if (gpayload.totalPages != null) gTotal = Number(gpayload.totalPages);
+            }
+
+            // keep only those in the target category
+            const matched = gitems.filter((b) => {
+              if (!b) return false;
+              if (b.category && (b.category.id === filterCategoryId || String(b.category.id) === String(filterCategoryId))) return true;
+              if (Array.isArray(b.categories)) return b.categories.some((c) => c && (c.id === filterCategoryId || String(c.id) === String(filterCategoryId)));
+              return false;
+            });
+
+            for (const biz of matched) {
+              if (!seen.has(biz.id)) {
+                const normalized = {
+                  id: biz.id,
+                  title: biz.business_name || biz.name || 'Unnamed Business',
+                  description: biz.description || 'No description available',
+                  rating: biz.average_rating || 0,
+                  reviews: biz.total_reviews || biz.reviews || 0,
+                  location: biz.address || biz.city || 'Not specified',
+                  imageSrc: biz.image_url || '/images/default.svg',
+                };
+                seen.set(biz.id, normalized);
+                aggr.push(normalized);
+              }
+            }
+
+            if (gHasNext) {
+              gPage += 1;
+              continue;
+            }
+            if (gTotal != null && gCurrent < gTotal) {
+              gPage = gCurrent + 1;
+              continue;
+            }
+            gKeep = false;
+          }
+
+          if (aggr.length) finalData = [...finalData, ...aggr];
+        }
+
+        console.log(`📋 FineDining: total businesses fetched after fallback ${finalData.length}`);
+        setExperiences(finalData);
       } catch (err) {
+        console.error('FineDining fetch error', err);
         setError(err.response ? err.response.data : err.message);
       } finally {
         setLoading(false);
       }
     }
 
-    // Wait until categories have loaded (or errored) before attempting to resolve the subcategory
     if (catsLoading) return;
     if (catsError) {
       setError(catsError);
