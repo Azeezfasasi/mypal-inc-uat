@@ -61,87 +61,41 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
   useEffect(() => {
     async function fetchBusinesses() {
       try {
+        // find the subcategory by slug using the hook helper
         const subcategory = findBySlug(subcategorySlug);
 
         if (!subcategory) {
+          // fallback: nothing to show
           setExperiences([]);
           setLoading(false);
           return;
         }
 
+        // Use the business-categories endpoint which filters by the specific category ID
         const filterCategoryId = subcategory.id;
+        
         console.log('🔍 FineDining filterCategoryId:', filterCategoryId);
         console.log('🔍 FineDining subcategory:', subcategory);
 
-        const allBusinesses = [];
-        let page = 1;
-        const limit = 100;
-        let keepFetching = true;
+        // Fetch businesses for this specific category
+        const resp = await axios.get(`${API_BASE}/business-categories/${filterCategoryId}/businesses`, {
+          headers: { "x-api-key": API_KEY },
+        });
+        
+        console.log('📦 FineDining API Response:', resp.data);
 
-        while (keepFetching) {
-          const resp = await axios.get(
-            `${API_BASE}/business-categories/${filterCategoryId}/businesses`,
-            {
-              headers: { 'x-api-key': API_KEY },
-              params: { page, limit },
-            }
-          );
-
-          console.log(`📦 FineDining API Response page ${page}:`, resp.data);
-
-          const responseData = resp.data ?? {};
-          const pagePayload = responseData.data ?? responseData;
-          let businesses = [];
-          let hasNext = false;
-          let currentPage = page;
-          let totalPages = null;
-
-          if (pagePayload) {
-            if (Array.isArray(pagePayload.data)) {
-              businesses = pagePayload.data;
-            } else if (Array.isArray(pagePayload)) {
-              businesses = pagePayload;
-            } else if (typeof pagePayload === 'object' && pagePayload !== null) {
-              if (Array.isArray(pagePayload.data)) {
-                businesses = pagePayload.data;
-              } else if (Array.isArray(pagePayload.items)) {
-                businesses = pagePayload.items;
-              } else if (Array.isArray(Object.values(pagePayload))) {
-                businesses = Object.values(pagePayload).flatMap((value) => (Array.isArray(value) ? value : []));
-              }
-            }
-
-            if (pagePayload.hasNext != null) {
-              hasNext = Boolean(pagePayload.hasNext);
-            }
-            if (pagePayload.page != null) {
-              currentPage = Number(pagePayload.page) || page;
-            }
-            if (pagePayload.totalPages != null) {
-              totalPages = Number(pagePayload.totalPages);
-            }
-          }
-
-          console.log(`📋 FineDining page ${page}: fetched ${businesses.length} items, hasNext=${hasNext}, totalPages=${totalPages}`);
-
-          if (businesses.length) {
-            allBusinesses.push(...businesses);
-          }
-
-          if (hasNext) {
-            page += 1;
-            continue;
-          }
-
-          if (totalPages != null && currentPage < totalPages) {
-            page = currentPage + 1;
-            continue;
-          }
-
-          keepFetching = false;
+        // Normalize response: some endpoints return data.data.data, some return data.data or plain array
+        let dataArr = resp.data?.data ?? resp.data;
+        if (dataArr && dataArr.data) dataArr = dataArr.data;
+        if (!Array.isArray(dataArr)) {
+          if (dataArr == null) dataArr = [];
+          else if (typeof dataArr === 'object') dataArr = Object.values(dataArr);
+          else dataArr = [];
         }
 
-        const mappedData = allBusinesses.map((biz) => ({
+        console.log(`📋 FineDining: Got ${dataArr.length} businesses`);
+
+        const mappedData = dataArr.map((biz) => ({
           id: biz.id,
           title: biz.business_name || biz.name || 'Unnamed Business',
           description: biz.description || 'No description available',
@@ -151,7 +105,6 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 
-        console.log(`📋 FineDining: total businesses fetched ${mappedData.length}`);
         setExperiences(mappedData);
       } catch (err) {
         setError(err.response ? err.response.data : err.message);
@@ -160,6 +113,7 @@ export default function FineDiningLists({ subcategorySlug = 'Fine Dining' }) {
       }
     }
 
+    // Wait until categories have loaded (or errored) before attempting to resolve the subcategory
     if (catsLoading) return;
     if (catsError) {
       setError(catsError);
