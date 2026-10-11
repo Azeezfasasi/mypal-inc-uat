@@ -39,7 +39,7 @@ export default function SearchResults({ results }) {
       )}
       <h2 className="text-lg font-bold text-[#DB3A06] mb-2">{business.business_name || business.name}</h2>
       <Link
-        to={`/business/${business.id}`}
+        to={`/services/servicedetails/${business.id}`}
         className="mt-2 px-4 py-2 bg-[#DB3A06] text-white rounded-lg shadow hover:bg-orange-700 transition-colors duration-300"
       >
         View Details

@@ -3,6 +3,7 @@ import { Star, MapPin } from 'lucide-react';
 import star from '../../images/star.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { apiHeaders, apiUrl, isApiConfigured, unwrapList } from '../../../lib/api';
 import { Commet } from "react-loading-indicators";
 
 // Reusable card component
@@ -30,8 +31,8 @@ const ExperienceCard = ({ id, imageSrc, title, description, rating, reviews, loc
           </div>
           <div className='flex flex-row justify-start items-center'>
             <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-            <span className='text-[14.5px] mont-normal-font'>
-              {location?.length > 10 ? location.slice(0, 12) + "…" : location}
+            <span className='text-[14.5px] mont-normal-font truncate max-w-[9rem]' title={location}>
+              {location}
             </span>
           </div>
         </div>
@@ -50,53 +51,55 @@ export default function FeaturedExperiences() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
-  const API_KEY = import.meta.env.VITE_API_KEY;
   // we'll fetch from the global businesses endpoint and sample across all categories
 
   useEffect(() => {
     async function fetchBusinesses() {
       try {
         setLoading(true);
-
-        const base = API_BASE.replace(/\/+$/g, '');
+        if (!isApiConfigured) throw new Error('API is not configured');
 
         // Fetch all businesses directly with pagination parameters
-        const resp = await axios.get(`${base}/businesses/all`, { 
+        const resp = await axios.get(apiUrl('/businesses/all'), {
           params: {
             page: 1,
             limit: 20, // fetch more to have a better sample for randomness
             sort: 'createdAt',
             order: 'DESC'
           },
-          headers: API_KEY ? { 'x-api-key': API_KEY } : {} 
+          headers: apiHeaders(),
         });
-        let dataArr = resp.data?.data?.data ?? [];
-        if (!Array.isArray(dataArr) && typeof dataArr === 'object') dataArr = Object.values(dataArr);
+        const { items } = unwrapList(resp.data);
 
-        // Shuffle and pick 8 random businesses each page load
-        const shuffled = dataArr.sort(() => Math.random() - 0.5).slice(0, 8);
+        // Fisher–Yates shuffle (sort-by-random is biased), then pick 8; skip items without an id
+        const pool = items.filter((biz) => biz?.id);
+        for (let i = pool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        const shuffled = pool.slice(0, 8);
 
-        const mappedData = shuffled.map((biz, idx) => ({
-          id: biz.id || `biz-${idx}`,
+        const mappedData = shuffled.map((biz) => ({
+          id: biz.id,
           title: biz.business_name || biz.name || 'Unnamed Business',
           description: biz.description || 'No description available',
-          rating: biz.average_rating || 0,
-          reviews: biz.total_reviews || biz.reviews || 0,
+          rating: Number(biz.average_rating) || 0,
+          reviews: Number(biz.total_reviews) || 0,
           location: biz.address || biz.city || biz.state || biz.country || 'Not specified',
           imageSrc: biz.image_url || '/images/default.svg',
         }));
 
         setExperiences(mappedData);
       } catch (err) {
-        setError(err.response ? err.response.data : err.message);
+        console.error('Failed to load featured experiences', err);
+        setError(true);
       } finally {
         setLoading(false);
       }
     }
 
     fetchBusinesses();
-  }, [API_BASE, API_KEY]);
+  }, []);
 
   // if (loading) return <div>Loading restaurant categories…</div>;
   if (loading) {
@@ -106,7 +109,14 @@ export default function FeaturedExperiences() {
     </div>
   );
 }
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
+  // Never show raw server errors to visitors
+  if (error) {
+    return (
+      <div className="text-center text-gray-600 py-10 text-lg mont-normal-font">
+        We couldn&apos;t load featured experiences right now. Please try again shortly.
+      </div>
+    );
+  }
 
   return (
     <div id="featured-category" className="bg-gray-50 py-6 font-sans antialiased">
@@ -133,8 +143,8 @@ export default function FeaturedExperiences() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 cursor-pointer">
-            {experiences.map((experience, index) => (
-              <ExperienceCard key={index} {...experience} />
+            {experiences.map((experience) => (
+              <ExperienceCard key={experience.id} {...experience} />
             ))}
           </div>
         )}

@@ -4,9 +4,38 @@ import { X, MapPin, Star, StarHalf } from 'lucide-react';
 import star1 from '../assets/images/star1.svg';
 
 // fallback in case no images
-const fallbackImages = [
-  'https://placehold.co/600x400/E5E7EB/6B7280?text=No+Image',
-];
+const fallbackImages = ['/images/default.svg'];
+
+// Image uploads only — business_uploads also holds videos, documents and text values
+const isImageUpload = (upload) =>
+  Boolean(upload?.url) &&
+  (upload.mimetype ? upload.mimetype.startsWith('image/') : !/\.(mp4|mov|webm|pdf|docx?)$/i.test(upload.url));
+
+/**
+ * The website endpoint sends reviews as { internal, google, tripadvisor }.
+ * Prefer MyPal's own reviews, then Google, then TripAdvisor.
+ */
+function getDisplayRating(reviews) {
+  const internal = reviews?.internal;
+  if (internal && Number(internal.total_reviews) > 0) {
+    return { rating: Number(internal.average_rating) || 0, count: Number(internal.total_reviews) };
+  }
+  for (const source of [reviews?.google, reviews?.tripadvisor]) {
+    const rating = Number(source?.rating);
+    if (rating > 0) return { rating, count: Number(source.review_count) || 0 };
+  }
+  return { rating: 0, count: 0 };
+}
+
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/** e.g. "9:00 AM - 10:00 PM" for today, from operating_days; null if not listed */
+function getTodaysHours(operatingDays) {
+  if (!Array.isArray(operatingDays)) return null;
+  const today = DAY_NAMES[new Date().getDay()];
+  const entry = operatingDays.find((d) => d?.day_of_week === today);
+  return entry?.opening_time && entry?.closing_time ? `${entry.opening_time} - ${entry.closing_time}` : null;
+}
 
 export default function ServicesDetailHero({ business }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +44,11 @@ export default function ServicesDetailHero({ business }) {
 
   useEffect(() => {
     if (business) {
-      const images = [business.image_url, ...(business.gallery_images || [])].filter(Boolean);
+      const uploads = Array.isArray(business.business_uploads)
+        ? business.business_uploads.filter(isImageUpload).map((u) => u.url)
+        : [];
+      // De-duplicate in case the cover image is also an upload
+      const images = [...new Set([business.image_url, ...uploads].filter(Boolean))];
       setAllImages(images.length > 0 ? images : fallbackImages);
       setMainImage(images.length > 0 ? images[0] : fallbackImages[0]);
     }
@@ -27,24 +60,22 @@ export default function ServicesDetailHero({ business }) {
 
   if (!business) return <div className="text-center py-10">No business found.</div>;
 
-  // Calculate average rating from reviews (if backend sends reviews array)
-  const reviews = business.reviews || [];
-  const avg =
-    reviews.length > 0
-      ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
-      : business.average_rating || 0;
-
+  const { rating: avg, count: reviewCount } = getDisplayRating(business.reviews);
   const rounded = Math.round(avg * 2) / 2; // round to nearest 0.5
+  const todaysHours = getTodaysHours(business.operating_days);
 
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= Math.floor(rounded)) {
-        stars.push(<img key={i} src={star1} alt="star" className='w-7 md:w-10 h-7 md:h-10' />);
+        stars.push(<img key={i} src={star1} alt="" className='w-7 md:w-10 h-7 md:h-10' />);
       } else if (i - 0.5 === rounded) {
-        stars.push(<img key={i} src={star1} alt="star" className='w-7 md:w-10 h-7 md:h-10' />);
-      } else {
-        // stars.push(<Star key={i} className="w-7 md:w-10 h-7 md:h-10 text-gray-400" />);
+        // Half star: show the left half of the full star
+        stars.push(
+          <span key={i} className="relative inline-block w-7 md:w-10 h-7 md:h-10 overflow-hidden">
+            <img src={star1} alt="" className="absolute left-0 top-0 h-full max-w-none w-7 md:w-10" style={{ clipPath: 'inset(0 50% 0 0)' }} />
+          </span>
+        );
       }
     }
     return stars;
@@ -75,7 +106,7 @@ export default function ServicesDetailHero({ business }) {
                 {rounded.toFixed(1)}
               </span>
               <span className="text-gray-300 text-[32px] bebas-font">
-                ({business.total_reviews || reviews.length || 0})
+                ({reviewCount})
               </span>
             </div>
 
@@ -86,9 +117,9 @@ export default function ServicesDetailHero({ business }) {
             </div>
 
             {/* 🕒 Opening Hours */}
-            {business.opening_hours && (
+            {todaysHours && (
               <p className="text-white text-xl">
-                <span className="text-[#23EE7F] bebas-font">Open</span> {business.opening_hours}
+                <span className="text-[#23EE7F] bebas-font">Today</span> {todaysHours}
               </p>
             )}
           </div>

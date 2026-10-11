@@ -61,7 +61,7 @@ export default function EventTicketCategory() {
           {subCategories.map((category) => (
             <Link
               key={category.id}
-              to={`/restaurant/${category.name
+              to={`/event-ticketing/${category.name
                 .toLowerCase()
                 .replace(/\s+/g, "")}`}
               className="relative w-full h-[300px] md:h-[563px] max-w-lg overflow-hidden rounded-[10px] shadow-2xl transition-transform duration-300 ease-in-out hover:scale-105"

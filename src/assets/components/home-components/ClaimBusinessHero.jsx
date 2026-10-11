@@ -69,56 +69,47 @@ export default function ClaimBusinessHeroSection() {
     }
   }, [showResults]);
 
+  // Visitor's location if they allow it (cached after the first ask), otherwise Lagos
+  const searchLocationRef = useRef(null);
+  const getSearchLocation = () => {
+    const LAGOS = { lat: 6.5244, lng: 3.3792 };
+    if (searchLocationRef.current) return Promise.resolve(searchLocationRef.current);
+    if (!navigator.geolocation) return Promise.resolve(LAGOS);
+    return new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          searchLocationRef.current = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          resolve(searchLocationRef.current);
+        },
+        () => {
+          searchLocationRef.current = LAGOS;
+          resolve(LAGOS);
+        },
+        { timeout: 5000, maximumAge: 10 * 60 * 1000 }
+      );
+    });
+  };
+
   const handleSearchBusinesses = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
     setLoading(true);
     try {
-      console.log('🔍 Searching for:', { query: searchQuery, lat: 6.5244, lng: 3.3792 });
+      // Rank results near the visitor (falls back to Lagos when location isn't shared)
+      const { lat, lng } = await getSearchLocation();
       const response = await axios.post(
         `${API_BASE_URL}/business/claim/search`,
-        {
-          query: searchQuery,
-          lat: 6.5244,
-          lng: 3.3792,
-        },
+        { query: searchQuery, lat, lng },
         { headers: { 'x-api-key': API_KEY } }
       );
 
-      console.log('✅ Full API Response:', response);
-      console.log('📊 Response data:', response.data);
-      console.log('📊 Response status:', response.status);
-
       // API returns results directly in response.data (array)
-      let results = Array.isArray(response.data) ? response.data : (response.data.data || response.data.results || []);
-      console.log('🎯 Final results:', results, 'Length:', Array.isArray(results) ? results.length : 'Not an array');
+      const results = Array.isArray(response.data) ? response.data : (response.data.data || response.data.results || []);
 
-      // Fetch details for all results to get photo URLs
-      if (results && results.length > 0) {
-        console.log('📸 Fetching details for', results.length, 'businesses...');
-        const detailsPromises = results.map((result) =>
-          axios.get(
-            `${API_BASE_URL}/business/claim/${result.google_place_id}/details`,
-            { headers: { 'x-api-key': API_KEY } }
-          )
-            .then((res) => ({
-              ...result,
-              photoUrl: res.data.photos?.[0]?.url,
-              displayName: res.data.displayName?.text || result.business_name,
-            }))
-            .catch((err) => {
-              console.error(`Error fetching details for ${result.google_place_id}:`, err);
-              return result; // Return original result if details fetch fails
-            })
-        );
-
-        const enrichedResults = await Promise.all(detailsPromises);
-        console.log('✅ Enriched results with photos:', enrichedResults);
-        setSearchResults(enrichedResults);
-      } else {
-        setSearchResults(Array.isArray(results) ? results : []);
-      }
+      // Show results as returned. Full Google Place details (a paid lookup) are fetched
+      // only for the business the visitor picks, not for every result.
+      setSearchResults(Array.isArray(results) ? results : []);
 
       setShowResults(true);
       
@@ -237,9 +228,9 @@ export default function ClaimBusinessHeroSection() {
                         >
                           {/* Business Image from Details or Placeholder */}
                           <div className="w-20 md:w-[142px] h-20 md:h-[98px] flex-shrink-0 rounded-md overflow-hidden bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 flex items-center justify-center shadow-sm">
-                            {result.photoUrl ? (
+                            {(result.photoUrl || result.photo_url || result.photos?.[0]?.url) ? (
                               <img
-                                src={result.photoUrl}
+                                src={result.photoUrl || result.photo_url || result.photos?.[0]?.url}
                                 alt={result.business_name}
                                 className="w-full h-full object-cover"
                               />

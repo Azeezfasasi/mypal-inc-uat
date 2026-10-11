@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import DOMPurify from 'dompurify';
 import { Helmet } from 'react-helmet';
 import ServicesHeader from '../assets/components/services-components/ServicesHeader';
 import FooterSection from '../assets/components/home-components/FooterSection';
@@ -10,6 +11,18 @@ import blogplaceholder2 from '../assets/images/blogplaceholder2.png';
 import ShareButtons from '../assets/components/blog-components/ShareButtons';
 import { Toaster } from "react-hot-toast";
 import { Avatar } from 'rsuite';
+
+// Returns true the first time a post is seen in this browser session
+function markViewed(postId) {
+  const key = `blog-viewed:${postId}`;
+  try {
+    if (sessionStorage.getItem(key)) return false;
+    sessionStorage.setItem(key, '1');
+  } catch {
+    // Storage unavailable — still count the view
+  }
+  return true;
+}
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -39,14 +52,14 @@ export default function BlogPost() {
         if (Array.isArray(item)) item = item[0] || null;
         setPost(item);
 
-        // Increment view count if we have an id
+        // Count a view once per post per browser session (StrictMode runs this effect twice in dev)
         const postId = item?.id || item?._id || null;
-        if (postId) {
+        if (postId && markViewed(postId)) {
           // fire-and-forget
           axios.patch(`${API_BASE.replace(/\/+$/g, '')}/blogs/${postId}/view`, {}, { headers: { 'x-api-key': API_KEY } }).catch(() => {});
         }
       } catch (err) {
-        setError(err.response ? err.response.data : err.message);
+        if (mounted) setError(err.response ? err.response.data : err.message);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -140,7 +153,13 @@ export default function BlogPost() {
 
         {/* Blog Details */}
         <p className="text-gray-600 mb-6">{post.excerpt || post.meta_description}</p>
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: post.content || post.content_html || post.content_rendered || '' }} />
+        {/* Blog HTML comes from the API — strip scripts/handlers before rendering */}
+        <div
+          className="prose max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.content || post.content_html || post.content_rendered || ''),
+          }}
+        />
 
         {/* Blog Footer Section */}
         <div className='flex flex-col md:flex-row justify-between border-t gap-5 md:gap-0 border-gray-200 mt-[40px] pt-3'>

@@ -32,11 +32,14 @@ export default function SearchBusiness({ onSearchResults }) {
 
     setLoading(true);
     try {
-      // Fetch all businesses with pagination
+      // Let the API search across all businesses (it supports search and location);
+      // downloading one page and filtering here missed everything past the first 100
       const response = await axios.get(`${API_BASE_URL}/businesses/all`, {
         params: {
           page: 1,
           limit: 100, // API maximum limit is 100
+          ...(query.trim() ? { search: query.trim() } : {}),
+          ...(location.trim() ? { location: location.trim() } : {}),
         },
         headers: {
           'X-API-Key': API_KEY,
@@ -66,7 +69,7 @@ export default function SearchBusiness({ onSearchResults }) {
       }
 
       if (!Array.isArray(businesses) || businesses.length === 0) {
-        setError('No businesses found. Please try again later.');
+        setError(`No businesses found for "${query}${location ? ' in ' + location : ''}". Try a different search.`);
         onSearchResults && onSearchResults([]);
         setLoading(false);
         return;
@@ -74,9 +77,10 @@ export default function SearchBusiness({ onSearchResults }) {
 
       // Client-side filtering based on search query and location
       let filteredBusinesses = businesses.filter(b => {
-        const nameMatch = !query || (b.business_name || b.name || '')
-          .toLowerCase()
-          .includes(query.toLowerCase());
+        // The server already searched; accept matches on name, description or category too
+        const q = query.trim().toLowerCase();
+        const nameMatch = !q || [b.business_name, b.name, b.description, b.category?.name]
+          .some((field) => (field || '').toLowerCase().includes(q));
 
         const locationMatch = !location || (
           (b.address || '').toLowerCase().includes(location.toLowerCase()) ||
