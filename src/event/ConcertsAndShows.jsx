@@ -11,7 +11,7 @@ export default function ConcertAndShows() {
         <title>Concerts and Shows | MyPal</title>
         <meta name="description" content="Discover the best concerts and shows in Lagos with MyPal. Find event details, venues, and ticket information for an unforgettable experience." />
         <meta name="keywords" content="MyPal, concerts, shows, Lagos, event ticketing" />
-        <link rel="canonical" href="https://www.mypal-inc.com/restaurant/concerts&shows" />
+        <link rel="canonical" href="https://www.mypal-inc.com/event-ticketing/concerts&shows" />
       </Helmet>
       <ConcertAndShowsHero />
       <ConcertAndShowsList subcategorySlug="Concerts & Shows" />

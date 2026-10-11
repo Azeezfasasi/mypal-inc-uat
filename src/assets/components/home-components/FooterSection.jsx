@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { apiHeaders, apiUrl } from '../../../lib/api';
 import x from '../../images/x.svg'
 import tiktok from '../../images/tiktok.svg'
 import indeed from '../../images/indeed.svg'
@@ -19,8 +20,8 @@ const FooterSection = () => {
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
+    const [submitError, setSubmitError] = useState('');
 
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
     const contactBtnRef = useRef(null);
 
     useEffect(() => {
@@ -107,7 +108,7 @@ const FooterSection = () => {
 
                     <button
                         ref={contactBtnRef}
-                        onClick={() => { setShowContactModal(true); const el = contactBtnRef.current; if (el) el.classList.remove('shake'); }}
+                        onClick={() => { setShowContactModal(true); setSubmitError(''); const el = contactBtnRef.current; if (el) el.classList.remove('shake'); }}
                         className="flex items-center bg-white text-gray-800 rounded-full py-2 px-2 transition-transform duration-300 hover:scale-105 cursor-pointer"
                     >
                         <span className="font-semibold text-lg mr-3 bebas-font">Contact Us</span>
@@ -186,7 +187,9 @@ const FooterSection = () => {
                         </div>
 
                         <div className="mt-6 flex items-center justify-between">
-                            <div className="text-sm text-green-600">{successMsg}</div>
+                            <div className={`text-sm ${submitError ? 'text-red-600' : 'text-green-600'}`} role="status">
+                                {submitError || successMsg}
+                            </div>
                             <div className="flex items-center space-x-3">
                                 <button
                                     onClick={() => setShowContactModal(false)}
@@ -208,15 +211,16 @@ const FooterSection = () => {
 
                                         setSubmitting(true);
                                         setSuccessMsg('');
+                                        setSubmitError('');
                                         try {
-                                            const url = `${API_BASE.replace(/\/+$/g, '')}/contact`;
                                             const payload = {
-                                                name: form.name,
-                                                email: form.email,
+                                                name: form.name.trim(),
+                                                email: form.email.trim(),
                                                 // ...(form.phone ? { phone: form.phone } : {}),
-                                                message: form.message,
+                                                message: form.message.trim(),
                                             };
-                                            const response = await axios.post(url, payload);
+                                            // /contact rejects requests without the app key (401)
+                                            const response = await axios.post(apiUrl('/contact'), payload, { headers: apiHeaders() });
                                             if (response?.status !== 201 && response?.status !== 200) {
                                                 throw new Error('Unexpected response from server');
                                             }
@@ -225,7 +229,7 @@ const FooterSection = () => {
                                             setTimeout(() => { setShowContactModal(false); setSuccessMsg(''); }, 3800);
                                         } catch (err) {
                                             console.error('Contact submit failed', err.response ?? err.message);
-                                            setSuccessMsg('Failed to send message. Please try again later.');
+                                            setSubmitError('Failed to send message. Please try again later.');
                                         } finally {
                                             setSubmitting(false);
                                         }

@@ -11,7 +11,7 @@ export default function FestivalAndCorporatePromotion() {
         <title>Festival and Corporate Promotion Services | MyPal</title>
         <meta name="description" content="Discover top festival and corporate promotion services on MyPal. Find event planners, promoters, and organizers to make your event a success." />
         <meta name="keywords" content="MyPal, festival promotion, corporate promotion, Lagos, event planning" />
-        <link rel="canonical" href="https://www.mypal-inc.com/restaurant/festivals&corporatepromotions" />
+        <link rel="canonical" href="https://www.mypal-inc.com/event-ticketing/festivals&corporatepromotions" />
       </Helmet>
       <FestivalAndCorporateHero />
       <FestivalAndCorporateList subcategorySlug="Festivals & Corporate Promotions" />

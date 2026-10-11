@@ -46,9 +46,9 @@ const categories = [
         { name: 'Fitness & Gym', path: '/beautyhealth/fitness&gym' }
     ] },
     { name: 'Event ticketing', path: '/category/event-ticketing', subCategories: [
-        { name: 'Concerts & Shows', path: '/restaurant/concerts&shows' },
-        { name: 'Private Cinema', path: '/restaurant/privatecinemas' },
-        { name: 'Festivals & Corporate Promotions', path: '/restaurant/festivals&corporatepromotions' }
+        { name: 'Concerts & Shows', path: '/event-ticketing/concerts&shows' },
+        { name: 'Private Cinema', path: '/event-ticketing/privatecinemas' },
+        { name: 'Festivals & Corporate Promotions', path: '/event-ticketing/festivals&corporatepromotions' }
     ]},
     { name: 'Restaurant', path: '/category/restaurants', subCategories: [
         { name: 'Fine Dining', path: '/restaurant/finedining' },
