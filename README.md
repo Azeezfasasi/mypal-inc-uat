@@ -1,17 +1,34 @@
-<<<<<<< HEAD
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
 # mypal-inc-admin
-mypal-inc admin repository
->>>>>>> d8d4490cd1fee6b83c31c7d4862fe1723c624513
+
+MyPal Inc website, built with React and Vite.
+
+## Getting started
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Create a `.env` file in the **project root** (next to `package.json`, not in `src/`) from the example, then fill in `VITE_API_KEY`:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   | Variable | Description |
+   | --- | --- |
+   | `VITE_API_BASE_URL` | MyPal API base URL, including `/v1` (e.g. `https://staging-api.mypal-inc.com/v1`) |
+   | `VITE_API_KEY` | App API key sent as the `X-API-Key` header. Ask the team for the value. |
+
+3. Start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+Vite reads `.env` only when the dev server starts, so restart it after changing these values.
+
+### Troubleshooting
+
+If requests go to `http://localhost:5173/undefined/...` and return 404, or the page shows `Cannot read properties of undefined (reading 'replace')`, Vite isn't loading your `.env`. Check that the file is in the project root, then restart `npm run dev`.
