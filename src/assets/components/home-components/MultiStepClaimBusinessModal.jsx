@@ -27,19 +27,11 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     email: "",
     phone: "",
   });
-  const [businessPhone, setBusinessPhone] = useState("");
   const [verificationError, setVerificationError] = useState("");
   const [businessCoordinates, setBusinessCoordinates] = useState(null);
-
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [otpLoading, setOtpLoading] = useState(false);
-
-  const [accountData, setAccountData] = useState({
-    password: "",
-    confirmPassword: "",
-    role: "",
-    instagramHandle: "",
-  });
+  // Chosen by the claimant; pre-filled from the Google place types when they match
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [photos, setPhotos] = useState([]);
@@ -123,44 +115,85 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     }
   }, [API_BASE_URL, API_KEY]);
 
+  // Best-effort category from Google place types (e.g. "restaurant"); empty when nothing matches
+  const guessCategoryId = useCallback((types) => {
+    if (!Array.isArray(types) || types.length === 0) return "";
+    const words = types.map((t) => String(t).toLowerCase().replace(/_/g, " "));
+    const match = categories.find((cat) => {
+      const name = (cat.name || "").toLowerCase();
+      return words.some((word) => word.length > 3 && (name.includes(word) || word.includes(name)));
+    });
+    return match?.id || "";
+  }, [categories]);
+
+  // Resets per-business details so nothing carries over from a previously viewed business
+  const applySelectedBusiness = useCallback((normalized) => {
+    setSelectedBusiness(normalized);
+    setCurrentPhotoIndex(0);
+    setPhotos(normalized.photos || []);
+    setVerificationError("");
+    setTermsAccepted(false);
+    setVerificationData((prev) => ({ ...prev, phone: normalized.formatted_phone || "" }));
+    setSelectedCategoryId(guessCategoryId(normalized.types));
+    if (normalized.coordinates?.lat && normalized.coordinates?.lng) {
+      setBusinessCoordinates(normalized.coordinates);
+    } else {
+      setBusinessCoordinates(null);
+      if (normalized.formatted_address) geocodeAddress(normalized.formatted_address);
+    }
+  }, [guessCategoryId, geocodeAddress]);
+
+  // Returns false (and explains why) when the place is already claimed
+  const ensureClaimable = useCallback(async (placeId) => {
+    try {
+      const res = await axios.get(`${API_BASE_URL}/business/claim/${placeId}/status`, {
+        headers: { "x-api-key": API_KEY },
+      });
+      const status = String(res.data?.status ?? res.data?.data?.status ?? "").toLowerCase();
+      if (status === "claimed") {
+        toast.error("This business has already been claimed. If it's yours, please contact support.");
+        return false;
+      }
+      if (status === "pending") {
+        toast("A claim for this business is already in progress.", { icon: "⏳" });
+      }
+    } catch (statusError) {
+      // Don't block claiming if the status check itself fails; initiate will still reject duplicates
+      console.error("Status check error:", statusError);
+    }
+    return true;
+  }, [API_BASE_URL, API_KEY]);
+
+  const proceedToClaimForm = useCallback(async () => {
+    if (!selectedBusiness?.google_place_id) return;
+    setLoading(true);
+    const ok = await ensureClaimable(selectedBusiness.google_place_id);
+    setLoading(false);
+    if (ok) setStep(2);
+  }, [selectedBusiness, ensureClaimable]);
+
   useEffect(() => {
     if (isOpen) {
       fetchCategories();
       getUserLocation();
       // If a business was passed in, go to preview step (step 0)
       if (business) {
-        const normalized = normalizeBusiness(business);
         setStep(0);
-        setSelectedBusiness(normalized);
-        setCurrentPhotoIndex(0);
-        setPhotos(normalized.photos || []);
-        // Extract and store the business phone number
-        if (normalized.formatted_phone) {
-          setBusinessPhone(normalized.formatted_phone);
-          setVerificationData(prev => ({ ...prev, phone: normalized.formatted_phone }));
-        }
-        // Use coordinates directly from API if available
-        if (normalized.coordinates?.lat && normalized.coordinates?.lng) {
-          setBusinessCoordinates(normalized.coordinates);
-        } else {
-          geocodeAddress(normalized.formatted_address);
-        }
+        applySelectedBusiness(normalizeBusiness(business));
       } else {
         setStep(1);
       }
     }
-  }, [isOpen, fetchCategories, getUserLocation, geocodeAddress, business, normalizeBusiness]);
+    // applySelectedBusiness changes when categories load; that's handled by the effect below
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, fetchCategories, getUserLocation, business, normalizeBusiness]);
 
+  // Categories usually arrive after the business is chosen — fill in the guess then
   useEffect(() => {
-    if (step === 0 && selectedBusiness) {
-      // Use coordinates directly if available, otherwise geocode
-      if (selectedBusiness.coordinates?.lat && selectedBusiness.coordinates?.lng) {
-        setBusinessCoordinates(selectedBusiness.coordinates);
-      } else if (selectedBusiness.formatted_address) {
-        geocodeAddress(selectedBusiness.formatted_address);
-      }
+    if (selectedBusiness && !selectedCategoryId && categories.length > 0) {
+      setSelectedCategoryId(guessCategoryId(selectedBusiness.types));
     }
-  }, [step, selectedBusiness, geocodeAddress]);
+  }, [categories, selectedBusiness, selectedCategoryId, guessCategoryId]);
 
   // Auto-rotate photos every 5 seconds when on step 0
   useEffect(() => {
@@ -221,31 +254,13 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
         `${API_BASE_URL}/business/claim/${businessData.google_place_id}/details`,
         { headers: { "x-api-key": API_KEY } }
       );
-      const fullBusinessDetails = response.data;
-      console.log("✅ Modal: Full business details:", fullBusinessDetails);
-      
-      const normalized = normalizeBusiness(fullBusinessDetails);
-      setSelectedBusiness(normalized);
-      setCurrentPhotoIndex(0);
-      setPhotos(normalized.photos || []);
-      
-      // Extract and store the business phone number
-      if (normalized.formatted_phone) {
-        setBusinessPhone(normalized.formatted_phone);
-        setVerificationData(prev => ({ ...prev, phone: normalized.formatted_phone }));
+      const normalized = normalizeBusiness(response.data);
+      applySelectedBusiness(normalized);
+
+      // Stop here if someone has already claimed it
+      if (await ensureClaimable(normalized.google_place_id || businessData.google_place_id)) {
+        setStep(2);
       }
-      
-      // Check business claim status
-      try {
-        await axios.get(
-          `${API_BASE_URL}/business/claim/${businessData.google_place_id}/status`,
-          { headers: { "x-api-key": API_KEY } }
-        );
-      } catch (statusError) {
-        console.error("Status check error:", statusError);
-      }
-      
-      setStep(2);
     } catch (error) {
       console.error("Error fetching business details:", error);
       toast.error("Failed to fetch business details");
@@ -258,8 +273,11 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
   const handleSubmitVerification = async (e) => {
     e.preventDefault();
 
-    if (!verificationData.email) {
-      toast.error("Please enter your work email");
+    const email = verificationData.email.trim();
+    const phone = verificationData.phone.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please enter a valid work email");
       return;
     }
 
@@ -268,35 +286,41 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
       return;
     }
 
-    if (!businessPhone) {
-      toast.error("Business phone number not found. Please try again.");
+    if (!selectedCategoryId) {
+      toast.error("Please choose your business category");
+      return;
+    }
+
+    if (!phone) {
+      toast.error("Please enter the business phone number");
+      return;
+    }
+
+    if (!termsAccepted) {
+      toast.error("Please accept the Terms of Service and Privacy Policy");
       return;
     }
 
     setLoading(true);
     try {
-      const categoryId = categories.find((cat) =>
-        selectedBusiness.types?.some((type) =>
-          cat.name.toLowerCase().includes(type.toLowerCase())
-        )
-      )?.id || categories[0]?.id;
-
       await axios.post(
         `${API_BASE_URL}/business/claim/initiate`,
         {
           google_place_id: selectedBusiness.google_place_id,
-          category_id: categoryId,
-          email: verificationData.email,
+          category_id: selectedCategoryId,
+          email,
           business_name: selectedBusiness.business_name,
           formatted_address: selectedBusiness.formatted_address,
-          lat: userLocation.lat,
-          lng: userLocation.lng,
-          phone: businessPhone,
+          // The business's own location — never the visitor's. lat/lng are optional for the API.
+          ...(businessCoordinates?.lat && businessCoordinates?.lng
+            ? { lat: businessCoordinates.lat, lng: businessCoordinates.lng }
+            : {}),
+          phone,
         },
         { headers: { "x-api-key": API_KEY } }
       );
 
-      toast.success("Claim initiated! Check your email for verification code");
+      toast.success("Claim submitted! Check your email to continue.");
       setStep(3);
     } catch (error) {
       console.error("Verification error:", error);
@@ -336,70 +360,6 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
     }
   };
 
-  const handleSubmitOTP = async (e) => {
-    e.preventDefault();
-    const otpCode = otp.join("");
-
-    if (otpCode.length !== 6) {
-      toast.error("Please enter a valid 6-digit code");
-      return;
-    }
-
-    setOtpLoading(true);
-    try {
-      toast.success("Email verified successfully!");
-      setStep(4);
-    } catch (otpError) {
-      console.error("OTP error:", otpError);
-      toast.error("Invalid verification code");
-    } finally {
-      setOtpLoading(false);
-    }
-  };
-
-  const handleCreateAccount = async (e) => {
-    e.preventDefault();
-
-    if (accountData.password !== accountData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-
-    if (accountData.password.length < 8) {
-      toast.error("Password must be at least 8 characters");
-      return;
-    }
-
-    if (!accountData.role) {
-      toast.error("Please select your role");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      toast.success("Account created successfully!");
-      onClose();
-      setStep(1);
-    } catch (accountError) {
-      console.error("Account error:", accountError);
-      toast.error("Error creating account");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return;
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    if (value && index < 5) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      nextInput?.focus();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -412,7 +372,6 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
               {step === 1 && "Find Your Business"}
               {/* {step === 2 && "Verify Your Business"} */}
               {/* {step === 3 && "Verify Your Email"} */}
-              {step === 4 && "Create Your Account"}
             </h2>
             {selectedBusiness && (
               <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -497,7 +456,8 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
               <div className="flex justify-between items-center gap-4 rounded-[5px] p-1 md:p-4 bg-white border border-gray-200">
                 <p className="font-bold text-[14px] md:text-[25px] leading-[100%] text-wrap">{selectedBusiness.business_name}</p>
                 <button
-                  onClick={() => setStep(2)}
+                  onClick={proceedToClaimForm}
+                  disabled={loading}
                   type="button"
                   className="text-[12px] md:text-[16px] px-2 md:px-6 py-3 bg-[#DB3A06] text-white rounded-lg font-semibold hover:bg-orange-700 transition cursor-pointer"
                 >
@@ -578,7 +538,8 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                 </div>
 
                 <button
-                  onClick={() => setStep(2)}
+                  onClick={proceedToClaimForm}
+                  disabled={loading}
                   type="button"
                   className="w-full px-6 py-3 bg-[#DB3A06] text-white rounded-lg font-semibold hover:bg-orange-700 transition"
                 >
@@ -747,19 +708,60 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
                 </div>
               </div>
 
+              {/* Category and phone — Google doesn't always know either */}
+              <div className="w-full flex flex-col md:flex-row gap-4">
+                <div className="w-full md:w-1/2">
+                  <label htmlFor="claim-category" className="block text-sm font-medium text-gray-700 mb-2">
+                    Business Category <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="claim-category"
+                    value={selectedCategoryId}
+                    onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  >
+                    <option value="">Select a category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-full md:w-1/2">
+                  <label htmlFor="claim-phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Business Phone <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="claim-phone"
+                    type="tel"
+                    value={verificationData.phone}
+                    onChange={(e) => setVerificationData({ ...verificationData, phone: e.target.value })}
+                    placeholder="e.g. +234 803 123 4567"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
               {/* Terms and Conditions */}
               <div className="flex items-start gap-2 pt-2">
                 <input
                   type="checkbox"
                   id="terms-verify"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  required
                   className="w-4 h-4 rounded border-gray-300 mt-1"
                 />
                 <label htmlFor="terms-verify" className="text-sm text-gray-700">
                   I agree to the{' '}
-                  <a href="#" className="text-[#DB3A06] hover:underline font-medium">
+                  <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-[#DB3A06] hover:underline font-medium">
                     Terms of Service
                   </a>{' '}
-                  and Privacy Policy
+                  and{' '}
+                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#DB3A06] hover:underline font-medium">
+                    Privacy Policy
+                  </a>
                 </label>
               </div>
 
@@ -795,192 +797,39 @@ const MultiStepClaimBusinessModal = ({ isOpen, onClose, business = null }) => {
           )}
 
           {step === 3 && (
-            <form onSubmit={handleSubmitOTP} className="space-y-6">
-              <div className="flex justify-center mb-6">
+            <div className="space-y-6 text-center py-4">
+              <div className="flex justify-center">
                 <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
                   <Mail className="w-8 h-8 text-[#DB3A06]" />
                 </div>
               </div>
-
-              <div className="text-center">
-                {/* <h3 className="text-lg font-semibold text-gray-900 mb-2">Verify Your Business</h3> */}
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Check your email</h3>
                 <p className="text-gray-600 text-sm">
-                  We just sent a 6-digit code to <strong>{verificationData.email}</strong>. Please enter it below to verify your ownership.
+                  We&apos;ve sent instructions to <strong>{verificationData.email}</strong> to verify that you own{" "}
+                  <strong>{selectedBusiness?.business_name}</strong> and set up your MyPal business account.
+                </p>
+                <p className="text-gray-500 text-xs mt-3">
+                  Didn&apos;t get it? Check your spam folder, or go back and make sure the email address is correct.
                 </p>
               </div>
-
-              <div className="flex justify-center gap-2">
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`otp-${index}`}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength="1"
-                    value={digit}
-                    onChange={(e) => handleOtpChange(index, e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace" && !digit && index > 0) {
-                        const prevInput = document.getElementById(`otp-${index - 1}`);
-                        prevInput?.focus();
-                      }
-                    }}
-                    className="w-12 h-12 text-center text-xl border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent font-semibold"
-                  />
-                ))}
-              </div>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  className="text-[#DB3A06] hover:text-orange-700 font-medium text-sm"
-                >
-                  Didn''t receive the code? Resend
-                </button>
-              </div>
-
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="hidden md:flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
                 >
-                  Back
+                  Change email
                 </button>
-                <button
-                  type="submit"
-                  disabled={otpLoading}
-                  className="flex-1 px-4 py-2 bg-[#DB3A06] text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 transition font-medium"
-                >
-                  {otpLoading ? "Verifying..." : "Verify and Continue"}
-                </button>
-              </div>
-            </form>
-          )}
-
-          {step === 4 && selectedBusiness && (
-            <form onSubmit={handleCreateAccount} className="space-y-4">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
-                </div>
-              </div>
-
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-center">
-                <h3 className="font-semibold text-gray-900 mb-1">{selectedBusiness.business_name}</h3>
-                <p className="text-sm text-gray-600">Your company email has been verified.</p>
-                <p className="text-sm text-gray-600">Set up your Mypal account to manage your business.</p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  value={accountData.password}
-                  onChange={(e) =>
-                    setAccountData({ ...accountData, password: e.target.value })
-                  }
-                  placeholder="Set a secure password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-                <p className="text-xs text-gray-500 mt-1">At least 8 characters with mixed case and numbers</p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  value={accountData.confirmPassword}
-                  onChange={(e) =>
-                    setAccountData({ ...accountData, confirmPassword: e.target.value })
-                  }
-                  placeholder="Confirm password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Role <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={accountData.role}
-                  onChange={(e) =>
-                    setAccountData({ ...accountData, role: e.target.value })
-                  }
-                  placeholder="e.g., Owner, Manager, Staff"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-                {/* <select
-                  value={accountData.role}
-                  onChange={(e) =>
-                    setAccountData({ ...accountData, role: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                >
-                  <option value="">Select your role</option>
-                  <option value="admin">Admin Officer</option>
-                  <option value="manager">Manager</option>
-                  <option value="owner">Business Owner</option>
-                  <option value="staff">Staff</option>
-                </select> */}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Instagram Handle (Optional)
-                </label>
-                <input
-                  type="text"
-                  value={accountData.instagramHandle}
-                  onChange={(e) =>
-                    setAccountData({ ...accountData, instagramHandle: e.target.value })
-                  }
-                  placeholder="@your_business_ig"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-              </div>
-
-              <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  className="w-4 h-4 rounded border-gray-300"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-700">
-                  I agree to the{' '}
-                  <a href="#" className="text-[#DB3A06] hover:underline">
-                    Terms of Service
-                  </a>{' '}
-                  and{' '}
-                  <a href="#" className="text-[#DB3A06] hover:underline">
-                    Privacy Policy
-                  </a>
-                </label>
-              </div>
-
-              <div className="flex gap-3 pt-4">
                 <button
                   type="button"
-                  onClick={() => setStep(3)}
-                  className="hidden md:flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+                  onClick={() => { onClose(); setStep(1); }}
+                  className="flex-1 px-4 py-2 bg-[#DB3A06] text-white rounded-lg hover:bg-orange-700 transition font-medium"
                 >
-                  Back
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="flex-1 px-4 py-2 bg-[#DB3A06] text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 transition font-medium"
-                >
-                  {loading ? "Creating Account..." : "Create Account"}
+                  Done
                 </button>
               </div>
-            </form>
+            </div>
           )}
         </div>
       </div>

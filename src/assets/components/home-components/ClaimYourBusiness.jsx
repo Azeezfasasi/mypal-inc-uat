@@ -77,6 +77,12 @@ export default function ClaimYourBusiness({ onClose }) {
       return;
     }
 
+    // The API requires city and state; catch it here instead of a 400 after submit
+    if (!form.city.trim() || !form.state.trim()) {
+      setError('Please enter the city and state where your business is located.');
+      return;
+    }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.businessEmail)) {
@@ -248,7 +254,7 @@ export default function ClaimYourBusiness({ onClose }) {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-700 mb-1">City</label>
+            <label className="block text-sm text-gray-700 mb-1">City <span className="text-red-500">*</span></label>
             <input
               name="city"
               value={form.city}
@@ -262,7 +268,7 @@ export default function ClaimYourBusiness({ onClose }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm text-gray-700 mb-1">State / Province</label>
+            <label className="block text-sm text-gray-700 mb-1">State / Province <span className="text-red-500">*</span></label>
             <input
               name="state"
               value={form.state}

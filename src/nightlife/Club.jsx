@@ -14,7 +14,7 @@ export default function Club() {
         <link rel="canonical" href="https://www.mypal-inc.com/nightlife/clubbing&parties" />
       </Helmet>
       <ClubHero />
-      <ClubList subcategorySlug="Club" />
+      <ClubList subcategorySlug="Clubbing & Parties" />
       <FooterSection />
     </>
   )
