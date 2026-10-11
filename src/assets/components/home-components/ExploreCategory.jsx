@@ -7,6 +7,7 @@ import accomodation from '../../images/accomodation.svg';
 import beauty from '../../images/beauty.svg';
 import nightlife from '../../images/nightlife.svg';
 import mobility from '../../images/mobility.svg';
+import ticket from '../../images/ticket.svg';
 import { Commet } from "react-loading-indicators";
 
 // Helper to join base URL and path avoiding duplicate segments like /v1/v1
@@ -28,6 +29,7 @@ const ICON_MAP = {
     'beauty-health': beauty,
     nightlife: nightlife,
     mobility: mobility,
+    'event-ticketing': ticket,
 };
 
 // Map backend icon names (like "chef-hat", "waves") to local svg assets
@@ -38,7 +40,7 @@ const BACKEND_ICON_MAP = {
     'sparkles': beauty,
     'moon': nightlife,
     'car': mobility,
-    'ticket': restaurant,
+    'ticket': ticket,
 };
 
 export default function ExploreCategory() {
