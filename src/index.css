@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+/* Two-column blocks saved by the admin blog editor. Images keep the pixel
+   width they were resized to in the editor, which leaves them narrower than
+   their column — make them fill it so both columns line up. */
+.blog-content .columns img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.blog-content .column > :first-child {
+  margin-top: 0;
+}
+
+.blog-content .column > :last-child {
+  margin-bottom: 0;
+}
