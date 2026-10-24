@@ -24,6 +24,14 @@ function markViewed(postId) {
   return true;
 }
 
+// Prefer the reading time set in the admin; otherwise estimate at ~200 words a minute
+function readingMinutes(post) {
+  if (post.reading_time_minutes) return post.reading_time_minutes;
+  const html = post.content || post.content_html || post.content_rendered || '';
+  const words = html.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
@@ -90,72 +98,94 @@ export default function BlogPost() {
     </Helmet>
     <ServicesHeader />
     <div className="min-h-screen bg-white py-8 px-4 mb-10">
-      <div className="max-w-4xl mx-auto">
-        {/* Blog top sections */}
-        <div className="flex flex-col gap-3 items-start justify-center self-stretch relative mb-[30px] md:mb-[40px]">
-          <div className="text-[#CE4015] text-center font-semibold text-[14px] md:text-[16px] leading-[20px] md:leading-[24px] relative self-stretch">
-            Published {" "}
-            {new Date(post.published_at || post.created_at).toLocaleDateString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </div>
-          <div className="text-gray-900 text-center font-semibold text-[36px] md:text-[48px] leading-[44px] md:leading-[60px] relative self-stretch"
+      <div className="max-w-[95%] mx-auto">
+        {/* Blog title, reading time and date */}
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-gray-900 font-medium text-[26px] md:text-[36px] leading-[34px] md:leading-[46px]"
             style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
             {post.title || post.name}
-          </div>
-          <div className="text-[#535862] text-center font-normal text-[18px] md:text-[20px] leading-[28px] md:leading-[30px] relative self-stretch"
-            style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
-            {post.excerpt || post.meta_description}
-          </div>
-
-          {/* Blog Post Categories */}
-          <div className="flex flex-wrap gap-1 md:gap-2 items-center justify-center relative self-stretch mt-5">
-            {(() => {
-              const cats = Array.isArray(post.categories) && post.categories.length > 0
-                ? post.categories
-                : (typeof post.category === 'string' && post.category.trim())
-                  ? [post.category.trim()]
-                  : ['General'];
-
-              const colors = [
-                'bg-orange-50 text-orange-600 ring-orange-200',
-                'bg-blue-50 text-blue-600 ring-blue-200',
-                'bg-pink-50 text-pink-600 ring-pink-200',
-                'bg-green-50 text-green-600 ring-green-200',
-                'bg-violet-50 text-violet-600 ring-violet-200'
-              ];
-
-              return cats.map((c, i) => (
-                <span
-                  key={c + i}
-                  className={`px-3 mx-1 py-1 rounded-full text-[16px] md:text-[20px] leading-[28px] md:leading-[30px] font-medium ring-1 ${colors[i % colors.length]}`}
-                >
-                  {c}
-                </span>
-              ));
-            })()}
+          </h1>
+          <div className="flex items-center justify-between gap-4 mt-3 text-[12px] md:text-[14px] text-gray-500">
+            <span>{readingMinutes(post)} Mins Read</span>
+            <span>
+              Posted on:{" "}
+              {new Date(post.published_at || post.created_at).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
           </div>
         </div>
 
-        {/* Blog Image */}
-        {(post.featured_image_url || blogplaceholder2) && (
-          <div className="mb-6 w-full overflow-hidden rounded-lg">
-            <img
-              src={post.featured_image_url || blogplaceholder}
-              alt={post.featured_image_alt || post.title}
-              className="w-full h-[240px] md:h-[640px] object-cover"
-              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = blogplaceholder; }}
-            />
-          </div>
-        )}
+        {/* Hero banner — featured image as the background */}
+        <div
+          className="relative mb-8 md:mb-12 w-full overflow-hidden rounded-lg bg-gray-900 bg-cover bg-center min-h-[260px] md:min-h-[480px] flex items-center"
+          style={{ backgroundImage: `url("${post.featured_image_url || blogplaceholder}")` }}
+          role="img"
+          aria-label={post.featured_image_alt || post.title}
+        >
+          {/* Darken the left side so the text stays readable on any image */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
 
-        {/* Blog Details */}
-        <p className="text-gray-600 mb-6">{post.excerpt || post.meta_description}</p>
+          <div className="relative px-6 md:px-14 py-10 max-w-[620px] text-white">
+            <p className="text-[10px] md:text-[12px] font-semibold tracking-[0.25em] uppercase mb-3 md:mb-5">
+              My Pal Journal
+            </p>
+            <p className="font-bold text-[30px] md:text-[52px] leading-[1.1] tracking-tight">
+              {(() => {
+                // Highlight the last word, like "Explore Lagos Differently"
+                const words = (post.title || post.name || '').trim().split(/\s+/);
+                const last = words.pop();
+                return <>{words.join(' ')} <span className="text-[#F5B82E]">{last}</span></>;
+              })()}
+            </p>
+            {(post.excerpt || post.meta_description) && (
+              <p className="mt-4 md:mt-6 text-[14px] md:text-[18px] leading-relaxed text-white/90">
+                {post.excerpt || post.meta_description}
+              </p>
+            )}
+
+            {/* Blog Post Categories */}
+            <div className="flex flex-wrap gap-2 items-center mt-5 md:mt-7">
+              {(() => {
+                const cats = Array.isArray(post.categories) && post.categories.length > 0
+                  ? post.categories
+                  : (typeof post.category === 'string' && post.category.trim())
+                    ? [post.category.trim()]
+                    : ['General'];
+
+                const colors = [
+                  'bg-orange-50 text-orange-600 ring-orange-200',
+                  'bg-blue-50 text-blue-600 ring-blue-200',
+                  'bg-pink-50 text-pink-600 ring-pink-200',
+                  'bg-green-50 text-green-600 ring-green-200',
+                  'bg-violet-50 text-violet-600 ring-violet-200'
+                ];
+
+                return cats.map((c, i) => (
+                  <span
+                    key={c + i}
+                    className={`px-3 py-1 rounded-full text-[12px] md:text-[14px] font-medium ring-1 ${colors[i % colors.length]}`}
+                  >
+                    {c}
+                  </span>
+                ));
+              })()}
+            </div>
+          </div>
+
+          {post.featured_image_alt && (
+            <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 rounded-md bg-black/55 backdrop-blur-sm px-3 py-2 text-white">
+              <div className="text-[12px] md:text-[13px] font-semibold leading-tight">{post.featured_image_alt}</div>
+              <div className="text-[10px] md:text-[11px] text-white/70">Featured Story</div>
+            </div>
+          )}
+        </div>
+
         {/* Blog HTML comes from the API — strip scripts/handlers before rendering */}
         <div
-          className="prose max-w-none"
+          className="blog-content prose max-w-none"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(post.content || post.content_html || post.content_rendered || ''),
           }}
