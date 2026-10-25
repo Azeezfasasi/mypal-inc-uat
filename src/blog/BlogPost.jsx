@@ -100,7 +100,7 @@ export default function BlogPost() {
     <div className="min-h-screen bg-white py-8 px-4 mb-10">
       <div className="max-w-[95%] mx-auto">
         {/* Blog title, reading time and date */}
-        <div className="mb-6 md:mb-8">
+        <div className="max-w-[1000px] mx-auto mb-6 md:mb-8">
           <h1 className="text-gray-900 font-medium text-[26px] md:text-[36px] leading-[34px] md:leading-[46px]"
             style={{ letterSpacing: 'var(--display-lg-semibold-letter-spacing, -0.02em)' }}>
             {post.title || post.name}
@@ -185,7 +185,7 @@ export default function BlogPost() {
 
         {/* Blog HTML comes from the API — strip scripts/handlers before rendering */}
         <div
-          className="blog-content prose max-w-none"
+          className="blog-content max-w-[1000px] mx-auto"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(post.content || post.content_html || post.content_rendered || ''),
           }}

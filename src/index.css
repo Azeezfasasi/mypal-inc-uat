@@ -18,3 +18,39 @@
 .blog-content .column > :last-child {
   margin-bottom: 0;
 }
+
+/* Columns are equal height (the inline style centres them, so override it).
+   A column holding only an image lets the image fill that height instead of
+   its own, so the image matches the text beside it, cropped to fit. */
+.blog-content .columns {
+  align-items: stretch !important;
+}
+
+.blog-content .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blog-content .column:has(img):not(:has(:is(p:not(:empty), h1, h2, h3, h4, h5, h6, ul, ol, blockquote))) {
+  position: relative;
+  min-height: 260px;
+}
+
+.blog-content .column:has(img):not(:has(:is(p:not(:empty), h1, h2, h3, h4, h5, h6, ul, ol, blockquote))) img {
+  position: absolute;
+  inset: 0;
+  height: 100% !important; /* beats the inline height:auto on saved images */
+}
+
+/* Spacing to match the design: a wider gutter between columns, more room
+   between column blocks, and space around standalone images */
+.blog-content .columns {
+  gap: 2.5rem !important;
+  margin: 2.5rem 0 !important;
+}
+
+.blog-content > img {
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+}
