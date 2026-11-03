@@ -41,10 +41,9 @@ jobs:
       - name: Prepare Deployment Package
         run: |
           mkdir -p deploy-package
-          # Vite puts files in 'dist'
-          cp -r dist/* deploy-package/
-          # Ensure public files are included if needed
-          if [ -d "public" ] && [ "$(ls -A public)" ]; then cp -r public/* deploy-package/ 2>/dev/null || true; fi
+          # Vite puts files in 'dist' (including everything from 'public')
+          # 'dist/.' rather than 'dist/*' so dot folders like .well-known are copied
+          cp -r dist/. deploy-package/
 
       - name: Setup SSH Key
         run: |
