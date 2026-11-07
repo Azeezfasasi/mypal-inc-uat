@@ -14,6 +14,29 @@ import fooddrink from '../assets/images/fooddrink.jpeg';
 import event from '../assets/images/event1.jpeg';
 import bars from '../assets/images/bars.jpeg';
 
+// Figma exports (src/assets/images/concierge)
+import airporttransfers from '../assets/images/concierge/airporttransfers.svg';
+import beachedandcruises from '../assets/images/concierge/beachedandcruises.svg';
+import conciergedashboard from '../assets/images/concierge/conciergedashboard.svg';
+import conciergehall from '../assets/images/concierge/conciergehall.jpg';
+import dettydecember from '../assets/images/concierge/dettydecember.svg';
+import diningexperience from '../assets/images/concierge/diningexperience.svg';
+import executivelagos from '../assets/images/concierge/executivelagos.svg';
+import familylagos from '../assets/images/concierge/familylagos.svg';
+import hero3bg from '../assets/images/concierge/hero3bg.svg';
+import heroimg from '../assets/images/concierge/heroimg.png';
+import lagosweekend from '../assets/images/concierge/lagosweekend.svg';
+import luxuryescape from '../assets/images/concierge/luxuryescape.svg';
+import nightlife from '../assets/images/concierge/nightlife.svg';
+import smartphone from '../assets/images/concierge/smartphone.svg';
+import stays from '../assets/images/concierge/stays.svg';
+import conciergewellness from '../assets/images/concierge/conciergewellness.svg';
+import whymypal from '../assets/images/concierge/whymypal.svg';
+import ladyonboat from '../assets/images/concierge/ladyonboat.jpg';
+import ladyonbed from '../assets/images/concierge/ladyonbed.jpg';
+import mencelebration from '../assets/images/concierge/mencelebration.jpg';
+
+
 export const conciergeImages = {
   hotel,
   finedining,
@@ -28,6 +51,28 @@ export const conciergeImages = {
   fooddrink,
   event,
   bars,
+
+  // Figma images
+  airporttransfers,
+  beachedandcruises,
+  conciergedashboard,
+  conciergehall,
+  dettydecember,
+  diningexperience,
+  executivelagos,
+  familylagos,
+  hero3bg,
+  heroimg,
+  lagosweekend,
+  luxuryescape,
+  nightlife,
+  smartphone,
+  stays,
+  conciergewellness,
+  whymypal,
+  ladyonboat,
+  ladyonbed,
+  mencelebration,
 };
 
 /** Photo per experience / item category */

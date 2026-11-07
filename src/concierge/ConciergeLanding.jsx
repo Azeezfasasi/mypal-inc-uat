@@ -30,20 +30,20 @@ const FALLBACK_CONTACT = { whatsapp_number: '+2349055557535', support_email: 'in
 const MARQUEE = ['Good food', 'Group trips', 'Nightlife', 'Beach vibez', 'Rooftop sunsets', 'Lagos energy', 'Detty December'];
 
 const SERVICES = [
-  { title: 'Airport Transfers', text: 'Smooth, reliable airport pickups and drop-offs across Lagos.', cta: 'Book a Transfer', icon: Car, image: img.luxuryRide, preset: { experiences: ['AIRPORT_TRANSFERS'] } },
-  { title: 'Stays', text: 'Handpicked hotels, apartments and short stays for every style.', cta: 'Find a Stay', icon: BedDouble, image: img.hotel, preset: { experiences: ['STAYS'] } },
-  { title: 'Dining Experiences', text: 'From local gems to fine dining, we’ll get you the best tables.', cta: 'Explore Dining', icon: UtensilsCrossed, image: img.finedining, preset: { experiences: ['DINING'] } },
-  { title: 'Nightlife', text: 'VIP access to Lagos’ hottest spots and exclusive events.', cta: 'Plan a Night Out', icon: Martini, image: img.club, preset: { experiences: ['NIGHTLIFE'] } },
-  { title: 'Beaches & Cruises', text: 'Relax at top beach resorts or enjoy unforgettable boat cruises.', cta: 'Explore Beaches', icon: Palmtree, image: img.beach, preset: { experiences: ['BEACHES_CRUISES'] } },
-  { title: 'Wellness', text: 'Spa days, wellness experiences and self-care, the Lagos way.', cta: 'Book Wellness', icon: Flower2, image: img.wellness, preset: { experiences: ['WELLNESS'] } },
+  { title: 'Airport Transfers', text: 'Smooth, reliable airport pickups and drop-offs across Lagos.', cta: 'Book a Transfer', icon: Car, image: img.airporttransfers, preset: { experiences: ['AIRPORT_TRANSFERS'] } },
+  { title: 'Stays', text: 'Handpicked hotels, apartments and short stays for every style.', cta: 'Find a Stay', icon: BedDouble, image: img.stays, preset: { experiences: ['STAYS'] } },
+  { title: 'Dining Experiences', text: 'From local gems to fine dining, we’ll get you the best tables.', cta: 'Explore Dining', icon: UtensilsCrossed, image: img.diningexperience, preset: { experiences: ['DINING'] } },
+  { title: 'Nightlife', text: 'VIP access to Lagos’ hottest spots and exclusive events.', cta: 'Plan a Night Out', icon: Martini, image: img.nightlife, preset: { experiences: ['NIGHTLIFE'] } },
+  { title: 'Beaches & Cruises', text: 'Relax at top beach resorts or enjoy unforgettable boat cruises.', cta: 'Explore Beaches', icon: Palmtree, image: img.beachedandcruises, preset: { experiences: ['BEACHES_CRUISES'] } },
+  { title: 'Wellness', text: 'Spa days, wellness experiences and self-care, the Lagos way.', cta: 'Book Wellness', icon: Flower2, image: img.conciergewellness, preset: { experiences: ['WELLNESS'] } },
 ];
 
 const CURATED = [
-  { title: 'Lagos Weekend', days: '2–3 Days', text: 'A perfect mix of sightseeing, dining and nightlife.', image: img.shortlet, preset: { purpose: 'LEISURE', experiences: ['STAYS', 'DINING', 'NIGHTLIFE'] } },
-  { title: 'Family Lagos', days: '3–5 Days', text: 'Fun, safe and memorable experiences for the whole family.', image: img.beach, preset: { purpose: 'LEISURE', travel_style: 'FAMILY', experiences: ['STAYS', 'BEACHES_CRUISES', 'DINING'], other_preferences: ['FAMILY_FRIENDLY'] } },
-  { title: 'Detty December', days: '5–7 Days', text: 'The ultimate Lagos party and cultural experience.', image: img.club, preset: { purpose: 'LEISURE', experiences: ['NIGHTLIFE', 'DINING', 'STAYS'], other_preferences: ['VIBRANT_NIGHTLIFE'] } },
-  { title: 'Executive Lagos', days: '2–4 Days', text: 'Business, networking and premium leisure.', image: img.luxuryRide, preset: { purpose: 'BUSINESS', experience_style: 'PREMIUM', experiences: ['STAYS', 'CHAUFFEUR', 'DINING'], other_preferences: ['BUSINESS_FRIENDLY'] } },
-  { title: 'Luxury Escape', days: '4–7 Days', text: 'Exclusive stays, private cruises and premium experiences.', image: img.luxury, preset: { purpose: 'LEISURE', experience_style: 'LUXURY', experiences: ['STAYS', 'BEACHES_CRUISES', 'WELLNESS'] } },
+  { title: 'Lagos Weekend', days: '2–3 Days', text: 'A perfect mix of sightseeing, dining and nightlife.', image: img.lagosweekend, preset: { purpose: 'LEISURE', experiences: ['STAYS', 'DINING', 'NIGHTLIFE'] } },
+  { title: 'Family Lagos', days: '3–5 Days', text: 'Fun, safe and memorable experiences for the whole family.', image: img.familylagos, preset: { purpose: 'LEISURE', travel_style: 'FAMILY', experiences: ['STAYS', 'BEACHES_CRUISES', 'DINING'], other_preferences: ['FAMILY_FRIENDLY'] } },
+  { title: 'Detty December', days: '5–7 Days', text: 'The ultimate Lagos party and cultural experience.', image: img.dettydecember, preset: { purpose: 'LEISURE', experiences: ['NIGHTLIFE', 'DINING', 'STAYS'], other_preferences: ['VIBRANT_NIGHTLIFE'] } },
+  { title: 'Executive Lagos', days: '2–4 Days', text: 'Business, networking and premium leisure.', image: img.executivelagos, preset: { purpose: 'BUSINESS', experience_style: 'PREMIUM', experiences: ['STAYS', 'CHAUFFEUR', 'DINING'], other_preferences: ['BUSINESS_FRIENDLY'] } },
+  { title: 'Luxury Escape', days: '4–7 Days', text: 'Exclusive stays, private cruises and premium experiences.', image: img.luxuryescape, preset: { purpose: 'LEISURE', experience_style: 'LUXURY', experiences: ['STAYS', 'BEACHES_CRUISES', 'WELLNESS'] } },
 ];
 
 const STEPS = [
@@ -103,8 +103,8 @@ export default function ConciergeLanding() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-[#0B1A2E] text-white">
-        <img src={img.luxury} alt="" className="absolute inset-0 h-full w-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1A2E] via-[#0B1A2E]/85 to-[#0B1A2E]/40" />
+        <img src={img.heroimg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1A2E] via-[#0B1A2E]/15 to-[#0B1A2E]/30" />
         <div className="relative">
           <MainHeader />
           <div className="mx-auto grid w-[90%] max-w-6xl items-center gap-12 pb-24 pt-10 lg:grid-cols-2">
@@ -141,9 +141,9 @@ export default function ConciergeLanding() {
 
             {/* Photo collage */}
             <div className="relative mx-auto hidden h-[360px] w-full max-w-[480px] lg:block">
-              <PhotoCard src={img.fooddrink} tag="Table for six" className="right-0 top-0 h-[190px] w-[250px] rotate-3" tagClass="-right-3 top-3 rotate-12" />
-              <PhotoCard src={img.beach} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-3 -top-3 -rotate-12" />
-              <PhotoCard src={img.wellness} tag="Luxury stays" className="bottom-0 right-10 h-[200px] w-[170px] rotate-2" tagClass="-bottom-3 -right-4 -rotate-12" />
+              <PhotoCard src={img.mencelebration} tag="Table for six" className="right-5 top-0 h-[190px] w-[280px] rotate-3" tagClass="-right-5 top-2 rotate-30" />
+              <PhotoCard src={img.ladyonbed} tag="Luxury stays" className="bottom-15 right-28 h-[200px] w-[170px] rotate-8" tagClass="bottom-2 -right-7 -rotate-40" />
+              <PhotoCard src={img.ladyonboat} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-7 top-2 -rotate-40" />
             </div>
           </div>
 
@@ -282,22 +282,7 @@ export default function ConciergeLanding() {
             </p>
           </div>
           <div className="flex justify-center">
-            <div className="w-[280px] rotate-6 rounded-[2.5rem] border-[10px] border-[#111827] bg-[#0B1A2E] p-3 shadow-2xl">
-              <div className="rounded-[1.75rem] bg-[#0B1A2E] p-4 text-white">
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#F59E42]">MyPal Concierge</p>
-                <p className="mt-2 text-2xl font-extrabold leading-tight">
-                  Your Lagos,
-                  <br />
-                  <span className="text-[#E4470F]">Your Way.</span>
-                </p>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  {[img.luxuryRide, img.hotel, img.finedining, img.beach].map((src) => (
-                    <img key={src} src={src} alt="" className="h-20 w-full rounded-lg object-cover" />
-                  ))}
-                </div>
-                <span className="mt-3 block rounded-full bg-[#E4470F] py-2 text-center text-xs font-semibold">Plan My Trip →</span>
-              </div>
-            </div>
+            <img src={img.smartphone} alt="" className="h-full w-full rounded-lg object-cover" />
           </div>
         </div>
       </section>
@@ -310,7 +295,7 @@ export default function ConciergeLanding() {
             onClick={() => openWizard({ experiences: ['DINING'] })}
             className="group relative block h-[380px] w-full overflow-hidden rounded-3xl text-left shadow-xl"
           >
-            <img src={img.bars} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+            <img src={img.conciergehall} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2E] via-[#0B1A2E]/50 to-transparent" />
             <span className="absolute left-6 top-6 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-gray-800">Table for six · tonight, 8 PM</span>
             <div className="absolute bottom-8 left-8 right-24 text-white">
@@ -349,64 +334,14 @@ export default function ConciergeLanding() {
             </div>
           </div>
           <div className="relative hidden lg:block">
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
-              <div className="flex items-center gap-1.5 bg-[#0B1A2E] px-4 py-3">
-                {['bg-red-400', 'bg-amber-400', 'bg-emerald-400'].map((c) => (
-                  <span key={c} className={`h-2.5 w-2.5 rounded-full ${c}`} />
-                ))}
-                <span className="ml-4 flex-1 rounded-md bg-white/10 px-3 py-1 text-[10px] text-white/50">mypal.app</span>
-              </div>
-              <div className="flex">
-                <div className="w-32 space-y-2 bg-[#0B1A2E] p-3 text-[11px] text-white/70">
-                  <p className="mb-3 text-sm font-bold text-white">
-                    My<span className="text-[#E4470F]">Pal</span>
-                  </p>
-                  <p className="rounded-md bg-[#E4470F] px-2 py-1.5 text-white">Concierge</p>
-                  {['Experiences', 'Reservations', 'Messages', 'Settings'].map((l) => (
-                    <p key={l} className="px-2 py-1">{l}</p>
-                  ))}
-                </div>
-                <div className="flex-1 p-4">
-                  <div className="rounded-xl bg-[#FDF6EC] p-3">
-                    <p className="text-sm font-bold text-gray-900">Good morning!</p>
-                    <p className="text-[10px] text-gray-500">Let’s plan your next Lagos experience.</p>
-                    <div className="mt-2 grid grid-cols-3 gap-2">
-                      {[
-                        [img.hotel, 'Stays'],
-                        [img.finedining, 'Dining'],
-                        [img.beach, 'Experiences'],
-                      ].map(([src, label]) => (
-                        <div key={label} className="overflow-hidden rounded-lg bg-white">
-                          <img src={src} alt="" className="h-12 w-full object-cover" />
-                          <p className="px-1.5 py-1 text-[9px] font-semibold text-gray-800">{label}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <p className="mt-3 text-xs font-semibold text-gray-900">Popular in Lagos</p>
-                  {[
-                    [img.hotel, 'Luxury Stays', 'Skyline suites & resorts'],
-                    [img.finedining, 'Dining Experiences', 'Chef’s tables & gems'],
-                    [img.beach, 'Beach & Cruises', 'Weekend on the water'],
-                  ].map(([src, title, sub]) => (
-                    <div key={title} className="mt-2 flex items-center gap-2 rounded-lg border border-gray-100 p-1.5">
-                      <img src={src} alt="" className="h-8 w-8 rounded object-cover" />
-                      <div>
-                        <p className="text-[10px] font-semibold text-gray-900">{title}</p>
-                        <p className="text-[9px] text-gray-500">{sub}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+            <img src={img.whymypal} alt="" className="h-full w-full rounded-2xl object-cover" />
+          </div> 
         </div>
       </section>
 
       {/* Closing */}
-      <section className="relative overflow-hidden bg-[#0B1A2E] text-white">
-        <img src={img.luxury} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+      <section className="relative overflow-hidden bg-[#0B1A2E] text-white mb-4">
+        <img src={img.hero3bg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-70" />
         <div className="relative mx-auto w-[90%] max-w-6xl py-24">
           <p className="text-center text-4xl font-extrabold leading-tight sm:text-5xl">
             The city rewards those who
