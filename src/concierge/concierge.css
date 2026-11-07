@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Instrument+Serif:ital@1&display=swap');
+
+/* MyPal Concierge pages (landing, wizard, proposal) use the design's typefaces */
+.concierge-font {
+  font-family: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.concierge-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@keyframes concierge-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.concierge-marquee {
+  animation: concierge-marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concierge-marquee { animation: none; }
+}
+
+/* Native date inputs: keep the calendar icon visible on the white fields */
+.concierge-font input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.concierge-scrollbar-none {
+  scrollbar-width: none;
+}
+.concierge-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

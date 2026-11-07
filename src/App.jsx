@@ -53,6 +53,8 @@ const BlogDetails = lazy(() => import("./blog/BlogDetails"))
 const BlogList = lazy(() => import("./blog/BlogList"))
 const HomeBlogList = lazy(() => import("./blog/HomeBlogList"))
 const BlogPost = lazy(() => import("./blog/BlogPost"))
+const ConciergeLanding = lazy(() => import("./concierge/ConciergeLanding"))
+const ProposalPage = lazy(() => import("./concierge/ProposalPage"))
 const NotFound = lazy(() => import("./other-pages/NotFound"))
 
 // API test pages — only available on the local dev server, never in production builds
@@ -129,6 +131,9 @@ function App() {
           <Route path="/blogs" element={<BlogList />} />
           <Route path="/blog-lists" element={<HomeBlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/concierge" element={<ConciergeLanding />} />
+          {/* Customer proposal links are built by the backend as /proposal/:reference?token=… */}
+          <Route path="/proposal/:reference" element={<ProposalPage />} />
 
           {import.meta.env.DEV && (
             <>
