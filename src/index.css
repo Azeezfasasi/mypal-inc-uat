@@ -1,1 +1,83 @@
 @import "tailwindcss";
+
+/* Two-column blocks saved by the admin blog editor. Images keep the pixel
+   width they were resized to in the editor, which leaves them narrower than
+   their column — make them fill it so both columns line up. */
+.blog-content .columns img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.blog-content .column > :first-child {
+  margin-top: 0;
+}
+
+.blog-content .column > :last-child {
+  margin-bottom: 0;
+}
+
+/* Columns are equal height (the inline style centres them, so override it).
+   A column holding only an image lets the image fill that height instead of
+   its own, so the image matches the text beside it, cropped to fit. */
+.blog-content .columns {
+  align-items: stretch !important;
+}
+
+.blog-content .column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blog-content .column:has(img):not(:has(:is(p:not(:empty), h1, h2, h3, h4, h5, h6, ul, ol, blockquote))) {
+  position: relative;
+  min-height: 260px;
+}
+
+.blog-content .column:has(img):not(:has(:is(p:not(:empty), h1, h2, h3, h4, h5, h6, ul, ol, blockquote))) img {
+  position: absolute;
+  inset: 0;
+  height: 100% !important; /* beats the inline height:auto on saved images */
+}
+
+/* Spacing to match the design: a wider gutter between columns, more room
+   between column blocks, and space around standalone images */
+.blog-content .columns {
+  gap: 2.5rem !important;
+  margin: 2.5rem 0 !important;
+}
+
+.blog-content > img {
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+}
+
+/* Text and highlight colours from the admin blog editor are saved as
+   var(--mt-accent-*) references, which only the editor's stylesheet defines.
+   Same values as the editor's light theme. */
+.blog-content {
+  --mt-accent-bold-blue: #05c;
+  --mt-accent-bold-teal: #206a83;
+  --mt-accent-bold-green: #216e4e;
+  --mt-accent-bold-orange: #a54800;
+  --mt-accent-bold-red: #ae2e24;
+  --mt-accent-bold-purple: #5e4db2;
+
+  --mt-accent-gray: #758195;
+  --mt-accent-blue: #1d7afc;
+  --mt-accent-teal: #2898bd;
+  --mt-accent-green: #22a06b;
+  --mt-accent-orange: #fea362;
+  --mt-accent-red: #c9372c;
+  --mt-accent-purple: #8270db;
+
+  --mt-accent-blue-subtler: #cce0ff;
+  --mt-accent-teal-subtler: #c6edfb;
+  --mt-accent-green-subtler: #baf3db;
+  --mt-accent-yellow-subtler: #f8e6a0;
+  --mt-accent-red-subtler: #ffd5d2;
+  --mt-accent-purple-subtler: #dfd8fd;
+}

@@ -107,6 +107,8 @@ export default function RestaurantHeader() {
             // Set the active link based on the current URL path
             const path = window.location.pathname || '/';
             if (path === '/') setActiveLink('Home');
+            else if (path.startsWith('/blog')) setActiveLink('Blog');
+            else if (path.startsWith('/concierge')) setActiveLink('Concierge');
             else if (path.startsWith('/forbusiness')) setActiveLink('For Business');
             else setActiveLink('');
         }, []);
@@ -175,7 +177,7 @@ export default function RestaurantHeader() {
                     </div>
 
                     {/* Desktop Navigation Links */}
-                    <nav className="hidden lg:flex justify-center items-center space-x-8 h-[72px] px-1">
+                    <nav className="hidden lg:flex justify-center items-center space-x-1 xl:space-x-8 h-[72px] px-1">
                         {/* Home Link */}
                         <Link
                             to="/"
@@ -226,6 +228,22 @@ export default function RestaurantHeader() {
                             )}
                         </div>
                         
+                        <Link
+                            to="/blog-lists"
+                            onClick={() => setActiveLink('Blog')}
+                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left text-[18.92px] bebas-font font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Blog' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                        >
+                            Blog
+                        </Link>
+
+                        <Link
+                            to="/concierge"
+                            onClick={() => setActiveLink('Concierge')}
+                            className={`flex items-center justify-center pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] gap-[12.61px] text-left text-[18.92px] bebas-font font-medium relative transition-colors duration-300 cursor-pointer ${activeLink === 'Concierge' ? 'bg-white text-black rounded-[50.45px]' : 'text-white'}`}
+                        >
+                            Concierge
+                        </Link>
+
                         {/* For Business Dropdown (Desktop) */}
                         <div className="relative" ref={forBusinessRef}>
                             <button
@@ -368,6 +386,22 @@ export default function RestaurantHeader() {
                         )}
                     </div>
                     
+                    <Link
+                    to="/blog-lists"
+                    onClick={toggleMobileMenu}
+                    className="text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors bebas-font"
+                    >
+                    Blog
+                    </Link>
+
+                    <Link
+                    to="/concierge"
+                    onClick={toggleMobileMenu}
+                    className="text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors bebas-font"
+                    >
+                    Concierge
+                    </Link>
+
                     <div>
                         <button onClick={() => setIsMobileForBusinessOpen(!isMobileForBusinessOpen)}
                         className="w-full text-left text-2xl text-gray-800 hover:text-[#DB3A06] transition-colors flex items-center justify-between bebas-font">
