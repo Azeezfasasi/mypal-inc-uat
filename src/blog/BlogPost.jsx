@@ -130,7 +130,7 @@ export default function BlogPost() {
 
           <div className="relative px-6 md:px-14 py-10 max-w-[620px] text-white">
             <p className="text-[10px] md:text-[12px] font-semibold tracking-[0.25em] uppercase mb-3 md:mb-5">
-              My Pal Journal
+              MyPal Journal
             </p>
             <p className="font-bold text-[30px] md:text-[52px] leading-[1.1] tracking-tight">
               {(() => {
