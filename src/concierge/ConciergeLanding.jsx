@@ -24,7 +24,7 @@ import { formatPhone, whatsappLink } from './format';
 import { conciergeImages as img } from './images';
 import './concierge.css';
 
-// Shown until GET /concierge/options loads (same values the API returns)
+// Shown until GET /concierge/options loads (same values the API returns).
 const FALLBACK_CONTACT = { whatsapp_number: '+2349055557535', support_email: 'info@mypal-inc.com' };
 
 const MARQUEE = ['Good food', 'Group trips', 'Nightlife', 'Beach vibez', 'Rooftop sunsets', 'Lagos energy', 'Detty December'];
