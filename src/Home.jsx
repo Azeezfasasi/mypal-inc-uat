@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 import HeroSection from './assets/components/home-components/HeroSection'
 import ExploreCategory from './assets/components/home-components/ExploreCategory'
 import FeaturedExperiences from './assets/components/home-components/FeaturedExperiences'
@@ -7,6 +7,9 @@ import FooterSection from './assets/components/home-components/FooterSection'
 import { Helmet } from 'react-helmet'
 import { useLocation } from 'react-router-dom'
 import HomeBlog from './assets/components/home-components/HomeBlog'
+
+// Loaded on its own so it doesn't add to the homepage's first load (FE-29)
+const ConciergePromoModal = lazy(() => import('./concierge/ConciergePromoModal'))
 
 function Home() {
   const location = useLocation();
@@ -71,6 +74,9 @@ function Home() {
       <Faq />
       <HomeBlog />
       <FooterSection />
+      <Suspense fallback={null}>
+        <ConciergePromoModal />
+      </Suspense>
     </>
   )
 }
