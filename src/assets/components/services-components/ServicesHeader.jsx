@@ -185,7 +185,7 @@ export default function ServicesHeader() {
                     </div>
 
                     {/* Desktop Navigation Links */}
-                    <nav className="hidden lg:flex justify-center items-center space-x-1 xl:space-x-8 bg-[rgba(255,255,255,0.34)] rounded-[50px] border border-solid border-gray-300 h-[72px] px-1">
+                    <nav className="relative hidden lg:flex justify-center items-center space-x-1 xl:space-x-8 bg-[rgba(255,255,255,0.34)] rounded-[50px] border border-solid border-gray-300 h-[72px] px-1">
                         {/* Home Link */}
                         <Link
                             to="/"
@@ -196,7 +196,8 @@ export default function ServicesHeader() {
                         </Link>
 
                         {/* Category Dropdown (Desktop) */}
-                        <div className="relative" ref={dropdownRef}>
+                        {/* Not relative: the panel centres under the whole nav, not under this button */}
+                        <div ref={dropdownRef}>
                             <button
                                 onClick={toggleCategoryDropdown}
                                 className={`flex items-center justify-center space-x-2 pt-[18.92px] pr-[25.23px] pb-[18.92px] pl-[25.23px] text-left text-[18.92px] font-medium relative transition-colors duration-300 cursor-pointer ${isCategoryDropdownOpen ? 'bg-white text-black rounded-[50.45px]' : 'text-black'}`}
@@ -207,7 +208,7 @@ export default function ServicesHeader() {
 
                             {/* Dropdown Menu (Desktop) */}
                             {isCategoryDropdownOpen && (
-                                <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
+                                <div className="absolute left-1/2 top-full transform -translate-x-1/2 mt-4 p-4 w-[65rem] bg-transparent shadow-2xl rounded-3xl flex flex-row gap-4 animate-fadeIn z-50">
                                     {/* Left Column: Main Categories */}
                                     <div className="flex flex-col space-y-2 bg-white rounded-xl shadow-lg w-[225px] h-fit py-2">
                                         {categories.map((category) => (

@@ -68,7 +68,7 @@ const PrimaryButton = ({ children, onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    className="flex items-center gap-2 rounded-lg bg-[#E4470F] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-900/30 transition hover:bg-[#cc3d0b]"
+    className="flex items-center gap-2 rounded-lg bg-[#E4470F] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-900/30 transition hover:bg-[#cc3d0b] cursor-pointer"
   >
     {children} <ArrowRight size={16} />
   </button>
@@ -78,7 +78,7 @@ const GhostButton = ({ children, onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    className="rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+    className="rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 cursor-pointer"
   >
     {children}
   </button>
@@ -122,7 +122,7 @@ export default function ConciergeLanding() {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <PrimaryButton onClick={() => openWizard()}>Plan My Lagos Trip</PrimaryButton>
-                <GhostButton onClick={scrollToServices}>Book a Service</GhostButton>
+                <GhostButton onClick={scrollToServices}>Learn More</GhostButton>
               </div>
               <div className="mt-10 flex flex-wrap gap-3">
                 {[
@@ -181,8 +181,8 @@ export default function ConciergeLanding() {
             eyebrow="Our services"
             title="Everything You Need for an Amazing Lagos Experience"
             text="From airport transfers to exclusive experiences, MyPal Concierge simplifies your Lagos journey with trusted partners and personalised support."
-            link="View all services"
-            onLink={() => openWizard()}
+            // link="View all services"
+            // onLink={() => openWizard()}
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(({ title, text, icon: Icon, image, slug }) => (
@@ -296,9 +296,10 @@ export default function ConciergeLanding() {
       {/* Dinner CTA */}
       <section className="py-20">
         <div className="mx-auto w-[90%] max-w-6xl">
-          <button
-            type="button"
-            onClick={() => openWizard({ experiences: ['DINING'] })}
+          {/* Opens Restaurants → Fine Dining */}
+          <Link
+            to="/restaurant/finedining"
+            aria-label="Explore fine dining in Lagos"
             className="group relative block h-[380px] w-full overflow-hidden rounded-3xl text-left shadow-xl"
           >
             <img src={img.conciergehall} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110" />
@@ -312,7 +313,7 @@ export default function ConciergeLanding() {
             <span className="absolute bottom-8 right-8 flex h-11 w-11 items-center justify-center rounded-full bg-[#E4470F] text-white">
               <ArrowRight size={18} />
             </span>
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -365,7 +366,7 @@ export default function ConciergeLanding() {
               <p className="mt-3 max-w-md text-white/70">From arrival to unforgettable experiences, we’re here to make it seamless.</p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <PrimaryButton onClick={() => openWizard()}>Plan My Lagos Trip</PrimaryButton>
-                <GhostButton onClick={scrollToServices}>Book a Service</GhostButton>
+                <GhostButton onClick={scrollToServices}>Learn More</GhostButton>
               </div>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur">
@@ -404,7 +405,7 @@ export default function ConciergeLanding() {
   );
 }
 
-function SectionHeading({ eyebrow, title, text, link, onLink }) {
+function SectionHeading({ eyebrow, title, text }) {
   return (
     <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
       <div>
@@ -413,9 +414,9 @@ function SectionHeading({ eyebrow, title, text, link, onLink }) {
       </div>
       <div className="max-w-xs lg:text-right">
         <p className="text-sm text-gray-500">{text}</p>
-        <button type="button" onClick={onLink} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline">
+        {/* <button type="button" onClick={onLink} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline">
           {link} <ArrowRight size={14} />
-        </button>
+        </button> */}
       </div>
     </div>
   );
