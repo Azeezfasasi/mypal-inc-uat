@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 
+// Saves the choice and tells the page it was made (the homepage Concierge promo waits for it)
+const saveConsent = (choices) => {
+  localStorage.setItem("cookieConsent", JSON.stringify(choices));
+  window.dispatchEvent(new Event("mypal:cookie-consent"));
+};
+
 const CookieConsent = () => {
   const [visible, setVisible] = useState(false);
   const [customizeOpen, setCustomizeOpen] = useState(false);
@@ -21,14 +27,14 @@ const CookieConsent = () => {
     // if choice === 'accept' or 'reject' we store shorthand
     if (choice === 'accept') {
       const payload = { essential: true, analytics: true, marketing: true, preferences: true };
-      localStorage.setItem('cookieConsent', JSON.stringify(payload));
+      saveConsent(payload);
       setVisible(false);
       return;
     }
 
     if (choice === 'reject') {
       const payload = { essential: true, analytics: false, marketing: false, preferences: false };
-      localStorage.setItem('cookieConsent', JSON.stringify(payload));
+      saveConsent(payload);
       setVisible(false);
       return;
     }
@@ -41,7 +47,7 @@ const CookieConsent = () => {
 
     // for save from customize panel
     if (choice === 'save-custom') {
-      localStorage.setItem('cookieConsent', JSON.stringify(consentChoices));
+      saveConsent(consentChoices);
       setCustomizeOpen(false);
       setVisible(false);
       return;
