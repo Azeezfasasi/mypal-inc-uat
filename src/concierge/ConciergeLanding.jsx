@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   BedDouble,
@@ -29,13 +30,14 @@ const FALLBACK_CONTACT = { whatsapp_number: '+2349055557535', support_email: 'in
 
 const MARQUEE = ['Good food', 'Group trips', 'Nightlife', 'Beach vibez', 'Rooftop sunsets', 'Lagos energy', 'Detty December'];
 
+// Each card links to its blog post (/blog/:slug)
 const SERVICES = [
-  { title: 'Airport Transfers', text: 'Smooth, reliable airport pickups and drop-offs across Lagos.', cta: 'Book a Transfer', icon: Car, image: img.airporttransfers, preset: { experiences: ['AIRPORT_TRANSFERS'] } },
-  { title: 'Stays', text: 'Handpicked hotels, apartments and short stays for every style.', cta: 'Find a Stay', icon: BedDouble, image: img.stays, preset: { experiences: ['STAYS'] } },
-  { title: 'Dining Experiences', text: 'From local gems to fine dining, we’ll get you the best tables.', cta: 'Explore Dining', icon: UtensilsCrossed, image: img.diningexperience, preset: { experiences: ['DINING'] } },
-  { title: 'Nightlife', text: 'VIP access to Lagos’ hottest spots and exclusive events.', cta: 'Plan a Night Out', icon: Martini, image: img.nightlife, preset: { experiences: ['NIGHTLIFE'] } },
-  { title: 'Beaches & Cruises', text: 'Relax at top beach resorts or enjoy unforgettable boat cruises.', cta: 'Explore Beaches', icon: Palmtree, image: img.beachedandcruises, preset: { experiences: ['BEACHES_CRUISES'] } },
-  { title: 'Wellness', text: 'Spa days, wellness experiences and self-care, the Lagos way.', cta: 'Book Wellness', icon: Flower2, image: img.conciergewellness, preset: { experiences: ['WELLNESS'] } },
+  { title: 'Airport Transfers', text: 'Smooth, reliable airport pickups and drop-offs across Lagos.', icon: Car, image: img.airporttransfers, slug: 'wherever-youre-going-let-mypal-coordinate-your-journey' },
+  { title: 'Stays', text: 'Handpicked hotels, apartments and short stays for every style.', icon: BedDouble, image: img.stays, slug: 'explore-premium-short-stays-beach-houses-in-lagos' },
+  { title: 'Dining Experiences', text: 'From local gems to fine dining, we’ll get you the best tables.', icon: UtensilsCrossed, image: img.diningexperience, slug: 'fine-dining-iconic-delicacies-and-buffet-offerings-with-mypal' },
+  { title: 'Nightlife', text: 'VIP access to Lagos’ hottest spots and exclusive events.', icon: Martini, image: img.nightlife, slug: 'discover-rooftop-experiences-hidden-gems-bars-lounges-clubs-and-unforgettable-parties-with-mypal' },
+  { title: 'Beaches & Cruises', text: 'Relax at top beach resorts or enjoy unforgettable boat cruises.', icon: Palmtree, image: img.beachedandcruises, slug: 'discover-beaches-boat-cruises-and-unforgettable-coastal-experiences' },
+  { title: 'Wellness', text: 'Spa days, wellness experiences and self-care, the Lagos way.', icon: Flower2, image: img.conciergewellness, slug: 'explore-luxury-spas-rejuvenating-treatments-and-holistic-wellness-experiences' },
 ];
 
 const CURATED = [
@@ -183,7 +185,7 @@ export default function ConciergeLanding() {
             onLink={() => openWizard()}
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map(({ title, text, cta, icon: Icon, image, preset }) => (
+            {SERVICES.map(({ title, text, icon: Icon, image, slug }) => (
               <article key={title} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
                 <img src={image} alt="" className="h-40 w-full object-cover" />
                 <div className="relative px-5 pb-5 pt-8">
@@ -192,9 +194,13 @@ export default function ConciergeLanding() {
                   </span>
                   <h3 className="text-lg font-bold text-gray-900">{title}</h3>
                   <p className="mt-1.5 text-sm text-gray-500">{text}</p>
-                  <button type="button" onClick={() => openWizard(preset)} className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline">
-                    {cta} <ArrowRight size={14} />
-                  </button>
+                  <Link
+                    to={`/blog/${slug}`}
+                    aria-label={`Read more about ${title}`}
+                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline"
+                  >
+                    Read More <ArrowRight size={14} />
+                  </Link>
                 </div>
               </article>
             ))}
