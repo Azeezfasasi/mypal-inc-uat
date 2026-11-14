@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BedDouble, CarFront, Droplet, Info, Martini, Sailboat, Star, UtensilsCrossed, X } from 'lucide-react';
-// Figma exports: the panel background and three labelled thumbnails
+// Panel background and the three thumbnail photos (labels are added in the markup)
 import skyline from '../assets/images/concierge/promo-skyline.png';
-// import staysThumb from '../assets/images/concierge/promo-stays.png';
-// import diningThumb from '../assets/images/concierge/promo-dining.png';
-// import cruisesThumb from '../assets/images/concierge/promo-cruises.png';
 import promocruise from '../assets/images/concierge/promo-cruise-new.jpg';
 import promodining from '../assets/images/concierge/promo-dining-new.jpg';
 import promostays from '../assets/images/concierge/promo-stays-new.png';
@@ -28,7 +25,7 @@ const TILES = [
 const THUMBS = [
   { label: 'Stays', image: promostays },
   { label: 'Dining', image: promodining },
-  { label: 'Cruises', image:promocruise },
+  { label: 'Cruises', image: promocruise },
 ];
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -202,11 +199,14 @@ export default function ConciergePromoModal() {
             <p className="concierge-promo-script text-[64px] leading-none">Lagos</p>
             <p className="mt-1 text-[13px] font-medium tracking-[0.3em]">CURATED FOR YOU</p>
           </div>
-          {/* The thumbnails carry their own label, corners and frame */}
+          {/* Photo with its label laid over a bottom gradient, framed like the design */}
           <ul className="relative mt-auto grid grid-cols-3 gap-3 p-6">
             {THUMBS.map(({ label, image }) => (
-              <li key={label}>
-                <img src={image} alt={label} width={133} height={161} className="h-[130px] w-[200px] rounded-[8px]" />
+              <li key={label} className="relative h-[130px] overflow-hidden rounded-xl border border-white/60 shadow-lg">
+                <img src={image} alt="" className="h-full w-full object-cover" />
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-3 pb-2.5 pt-8 text-sm font-semibold text-white">
+                  {label}
+                </span>
               </li>
             ))}
           </ul>
