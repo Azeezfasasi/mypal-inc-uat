@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BedDouble, CarFront, Droplet, Info, Martini, Sailboat, Star, UtensilsCrossed, X } from 'lucide-react';
 // Figma exports: the panel background and three labelled thumbnails
 import skyline from '../assets/images/concierge/promo-skyline.png';
-import staysThumb from '../assets/images/concierge/promo-stays.png';
-import diningThumb from '../assets/images/concierge/promo-dining.png';
-import cruisesThumb from '../assets/images/concierge/promo-cruises.png';
+// import staysThumb from '../assets/images/concierge/promo-stays.png';
+// import diningThumb from '../assets/images/concierge/promo-dining.png';
+// import cruisesThumb from '../assets/images/concierge/promo-cruises.png';
+import promocruise from '../assets/images/concierge/promo-cruise-new.jpg';
+import promodining from '../assets/images/concierge/promo-dining-new.jpg';
+import promostays from '../assets/images/concierge/promo-stays-new.png';
 import './concierge-promo.css';
 
 // Shown once per visitor; a dismissal hides it for 7 days (confirm the window with product).
@@ -23,9 +26,9 @@ const TILES = [
 ];
 
 const THUMBS = [
-  { label: 'Stays', image: staysThumb },
-  { label: 'Dining', image: diningThumb },
-  { label: 'Cruises', image: cruisesThumb },
+  { label: 'Stays', image: promostays },
+  { label: 'Dining', image: promodining },
+  { label: 'Cruises', image:promocruise },
 ];
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -203,7 +206,7 @@ export default function ConciergePromoModal() {
           <ul className="relative mt-auto grid grid-cols-3 gap-3 p-6">
             {THUMBS.map(({ label, image }) => (
               <li key={label}>
-                <img src={image} alt={label} width={133} height={161} className="h-auto w-full" />
+                <img src={image} alt={label} width={133} height={161} className="h-[130px] w-[200px] rounded-[8px]" />
               </li>
             ))}
           </ul>
