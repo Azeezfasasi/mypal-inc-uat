@@ -186,7 +186,7 @@ export default function ConciergeLanding() {
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(({ title, text, icon: Icon, image, slug }) => (
-              <article key={title} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+              <article key={title} className="concierge-float-card overflow-hidden rounded-2xl">
                 <img src={image} alt="" className="h-40 w-full object-cover" />
                 <div className="relative px-5 pb-5 pt-8">
                   <span className="absolute -top-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#E4470F] shadow-md">
@@ -218,9 +218,9 @@ export default function ConciergeLanding() {
             link="View all experiences"
             onLink={() => openWizard()}
           />
-          <div className="concierge-scrollbar-none mt-10 flex snap-x gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible">
+          <div className="concierge-scrollbar-none -mx-3 mt-2 flex snap-x gap-4 overflow-x-auto px-3 pb-12 pt-8 lg:grid lg:grid-cols-5 lg:overflow-visible">
             {CURATED.map(({ title, days, text, image, preset }) => (
-              <article key={title} className="w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm lg:w-auto">
+              <article key={title} className="concierge-float-card w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl lg:w-auto">
                 <div className="relative">
                   <img src={image} alt="" className="h-32 w-full object-cover" />
                   <span className="absolute left-2 top-2 rounded-full bg-[#0B1A2E]/80 px-2.5 py-1 text-[10px] font-semibold text-white">{days}</span>
@@ -248,7 +248,7 @@ export default function ConciergeLanding() {
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E4470F] font-bold text-white shadow-lg shadow-orange-200">
                     {i + 1}
                   </span>
-                  <div className="flex-1 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+                  <div className="concierge-float-card flex-1 rounded-2xl p-5">
                     <p className="flex items-center gap-2 font-semibold text-gray-900">
                       <span className="flex h-7 w-7 items-center justify-center rounded-md bg-orange-50 text-[#E4470F]">
                         <Icon size={15} />
@@ -328,7 +328,7 @@ export default function ConciergeLanding() {
             </p>
             <div className="mt-8 space-y-4">
               {WHY.map(({ title, text, icon: Icon }) => (
-                <div key={title} className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+                <div key={title} className="concierge-float-card flex gap-4 rounded-2xl p-5">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[#E4470F]">
                     <Icon size={18} />
                   </span>
