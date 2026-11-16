@@ -276,9 +276,12 @@ export default function ConciergeLanding() {
       </section>
 
       {/* Question to compass */}
-      <section className="bg-[#FDF6EC] py-20">
-        <div className="mx-auto grid w-[90%] max-w-6xl items-center gap-12 lg:grid-cols-2">
-          <div>
+      {/* FE-38 (Figma): on wide screens (1280px+) the phone is the focus. It breaks out above the section and is
+          cut off at the bottom, so the section clips everything except its top edge. Narrower screens get two
+          columns (1024px+) or the stacked layout, where there is no room for the overlap. */}
+      <section className="bg-[#FDF6EC] py-20 xl:overflow-x-clip xl:py-0 xl:[clip-path:inset(-200px_0_0_0)]">
+        <div className="relative mx-auto grid w-[90%] max-w-6xl items-center gap-12 lg:grid-cols-2 xl:flex xl:h-[720px]">
+          <div className="relative z-10 xl:max-w-[540px]">
             <Eyebrow>From question to compass</Eyebrow>
             <h2 className="mt-4 text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl">
               From “where should we go?” to <span className="concierge-serif font-normal text-[#E4470F]">“that was lovely.”</span>
@@ -298,8 +301,11 @@ export default function ConciergeLanding() {
               Discover. Reserve. Celebrate. Experience.
             </p>
           </div>
-          <div className="flex justify-center">
-            <img src={img.smartphone} alt="" className="h-full w-full rounded-lg object-cover" />
+          {/* Sized and placed against the content width so it keeps the Figma proportions at any desktop size:
+              starts about a third of the way in, is about three-quarters of the content width wide, and its top
+              sits above the section */}
+          <div className="flex justify-center xl:absolute xl:left-[32.6%] xl:top-0 xl:block xl:w-[73.7%] xl:-translate-y-[14%]">
+            <img src={img.smartphone} alt="" className="h-auto w-full max-w-[560px] xl:max-w-none" />
           </div>
         </div>
       </section>
