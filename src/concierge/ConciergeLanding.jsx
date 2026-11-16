@@ -311,10 +311,12 @@ export default function ConciergeLanding() {
           <Link
             to="/restaurant/finedining"
             aria-label="Explore fine dining in Lagos"
-            className="group relative block h-[380px] w-full overflow-hidden rounded-3xl text-left shadow-xl"
+            // Tall enough to fill most of the screen (FE-39): 80% of the window height, between 480 and 820px
+            className="group relative block h-[480px] w-full overflow-hidden rounded-3xl text-left shadow-xl sm:h-[80vh] sm:max-h-[820px] sm:min-h-[480px]"
           >
             <img src={img.conciergehall} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2E] via-[#0B1A2E]/50 to-transparent" />
+            {/* Dark only behind the text, so the rest of the photo stays bright */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2E] via-[#0B1A2E]/40 via-35% to-transparent to-70%" />
             <span className="absolute left-6 top-6 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-gray-800">Table for six · tonight, 8 PM</span>
             <div className="absolute bottom-8 left-8 right-24 text-white">
               <Eyebrow light>At your service</Eyebrow>
