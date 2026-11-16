@@ -186,20 +186,25 @@ export default function ConciergeLanding() {
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(({ title, text, icon: Icon, image, slug }) => (
-              <article key={title} className="concierge-float-card overflow-hidden rounded-2xl">
-                <img src={image} alt="" className="h-40 w-full object-cover" />
-                <div className="relative px-5 pb-5 pt-8">
-                  <span className="absolute -top-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#E4470F] shadow-md">
+              <article key={title} className="concierge-float-card is-clickable group overflow-hidden rounded-2xl">
+                <div className="relative">
+                  <div className="h-40 overflow-hidden">
+                    <img src={image} alt="" className={`h-full w-full object-cover transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-105 motion-safe:group-has-[:focus-visible]:scale-105`} />
+                  </div>
+                  <span className="absolute -bottom-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#E4470F] shadow-md transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                     <Icon size={20} />
                   </span>
-                  <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+                </div>
+                <div className="px-5 pb-5 pt-8">
+                  <h3 className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#E4470F]">{title}</h3>
                   <p className="mt-1.5 text-sm text-gray-500">{text}</p>
+                  {/* Covers the whole card (concierge-card-link), so anywhere on it opens the post */}
                   <Link
                     to={`/blog/${slug}`}
                     aria-label={`Read more about ${title}`}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline"
+                    className="concierge-card-link mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F]"
                   >
-                    Read More <ArrowRight size={14} />
+                    Read More <ArrowRight size={14} className="transition-[translate] duration-300 motion-safe:group-hover:translate-x-1" />
                   </Link>
                 </div>
               </article>
@@ -220,16 +225,22 @@ export default function ConciergeLanding() {
           />
           <div className="concierge-scrollbar-none -mx-3 mt-2 flex snap-x gap-4 overflow-x-auto px-3 pb-12 pt-8 lg:grid lg:grid-cols-5 lg:overflow-visible">
             {CURATED.map(({ title, days, text, image, preset }) => (
-              <article key={title} className="concierge-float-card w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl lg:w-auto">
-                <div className="relative">
-                  <img src={image} alt="" className="h-32 w-full object-cover" />
+              <article key={title} className="concierge-float-card is-clickable group w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl lg:w-auto">
+                <div className="relative h-32 overflow-hidden">
+                  <img src={image} alt="" className={`h-full w-full object-cover transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-105 motion-safe:group-has-[:focus-visible]:scale-105`} />
                   <span className="absolute left-2 top-2 rounded-full bg-[#0B1A2E]/80 px-2.5 py-1 text-[10px] font-semibold text-white">{days}</span>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-bold text-gray-900">{title}</h3>
+                  <h3 className="font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#E4470F]">{title}</h3>
                   <p className="mt-1 min-h-[3.75rem] text-xs text-gray-500">{text}</p>
-                  <button type="button" onClick={() => openWizard(preset)} className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#E4470F] hover:underline">
-                    View Experience <ArrowRight size={13} />
+                  {/* Covers the whole card (concierge-card-link), so anywhere on it opens the planner */}
+                  <button
+                    type="button"
+                    onClick={() => openWizard(preset)}
+                    aria-label={`View the ${title} experience`}
+                    className="concierge-card-link mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#E4470F]"
+                  >
+                    View Experience <ArrowRight size={13} className="transition-[translate] duration-300 motion-safe:group-hover:translate-x-1" />
                   </button>
                 </div>
               </article>
@@ -248,9 +259,9 @@ export default function ConciergeLanding() {
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E4470F] font-bold text-white shadow-lg shadow-orange-200">
                     {i + 1}
                   </span>
-                  <div className="concierge-float-card flex-1 rounded-2xl p-5">
+                  <div className="concierge-float-card group flex-1 rounded-2xl p-5">
                     <p className="flex items-center gap-2 font-semibold text-gray-900">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-orange-50 text-[#E4470F]">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-orange-50 text-[#E4470F] transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                         <Icon size={15} />
                       </span>
                       {title}
@@ -328,8 +339,8 @@ export default function ConciergeLanding() {
             </p>
             <div className="mt-8 space-y-4">
               {WHY.map(({ title, text, icon: Icon }) => (
-                <div key={title} className="concierge-float-card flex gap-4 rounded-2xl p-5">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[#E4470F]">
+                <div key={title} className="concierge-float-card group flex gap-4 rounded-2xl p-5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[#E4470F] transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                     <Icon size={18} />
                   </span>
                   <div>
