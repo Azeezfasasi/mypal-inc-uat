@@ -26,6 +26,22 @@
   .concierge-marquee { animation: none; }
 }
 
+/* Hero photos float gently up and down (FE-40). Each sets its own speed, start and distance, so they never move
+   together. It animates `translate`, which leaves the photo's tilt (`rotate`) untouched. */
+@keyframes concierge-float {
+  from { translate: 0 0; }
+  to { translate: 0 calc(var(--float-distance, 8px) * -1); }
+}
+
+.concierge-float {
+  animation: concierge-float var(--float-duration, 3s) ease-in-out var(--float-delay, 0s) infinite alternate;
+  will-change: translate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concierge-float { animation: none; }
+}
+
 /* Native date inputs: keep the calendar icon visible on the white fields */
 .concierge-font input[type='date']::-webkit-calendar-picker-indicator {
   opacity: 0.5;

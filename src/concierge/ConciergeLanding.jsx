@@ -143,9 +143,9 @@ export default function ConciergeLanding() {
 
             {/* Photo collage */}
             <div className="relative mx-auto hidden h-[360px] w-full max-w-[480px] lg:block">
-              <PhotoCard src={img.mencelebration} tag="Table for six" className="right-5 top-0 h-[190px] w-[280px] rotate-3" tagClass="-right-5 top-2 rotate-30" />
-              <PhotoCard src={img.ladyonbed} tag="Luxury stays" className="bottom-15 right-28 h-[200px] w-[170px] rotate-8" tagClass="bottom-2 -right-7 -rotate-40" />
-              <PhotoCard src={img.ladyonboat} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-7 top-2 -rotate-40" />
+              <PhotoCard src={img.mencelebration} tag="Table for six" className="right-5 top-0 h-[190px] w-[280px] rotate-3" tagClass="-right-5 top-2 rotate-30" float={{ duration: 3, delay: -1.2, distance: 8 }} />
+              <PhotoCard src={img.ladyonbed} tag="Luxury stays" className="bottom-15 right-28 h-[200px] w-[170px] rotate-8" tagClass="bottom-2 -right-7 -rotate-40" float={{ duration: 4.5, delay: -3, distance: 10 }} />
+              <PhotoCard src={img.ladyonboat} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-7 top-2 -rotate-40" float={{ duration: 3.75, delay: 0, distance: 7 }} />
             </div>
           </div>
 
@@ -441,9 +441,13 @@ function SectionHeading({ eyebrow, title, text }) {
   );
 }
 
-function PhotoCard({ src, tag, className, tagClass }) {
+// `float`: seconds per half cycle (up or down), start offset and distance in px for the FE-40 float
+function PhotoCard({ src, tag, className, tagClass, float }) {
+  const floatStyle = float
+    ? { '--float-duration': `${float.duration}s`, '--float-delay': `${float.delay}s`, '--float-distance': `${float.distance}px` }
+    : undefined;
   return (
-    <div className={`absolute rounded-2xl bg-white p-1.5 shadow-2xl ${className}`}>
+    <div className={`absolute rounded-2xl bg-white p-1.5 shadow-2xl ${float ? 'concierge-float' : ''} ${className}`} style={floatStyle}>
       <img src={src} alt="" className="h-full w-full rounded-xl object-cover" />
       <span className={`absolute rounded-full bg-[#E4470F] px-3 py-1 text-[10px] font-semibold text-white shadow ${tagClass}`}>* {tag}</span>
     </div>
