@@ -68,7 +68,7 @@ const PrimaryButton = ({ children, onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    className="flex items-center gap-2 rounded-lg bg-[#E4470F] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-900/30 transition hover:bg-[#cc3d0b]"
+    className="flex items-center gap-2 rounded-lg bg-[#E4470F] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-900/30 transition hover:bg-[#cc3d0b] cursor-pointer"
   >
     {children} <ArrowRight size={16} />
   </button>
@@ -78,7 +78,7 @@ const GhostButton = ({ children, onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    className="rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+    className="rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 cursor-pointer"
   >
     {children}
   </button>
@@ -122,7 +122,7 @@ export default function ConciergeLanding() {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <PrimaryButton onClick={() => openWizard()}>Plan My Lagos Trip</PrimaryButton>
-                <GhostButton onClick={scrollToServices}>Book a Service</GhostButton>
+                <GhostButton onClick={scrollToServices}>Learn More</GhostButton>
               </div>
               <div className="mt-10 flex flex-wrap gap-3">
                 {[
@@ -143,9 +143,9 @@ export default function ConciergeLanding() {
 
             {/* Photo collage */}
             <div className="relative mx-auto hidden h-[360px] w-full max-w-[480px] lg:block">
-              <PhotoCard src={img.mencelebration} tag="Table for six" className="right-5 top-0 h-[190px] w-[280px] rotate-3" tagClass="-right-5 top-2 rotate-30" />
-              <PhotoCard src={img.ladyonbed} tag="Luxury stays" className="bottom-15 right-28 h-[200px] w-[170px] rotate-8" tagClass="bottom-2 -right-7 -rotate-40" />
-              <PhotoCard src={img.ladyonboat} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-7 top-2 -rotate-40" />
+              <PhotoCard src={img.mencelebration} tag="Table for six" className="right-5 top-0 h-[190px] w-[280px] rotate-3" tagClass="-right-5 top-2 rotate-30" float={{ duration: 3, delay: -1.2, distance: 8 }} />
+              <PhotoCard src={img.ladyonbed} tag="Luxury stays" className="bottom-15 right-28 h-[200px] w-[170px] rotate-8" tagClass="bottom-2 -right-7 -rotate-40" float={{ duration: 4.5, delay: -3, distance: 10 }} />
+              <PhotoCard src={img.ladyonboat} tag="Sunday cruise" className="left-0 top-[70px] h-[180px] w-[240px] -rotate-3" tagClass="-left-7 top-2 -rotate-40" float={{ duration: 3.75, delay: 0, distance: 7 }} />
             </div>
           </div>
 
@@ -181,25 +181,30 @@ export default function ConciergeLanding() {
             eyebrow="Our services"
             title="Everything You Need for an Amazing Lagos Experience"
             text="From airport transfers to exclusive experiences, MyPal Concierge simplifies your Lagos journey with trusted partners and personalised support."
-            link="View all services"
-            onLink={() => openWizard()}
+            // link="View all services"
+            // onLink={() => openWizard()}
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(({ title, text, icon: Icon, image, slug }) => (
-              <article key={title} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-                <img src={image} alt="" className="h-40 w-full object-cover" />
-                <div className="relative px-5 pb-5 pt-8">
-                  <span className="absolute -top-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#E4470F] shadow-md">
+              <article key={title} className="concierge-float-card is-clickable group overflow-hidden rounded-2xl">
+                <div className="relative">
+                  <div className="h-40 overflow-hidden">
+                    <img src={image} alt="" className={`h-full w-full object-cover transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-105 motion-safe:group-has-[:focus-visible]:scale-105`} />
+                  </div>
+                  <span className="absolute -bottom-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#E4470F] shadow-md transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                     <Icon size={20} />
                   </span>
-                  <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+                </div>
+                <div className="px-5 pb-5 pt-8">
+                  <h3 className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#E4470F]">{title}</h3>
                   <p className="mt-1.5 text-sm text-gray-500">{text}</p>
+                  {/* Covers the whole card (concierge-card-link), so anywhere on it opens the post */}
                   <Link
                     to={`/blog/${slug}`}
                     aria-label={`Read more about ${title}`}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline"
+                    className="concierge-card-link mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F]"
                   >
-                    Read More <ArrowRight size={14} />
+                    Read More <ArrowRight size={14} className="transition-[translate] duration-300 motion-safe:group-hover:translate-x-1" />
                   </Link>
                 </div>
               </article>
@@ -218,18 +223,24 @@ export default function ConciergeLanding() {
             link="View all experiences"
             onLink={() => openWizard()}
           />
-          <div className="concierge-scrollbar-none mt-10 flex snap-x gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible">
+          <div className="concierge-scrollbar-none -mx-3 mt-2 flex snap-x gap-4 overflow-x-auto px-3 pb-12 pt-8 lg:grid lg:grid-cols-5 lg:overflow-visible">
             {CURATED.map(({ title, days, text, image, preset }) => (
-              <article key={title} className="w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm lg:w-auto">
-                <div className="relative">
-                  <img src={image} alt="" className="h-32 w-full object-cover" />
+              <article key={title} className="concierge-float-card is-clickable group w-[220px] shrink-0 snap-start overflow-hidden rounded-2xl lg:w-auto">
+                <div className="relative h-32 overflow-hidden">
+                  <img src={image} alt="" className={`h-full w-full object-cover transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-105 motion-safe:group-has-[:focus-visible]:scale-105`} />
                   <span className="absolute left-2 top-2 rounded-full bg-[#0B1A2E]/80 px-2.5 py-1 text-[10px] font-semibold text-white">{days}</span>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-bold text-gray-900">{title}</h3>
+                  <h3 className="font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#E4470F]">{title}</h3>
                   <p className="mt-1 min-h-[3.75rem] text-xs text-gray-500">{text}</p>
-                  <button type="button" onClick={() => openWizard(preset)} className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#E4470F] hover:underline">
-                    View Experience <ArrowRight size={13} />
+                  {/* Covers the whole card (concierge-card-link), so anywhere on it opens the planner */}
+                  <button
+                    type="button"
+                    onClick={() => openWizard(preset)}
+                    aria-label={`View the ${title} experience`}
+                    className="concierge-card-link mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#E4470F]"
+                  >
+                    View Experience <ArrowRight size={13} className="transition-[translate] duration-300 motion-safe:group-hover:translate-x-1" />
                   </button>
                 </div>
               </article>
@@ -248,9 +259,9 @@ export default function ConciergeLanding() {
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E4470F] font-bold text-white shadow-lg shadow-orange-200">
                     {i + 1}
                   </span>
-                  <div className="flex-1 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+                  <div className="concierge-float-card group flex-1 rounded-2xl p-5">
                     <p className="flex items-center gap-2 font-semibold text-gray-900">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-orange-50 text-[#E4470F]">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-orange-50 text-[#E4470F] transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                         <Icon size={15} />
                       </span>
                       {title}
@@ -265,9 +276,12 @@ export default function ConciergeLanding() {
       </section>
 
       {/* Question to compass */}
-      <section className="bg-[#FDF6EC] py-20">
-        <div className="mx-auto grid w-[90%] max-w-6xl items-center gap-12 lg:grid-cols-2">
-          <div>
+      {/* FE-38 (Figma): on wide screens (1280px+) the phone is the focus. It breaks out above the section and is
+          cut off at the bottom, so the section clips everything except its top edge. Narrower screens get two
+          columns (1024px+) or the stacked layout, where there is no room for the overlap. */}
+      <section className="bg-[#FDF6EC] py-20 xl:overflow-x-clip xl:py-0 xl:[clip-path:inset(-200px_0_0_0)]">
+        <div className="relative mx-auto grid w-[90%] max-w-6xl items-center gap-12 lg:grid-cols-2 xl:flex xl:h-[720px]">
+          <div className="relative z-10 xl:max-w-[540px]">
             <Eyebrow>From question to compass</Eyebrow>
             <h2 className="mt-4 text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl">
               From “where should we go?” to <span className="concierge-serif font-normal text-[#E4470F]">“that was lovely.”</span>
@@ -287,8 +301,11 @@ export default function ConciergeLanding() {
               Discover. Reserve. Celebrate. Experience.
             </p>
           </div>
-          <div className="flex justify-center">
-            <img src={img.smartphone} alt="" className="h-full w-full rounded-lg object-cover" />
+          {/* Sized and placed against the content width so it keeps the Figma proportions at any desktop size:
+              starts about a third of the way in, is about three-quarters of the content width wide, and its top
+              sits above the section */}
+          <div className="flex justify-center xl:absolute xl:left-[32.6%] xl:top-0 xl:block xl:w-[73.7%] xl:-translate-y-[14%]">
+            <img src={img.smartphone} alt="" className="h-auto w-full max-w-[560px] xl:max-w-none" />
           </div>
         </div>
       </section>
@@ -296,13 +313,16 @@ export default function ConciergeLanding() {
       {/* Dinner CTA */}
       <section className="py-20">
         <div className="mx-auto w-[90%] max-w-6xl">
-          <button
-            type="button"
-            onClick={() => openWizard({ experiences: ['DINING'] })}
-            className="group relative block h-[380px] w-full overflow-hidden rounded-3xl text-left shadow-xl"
+          {/* Opens Restaurants → Fine Dining */}
+          <Link
+            to="/restaurant/finedining"
+            aria-label="Explore fine dining in Lagos"
+            // Tall enough to fill most of the screen (FE-39): 80% of the window height, between 480 and 820px
+            className="group relative block h-[480px] w-full overflow-hidden rounded-3xl text-left shadow-xl sm:h-[80vh] sm:max-h-[820px] sm:min-h-[480px]"
           >
             <img src={img.conciergehall} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2E] via-[#0B1A2E]/50 to-transparent" />
+            {/* Dark only behind the text, so the rest of the photo stays bright */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2E] via-[#0B1A2E]/40 via-35% to-transparent to-70%" />
             <span className="absolute left-6 top-6 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-gray-800">Table for six · tonight, 8 PM</span>
             <div className="absolute bottom-8 left-8 right-24 text-white">
               <Eyebrow light>At your service</Eyebrow>
@@ -312,7 +332,7 @@ export default function ConciergeLanding() {
             <span className="absolute bottom-8 right-8 flex h-11 w-11 items-center justify-center rounded-full bg-[#E4470F] text-white">
               <ArrowRight size={18} />
             </span>
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -327,8 +347,8 @@ export default function ConciergeLanding() {
             </p>
             <div className="mt-8 space-y-4">
               {WHY.map(({ title, text, icon: Icon }) => (
-                <div key={title} className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[#E4470F]">
+                <div key={title} className="concierge-float-card group flex gap-4 rounded-2xl p-5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-50 text-[#E4470F] transition-colors duration-300 group-hover:bg-[#E4470F] group-hover:text-white">
                     <Icon size={18} />
                   </span>
                   <div>
@@ -365,7 +385,7 @@ export default function ConciergeLanding() {
               <p className="mt-3 max-w-md text-white/70">From arrival to unforgettable experiences, we’re here to make it seamless.</p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <PrimaryButton onClick={() => openWizard()}>Plan My Lagos Trip</PrimaryButton>
-                <GhostButton onClick={scrollToServices}>Book a Service</GhostButton>
+                <GhostButton onClick={scrollToServices}>Learn More</GhostButton>
               </div>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur">
@@ -404,7 +424,7 @@ export default function ConciergeLanding() {
   );
 }
 
-function SectionHeading({ eyebrow, title, text, link, onLink }) {
+function SectionHeading({ eyebrow, title, text }) {
   return (
     <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
       <div>
@@ -413,17 +433,21 @@ function SectionHeading({ eyebrow, title, text, link, onLink }) {
       </div>
       <div className="max-w-xs lg:text-right">
         <p className="text-sm text-gray-500">{text}</p>
-        <button type="button" onClick={onLink} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline">
+        {/* <button type="button" onClick={onLink} className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E4470F] hover:underline">
           {link} <ArrowRight size={14} />
-        </button>
+        </button> */}
       </div>
     </div>
   );
 }
 
-function PhotoCard({ src, tag, className, tagClass }) {
+// `float`: seconds per half cycle (up or down), start offset and distance in px for the FE-40 float
+function PhotoCard({ src, tag, className, tagClass, float }) {
+  const floatStyle = float
+    ? { '--float-duration': `${float.duration}s`, '--float-delay': `${float.delay}s`, '--float-distance': `${float.distance}px` }
+    : undefined;
   return (
-    <div className={`absolute rounded-2xl bg-white p-1.5 shadow-2xl ${className}`}>
+    <div className={`absolute rounded-2xl bg-white p-1.5 shadow-2xl ${float ? 'concierge-float' : ''} ${className}`} style={floatStyle}>
       <img src={src} alt="" className="h-full w-full rounded-xl object-cover" />
       <span className={`absolute rounded-full bg-[#E4470F] px-3 py-1 text-[10px] font-semibold text-white shadow ${tagClass}`}>* {tag}</span>
     </div>

@@ -26,10 +26,82 @@
   .concierge-marquee { animation: none; }
 }
 
+/* Hero photos float gently up and down (FE-40). Each sets its own speed, start and distance, so they never move
+   together. It animates `translate`, which leaves the photo's tilt (`rotate`) untouched. */
+@keyframes concierge-float {
+  from { translate: 0 0; }
+  to { translate: 0 calc(var(--float-distance, 8px) * -1); }
+}
+
+.concierge-float {
+  animation: concierge-float var(--float-duration, 3s) ease-in-out var(--float-delay, 0s) infinite alternate;
+  will-change: translate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concierge-float { animation: none; }
+}
+
 /* Native date inputs: keep the calendar icon visible on the white fields */
 .concierge-font input[type='date']::-webkit-calendar-picker-indicator {
   opacity: 0.5;
   cursor: pointer;
+}
+
+/* Floating card: a soft, layered shadow lifts the card off the page, and it rises a little on hover */
+.concierge-float-card {
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(11, 26, 46, 0.04),
+    0 10px 24px -8px rgba(11, 26, 46, 0.12),
+    0 24px 48px -16px rgba(11, 26, 46, 0.1);
+  transition:
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Only on devices that really hover, so a tap on a phone doesn't leave the card raised */
+@media (hover: hover) {
+  .concierge-float-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 2px 4px rgba(11, 26, 46, 0.05),
+      0 18px 36px -10px rgba(11, 26, 46, 0.18),
+      0 36px 64px -20px rgba(228, 71, 15, 0.12);
+  }
+}
+
+/* Clickable cards: the whole card is the link (see .concierge-card-link) and lifts for keyboard focus too */
+.concierge-float-card.is-clickable {
+  position: relative;
+  cursor: pointer;
+}
+
+.concierge-float-card.is-clickable:has(:focus-visible) {
+  transform: translateY(-6px);
+  outline: 2px solid #e4470f;
+  outline-offset: 3px;
+}
+
+/* Stretches the card's link over the whole card, so anywhere on it is clickable */
+.concierge-card-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.concierge-card-link:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .concierge-float-card,
+  .concierge-float-card:hover,
+  .concierge-float-card.is-clickable:has(:focus-visible) {
+    transition: none;
+    transform: none;
+  }
 }
 
 .concierge-scrollbar-none {
